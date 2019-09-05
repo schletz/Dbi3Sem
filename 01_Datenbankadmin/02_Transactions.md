@@ -1,3 +1,8 @@
+# Transaktionen
+
+In SQL Developer muss unter Preferences der Punkt *Autocommit* für diese Übung deaktiviert werden!
+## Muster für COMMIT und ROLLBACK
+
 ```sql
 /******/
 /* 01 */
