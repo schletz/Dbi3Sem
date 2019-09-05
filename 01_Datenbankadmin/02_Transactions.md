@@ -179,5 +179,6 @@ WHERE  ACCOUNT_ID = 2;
 SELECT *
 FROM   DEMO.GRIESMAYER_ACCOUNTS
 WHERE  ACCOUNT_ID = 4;
+```
 
 Quelle: http://griesmayer.com/?menu=Oracle&semester=Semester_3&topic=02_Transaction
