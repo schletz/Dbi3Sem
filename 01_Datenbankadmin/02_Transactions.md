@@ -1,0 +1,1 @@
+Weitere Unterlagen: http://griesmayer.com/?menu=Oracle&semester=Semester_3&topic=02_Transaction
