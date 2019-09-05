@@ -1,5 +1,24 @@
-# Download und Konfiguration der VM
+# Inhalte
+## 2stündiger Block
+- PL/SQL
+    - Trigger
+    - Procedures
+    - Functions
+- Joomla
 
+## 3stündiger Block
+- Datenbankadministration (Wintersemester)
+    - Transactions
+    - Index
+    - Userrechte
+    - Security
+    - Analytische Funktionen
+- Data Warehouse
+    - Importschnittstellen in Oracle (SQL Loader)
+- Business Intelligence mit SQL Server
+
+
+# Download und Konfiguration der VM
 Oracle ist ein Datenbankserver, der in unserem Falle in einer virtuellen Maschine läuft. Oracle stellt sogenannte Developer VMs bereit, um Erfahrungen mit der Datenbank zu sammeln. Auf <a href="http://www.oracle.com/technetwork/community/developer-vm/index.html" target="_blank">[Pre-Built Developer VMs (for Oracle VM VirtualBox)]</a> kann die VM *Database App Development VM* (am Besten im Browser auf der Seite danach suchen, es gibt viele VMs dort) bezogen werden, die unter anderen folgende Komponenten beinhaltet:
 
 - Oracle Linux 7
