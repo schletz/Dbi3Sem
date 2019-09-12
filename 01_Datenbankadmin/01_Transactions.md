@@ -1,5 +1,7 @@
 # Transaktionen
 
+Materialien auf http://griesmayer.com/?menu=Oracle&semester=Semester_3&topic=02_Transaction
+
 In SQL Developer muss unter *Preferences* - *Advanced* der Punkt *Autocommit* für diese Übung deaktiviert 
 werden!
 
@@ -84,4 +86,3 @@ Erst beim *COMMIT* des jeweiligen Users wird die Änderung sichtbar.
 Wird der gleiche Datensatz von beiden Usern veränedrt, so wartet das 2. COMMIT bis das erste
 COMMIT durchgeführt wurde.
 
-Quelle: http://griesmayer.com/?menu=Oracle&semester=Semester_3&topic=02_Transaction
