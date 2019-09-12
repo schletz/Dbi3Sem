@@ -59,7 +59,7 @@ COMMIT;
 ```
 
 ## Operationen unter User2
-Das SELECT zeigt jetzt die Änderung Datensätze:
+Das SELECT zeigt jetzt die Änderung der Datensätze:
 ```sql
 SELECT * FROM  User1.GRIESMAYER_ACCOUNTS;
 ```
