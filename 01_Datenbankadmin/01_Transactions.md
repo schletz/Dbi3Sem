@@ -12,7 +12,8 @@ CREATE USER User2 IDENTIFIED BY oracle;
 GRANT CONNECT, RESOURCE, DBA TO User2;
 ```
 
-## Operationen unter User1
+## COMMIT mit mehreren Usern
+### Operationen unter User1
 Nun erstellen wir die Tabelle *GRIESMAYER_ACCOUNTS*
 ```sql
 CREATE TABLE GRIESMAYER_ACCOUNTS
@@ -46,36 +47,37 @@ SELECT * FROM   GRIESMAYER_ACCOUNTS;
 SELECT * FROM  V$TRANSACTION;
 ```
 
-## Operationen unter User2
+### Operationen unter User2
 Das SELECT zeigt keine Datensätze:
 ```sql
 SELECT * FROM  User1.GRIESMAYER_ACCOUNTS;
 ```
 
-## Operationen unter User1
+### Operationen unter User1
 Wir setzen ein *COMMIT* ab, damit die Transaktion geschrieben wird.
 ```sql
 COMMIT;
 ```
 
-## Operationen unter User2
+### Operationen unter User2
 Das SELECT zeigt jetzt die Änderung der Datensätze:
 ```sql
 SELECT * FROM  User1.GRIESMAYER_ACCOUNTS;
 ```
 
-## Operationen unter User1
+### Operationen unter User1
 Wir aktualisieren den Wert von *AMOUNT* bei User 1 ohne COMMIT.
 ```sql
 UPDATE GRIESMAYER_ACCOUNTS SET AMOUNT = 100 WHERE ACCOUNT_ID = 1;
 ```
 
-## Operationen unter User2
+### Operationen unter User2
 Die Änderung ist noch nicht sichtbar. Wir starten ebenfalls eine Änderung:
 ```sql
 SELECT * FROM  User1.GRIESMAYER_ACCOUNTS;
 UPDATE GRIESMAYER_ACCOUNTS SET AMOUNT = 200 WHERE ACCOUNT_ID = 2;
 ```
 
+Erst beim *COMMIT* des jeweiligen Users wird die Änderung sichtbar.
 
 Quelle: http://griesmayer.com/?menu=Oracle&semester=Semester_3&topic=02_Transaction
