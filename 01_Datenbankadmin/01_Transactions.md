@@ -66,7 +66,7 @@ SELECT * FROM  User1.GRIESMAYER_ACCOUNTS;
 ```
 
 ### Operationen unter User1
-Wir aktualisieren den Wert von *AMOUNT* bei User 1 ohne COMMIT.
+Wir aktualisieren den Wert von *AMOUNT* bei User1 ohne COMMIT.
 ```sql
 UPDATE GRIESMAYER_ACCOUNTS SET AMOUNT = 100 WHERE ACCOUNT_ID = 1;
 ```
@@ -79,5 +79,9 @@ UPDATE GRIESMAYER_ACCOUNTS SET AMOUNT = 200 WHERE ACCOUNT_ID = 2;
 ```
 
 Erst beim *COMMIT* des jeweiligen Users wird die Änderung sichtbar.
+
+### Gleichzeitiges Ändern von Datensätzen
+Wird der gleiche Datensatz von beiden Usern veränedrt, so wartet das 2. COMMIT bis das erste
+COMMIT durchgeführt wurde.
 
 Quelle: http://griesmayer.com/?menu=Oracle&semester=Semester_3&topic=02_Transaction
