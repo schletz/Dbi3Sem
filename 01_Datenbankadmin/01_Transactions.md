@@ -77,7 +77,7 @@ UPDATE GRIESMAYER_ACCOUNTS SET AMOUNT = 100 WHERE ACCOUNT_ID = 1;
 Die Änderung ist noch nicht sichtbar. Wir starten ebenfalls eine Änderung:
 ```sql
 SELECT * FROM  User1.GRIESMAYER_ACCOUNTS;
-UPDATE GRIESMAYER_ACCOUNTS SET AMOUNT = 200 WHERE ACCOUNT_ID = 2;
+UPDATE User1.GRIESMAYER_ACCOUNTS SET AMOUNT = 200 WHERE ACCOUNT_ID = 2;
 ```
 
 Erst beim *COMMIT* des jeweiligen Users wird die Änderung sichtbar.
