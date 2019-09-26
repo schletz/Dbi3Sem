@@ -10,7 +10,7 @@ orcl12c
 ```
 
 ## Befehle in SQLPlus
-Aus der Bash SQLPlus mit folgendem Befehl gestartet. Der User *sys* mit dem Kennwort *oracle* meldet
+Aus der Bash wird SQLPlus mit folgendem Befehl gestartet. Der User *sys* mit dem Kennwort *oracle* meldet
 sich in der Rolle *sysdba* an:
 ```
 sqlplus sys/oracle as sysdba
@@ -46,6 +46,9 @@ SQL> shutdown immediate;
 Pluggable Database closed.
 SQL> startup;
 ```
+
+Nach dem erneuten Hochfahren erkennen Sie mittels SELECT, dass die Werte nicht mehr geschrieben wurden.
+Die Transkation wurde rückgängig gemacht.
 
 ## Andere Befehle in der Bash
 Ausgeben des Homeverzeichnisses von Oracle
