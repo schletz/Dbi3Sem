@@ -28,7 +28,7 @@ INSERT INTO GRIESMAYER_ACCOUNTS VALUES (4, 'Verena', TO_DATE('1977-01-27', 'yyyy
 INSERT INTO GRIESMAYER_ACCOUNTS VALUES (5, 'Kurt',   TO_DATE('1975-02-28', 'yyyy-mm-dd'),  800.40);
 ```
 
-NUn aktualisieren wir einen Datensatz aus GRIESMAYER_ACCOUNTS unter **User1**:
+Nun aktualisieren wir einen Datensatz aus GRIESMAYER_ACCOUNTS unter **User1**:
 ```sql
 UPDATE GRIESMAYER_ACCOUNTS
 SET FIRST_NAME = 'Klaus'
