@@ -30,6 +30,7 @@ COMMIT;
 ```
 
 Führen Sie nun die folgenden SQL Anweisungen in SQL Developer unter dem entsprechenden User aus:
+
 | User1                                                                      	| User2                                                                        	| 
 | ---------------------------------------------------------------------------	| -----------------------------------------------------------------------------	| 
 | *UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 1;*	|                                                                              	| 
