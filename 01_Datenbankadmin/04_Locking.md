@@ -70,6 +70,7 @@ WHERE  TYPE = 'TM';
 ```
 
 Sie bekommen folgende Ausgabe:
+
 | SID	| STATUS      	| MODE_HELD 	| MODE_REQUEST	|
 | ---	| ------------	| ----------	| ------------	|
 | 261	| Not Blocking	| Row-X (SX)	| None        	|
@@ -78,6 +79,7 @@ Sie bekommen folgende Ausgabe:
 
 Nach dem *COMMIT* unter *User1* verschwindet zwar der Busy Wait, der Datenstz mit der Account ID 1 ist jedoch
 durch User2 weiterhin gesperrt:
+
 | SID	| STATUS      	| MODE_HELD 	| MODE_REQUEST |
 | ---	| ------------	| ----------	| ------------ |
 | 261	| Not Blocking	| Row-X (SX)	| None         |
@@ -86,6 +88,7 @@ Erst nach einem *COMMIT* unter *User2* verschwindet der Lock.
 
 ## Deadlock
 Führen Sie in SQLDeveloper folgende Anweisungen unter den entsprechenden Usern aus:
+
 | User1                                                                                                                                                  	| User2                                                                                                                                                  	| 
 | -------------------------------------------------------------------------------------------------------------------------------------------------------	| -------------------------------------------------------------------------------------------------------------------------------------------------------	| 
 | *UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 1;*<br>*UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 3;*	|                                                                                                                                                        	| 
