@@ -1,7 +1,8 @@
 # NULL
 
 Unterlagen auf http://griesmayer.com/?menu=Oracle&semester=Semester_5&topic=03_NULL
- 
+
+```sql
 CREATE TABLE PATIENT (
 	PATIENT_ID INTEGER PRIMARY KEY,
 	NAME       VARCHAR2(100) NOT NULL,
@@ -96,3 +97,4 @@ SELECT 'Hello' || 'World'
 FROM DUAL;
 SELECT 'Hello' || null
 FROM DUAL;
+```
