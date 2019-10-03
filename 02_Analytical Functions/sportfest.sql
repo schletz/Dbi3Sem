@@ -690,21 +690,3 @@ SELECT S_ID, S_Zuname, S_Klasse, S_Abteilung, E_Bewerb, E_Zeit,
 FROM vSchuelerergebnis
 
 
-SELECT S_Klasse, E_Bewerb, AVG(E_Zeit)
-FROM vSchuelerergebnis
-GROUP BY S_Klasse, E_Bewerb
-
--- Pro Schüler ist das Mittel der besten 3 Läufe auszugeben
-SELECT S_ID, S_Zuname, E_Bewerb, E_Zeit,
-    AVG(E_Zeit) OVER (PARTITION BY S_ID, E_Bewerb) AS AvgZeit
-FROM vSchuelerergebnis
-ORDER BY S_ID, S_Zuname, E_Bewerb, E_Zeit;
-
-
-SELECT S_ID, S_Zuname, S_Klasse, E_Bewerb, AVG(E_Zeit),
-    AVG(AVG(E_Zeit)) OVER (PARTITION BY S_Klasse, E_Bewerb) AS AvgZeitKlasse
-FROM vSchuelerergebnis
-GROUP BY S_ID, S_Zuname, S_Klasse, E_Bewerb
-
-
-
