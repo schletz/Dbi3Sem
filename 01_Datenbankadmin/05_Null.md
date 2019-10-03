@@ -92,9 +92,16 @@ SELECT * FROM PATIENT;
 UPDATE PATIENT SET DISEASES = DISEASES + NULL;
 SELECT * FROM PATIENT;
 
--- NULL in der Stringverknüpfung
+-- NULL in der Stringverknüpfung.
+-- Oracle liefert HelloWorld:
 SELECT 'Hello' || 'World'
 FROM DUAL;
+
+-- SQL Server liefert NULL:
+SELECT 'Hello' + NULL
+
 SELECT 'Hello' || null
 FROM DUAL;
+
+
 ```
