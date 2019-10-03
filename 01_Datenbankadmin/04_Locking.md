@@ -3,8 +3,8 @@
 Unterlagen auf http://griesmayer.com/?menu=Oracle%20OLD&semester=Semester_3&topic=08_Locking
 
 ## Busy wait
-Legen Sie die Tabelle *GRIESMAYER_ACCOUNTS* wie in 01_Transactions unter **User1** an und geben Sie User2 
-alle Rechte:
+Legen Sie die Tabelle *GRIESMAYER_ACCOUNTS* wie unter *01_Transactions* mit dem **User1** an und geben Sie User2
+alle Rechte auf diese Tabelle:
 ```sql
 CREATE TABLE GRIESMAYER_ACCOUNTS
 (
@@ -26,24 +26,20 @@ INSERT INTO GRIESMAYER_ACCOUNTS VALUES (2, 'Andera', TO_DATE('1975-08-20', 'yyyy
 INSERT INTO GRIESMAYER_ACCOUNTS VALUES (3, 'Marion', TO_DATE('1981-12-12', 'yyyy-mm-dd'), -200.00);
 INSERT INTO GRIESMAYER_ACCOUNTS VALUES (4, 'Verena', TO_DATE('1977-01-27', 'yyyy-mm-dd'),  900.00);
 INSERT INTO GRIESMAYER_ACCOUNTS VALUES (5, 'Kurt',   TO_DATE('1975-02-28', 'yyyy-mm-dd'),  800.40);
+COMMIT;
 ```
 
-Nun aktualisieren wir einen Datensatz aus GRIESMAYER_ACCOUNTS unter **User1**:
-```sql
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Klaus'
-WHERE ACCOUNT_ID = 1;
-```
+FÃ¼hren Sie nun die folgenden SQL Anweisungen in SQL Developer unter dem entsprechenden User aus:
 
-Wir aktualisieren den selben Datensatz unter **User2**:
-```sql
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Michael'
-WHERE ACCOUNT_ID = 1;
-```
+| User1                                                                      	| User2                                                                        	| 
+| ---------------------------------------------------------------------------	| -----------------------------------------------------------------------------	| 
+| *UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 1;*	|                                                                              	| 
+|                                                                            	| *UPDATE User1.GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Michael' WHERE ACCOUNT_ID = 1;*	| 
 
-Nun entsteht der *Busy wait*. Sie müssen nun unter User1 und User2 ein *COMMIT* absetzen, um die Daten
-schreiben zu können. Um Locks zu beobachten, führen Sie folgendes SQL Statement aus:
+Es entsteht ein *Busy wait*. Sie mÃ¼ssen nun unter *User1* ein *COMMIT* absetzen, um die Daten
+schreiben zu kÃ¶nnen. Um den Lock zu beobachten, fÃ¼hren Sie vor dem *COMMIT* folgendes SQL Statement 
+unter User1 aus:
+
 ```sql
 SELECT SID,
        DECODE ( block,
@@ -73,33 +69,37 @@ FROM   v$lock
 WHERE  TYPE = 'TM';
 ```
 
+Sie bekommen folgende Ausgabe:
+
+| SID	| STATUS      	| MODE_HELD 	| MODE_REQUEST	|
+| ---	| ------------	| ----------	| ------------	|
+| 261	| Not Blocking	| Row-X (SX)	| None        	|
+| 261	| Not Blocking	| Row-X (SX)	| None        	|
+
+
+Nach dem *COMMIT* unter *User1* verschwindet zwar der Busy Wait, der Datenstz mit der Account ID 1 ist jedoch
+durch User2 weiterhin gesperrt:
+
+| SID	| STATUS      	| MODE_HELD 	| MODE_REQUEST |
+| ---	| ------------	| ----------	| ------------ |
+| 261	| Not Blocking	| Row-X (SX)	| None         |
+
+Erst nach einem *COMMIT* unter *User2* verschwindet der Lock.
+
 ## Deadlock
+FÃ¼hren Sie in SQLDeveloper folgende Anweisungen unter den entsprechenden Usern aus:
 
-Unter **User1** führen Sie folgende Statements aus:
-```sql
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Klaus'
-WHERE ACCOUNT_ID = 1;
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Klaus'
-WHERE ACCOUNT_ID = 3;
+| User1                                                                                                                                                  	| User2                                                                                                                                                  	| 
+| -------------------------------------------------------------------------------------------------------------------------------------------------------	| -------------------------------------------------------------------------------------------------------------------------------------------------------	| 
+| *UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 1;*<br>*UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 3;*	|                                                                                                                                                        	| 
+|                                                                                                                                                        	| *UPDATE User1.GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Michael' WHERE ACCOUNT_ID = 2;*<br>*UPDATE User1.GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Michael' WHERE ACCOUNT_ID = 1;*	| 
+| *UPDATE GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Klaus' WHERE ACCOUNT_ID = 2;*                                                                            	|                                                                                                                                                        	| 
+
+Nachdem Sie die Anweisungen unter User2 ausgefÃ¼hrt haben, ist dieser im Zustand *Busy wait*. FÃ¼hren Sie nun 
+unter User1 das *UPDATE* Statement aus, bekommt einer der beiden User eine Fehlermeldung:
 ```
-
-**User2** führt folgendes aus:
-```sql
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Klaus'
-WHERE ACCOUNT_ID = 2;
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Klaus'
-WHERE ACCOUNT_ID = 1;
+Fehler beim Start in Zeile: 2 in Befehl -
+UPDATE User1.GRIESMAYER_ACCOUNTS SET FIRST_NAME = 'Michael' WHERE ACCOUNT_ID = 1
+Fehlerbericht -
+ORA-00060: Deadlock beim Warten auf Ressource festgestellt
 ```
-
-Wenn nun unter **User1** der Datensatz 2 ebenfalls aktualisiert wird, entsteht ein *Dead Lock*:
-```sql
-UPDATE GRIESMAYER_ACCOUNTS
-SET FIRST_NAME = 'Klaus'
-WHERE ACCOUNT_ID = 2;
-```
-
-Die Datenbank löst den Deadlock automatisch auf, indem das Statement abgebrochen wird.
