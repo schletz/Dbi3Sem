@@ -35,9 +35,9 @@ WHERE E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb
 
 Diese Abfrage ist natürlich schon mühsamer. Zum Glück stellt uns die Datenbank mit *RANK* eine analytische
 Funktion bereit, die Ränge ermitteln kann. Um einen Rang zu ermitteln, brauchen wir
-- Eine Spalte, dessen Werte sortiert werden sollen
-- Eine Sortierreihenfolge
-- Eine Gruppierung, für die jeweils extra gereiht wird. 
+- Eine Spalte, dessen Werte sortiert werden sollen.
+- Eine Sortierreihenfolge (aufsteigend oder absteigend).
+- Eine Gruppierung (*PARTITION BY*), für die jeweils extra gereiht wird. 
 
 Wir ermitteln nun den Rang des jeweiligen Ergebnisses
 ```sql
