@@ -1,5 +1,6 @@
 # Analytische Funktionen in Oracle
-Kopieren Sie den Inhalt der Datei *sportfest.sql* in SQL Developer und führen Sie alle Anweisungen aus.
+Kopieren Sie den Inhalt der Datei [sportfest.sql](https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql) 
+in SQL Developer und führen Sie alle Anweisungen aus.
 
 Unsere Datenbank speichert die einzelnen Bewerbe nach Abteilung, Klasse, Geschlecht und Bewerb. Die
 Anzahl der Datensätze gibt folgende Tabelle an:
