@@ -656,37 +656,3 @@ COMMIT;
 
 CREATE VIEW vSchuelerergebnis AS
 SELECT * FROM Schueler INNER JOIN Ergebnisse ON (S_ID = E_Schueler);
-
--- Antritte der einzelnen Schüler in den Bewerben
-SELECT S_ID, E_Bewerb, COUNT(*) AS Antritte, AVG(E_Zeit) AS AvgZeit
-FROM vSchuelerergebnis
-GROUP BY S_ID, E_Bewerb;
-
--- Rang über alle Bewerbe. Natürlich sinnlos, da wir 100m und 5km Lauf mischen.
-SELECT S_ID, S_Zuname, E_Bewerb, E_Zeit, RANK() OVER (ORDER BY E_Zeit DESC) AS Rang
-FROM vSchuelerergebnis
-ORDER BY S_ID, S_Zuname, E_Bewerb, E_Zeit;
-
--- Rang pro Bewerb
-SELECT S_ID, S_Zuname, E_Bewerb, E_Zeit, RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit DESC) AS Rang
-FROM vSchuelerergebnis
-ORDER BY S_ID, S_Zuname, E_Bewerb, E_Zeit;
-    
--- Wer hat pro Bewerb Rang 1?
-SELECT *
-FROM (
-    SELECT S_ID, S_Zuname, E_Bewerb, E_Zeit, RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit DESC) AS Rang
-    FROM vSchuelerergebnis
-    ORDER BY S_ID, S_Zuname, E_Bewerb, E_Zeit) Raenge
-WHERE Rang = 1;
-
--- Pro Ergebnis (S_ID, S_Zuname, S_Klasse, S_Abteilung, E_Bewerb, E_Zeit)
--- ist das eigene Mittel, das Klassenmittel und das Abteilungsmittel auszugeben.
--- Lösen Sie über Subqueries und Partition by.
-SELECT S_ID, S_Zuname, S_Klasse, S_Abteilung, E_Bewerb, E_Zeit,
-    AVG(E_Zeit) OVER (PARTITION BY E_Bewerb, S_ID) AS Eigenmittel,
-    AVG(E_Zeit) OVER (PARTITION BY E_Bewerb, S_Klasse) AS Klassenmittel,
-    AVG(E_Zeit) OVER (PARTITION BY E_Bewerb, S_Abteilung) AS Abtmittel
-FROM vSchuelerergebnis
-
-
