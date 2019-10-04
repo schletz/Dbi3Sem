@@ -64,7 +64,7 @@ einfachen Gruppierung scheitern wir allerdings:
 --  *Cause:    
 --  *Action:
 --  Fehler in Zeile: 1 Spalte: 28
-SELECT E_Bewerb, S_Klasse, S_ID, S_Zuname, E_Zeit, ROUND(MIN(E_Zeit), 2) AS Zeitmittel
+SELECT E_Bewerb, S_Klasse, S_ID, S_Zuname, E_Zeit, ROUND(MIN(E_Zeit), 2) AS BesteZeit
 FROM vSchuelerergebnis
 GROUP BY  S_Klasse, E_Bewerb
 ORDER BY  S_Klasse, E_Bewerb;
@@ -90,6 +90,7 @@ ORDER BY E_Bewerb, S_Klasse, E_ID;
 
 Das ist natürlich nicht nur für Studierende kompliziert, deswegen haben sich die Datenbankhersteller
 Mechanismen überlegt, wie unterschiedliche Gruppierungsgebenen in einer Abfrage kombiniert werden können.
+Dieser Mechanismus das *PARTITION BY*:
 > It is used to break the data into small partitions and is been separated by a boundary or in simple 
 > dividing the input into logical groups. The analytical functions are performed within this partitions.  
 > So when the boundaries are crossed then the function get restarted to segregate the data. The "partition by" 
