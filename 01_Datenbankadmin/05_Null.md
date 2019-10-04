@@ -115,10 +115,21 @@ FROM PATIENT;
 -- NULL im JOIN: Alle NULL Werte in DISEASES fallen weg:
 SELECT *
 FROM PATIENT INNER JOIN DISEASES_CLASS ON (DISEASES = NUMBEROF);
+
 -- Möchten wir für NULL den Wert NOT APPLICABLE drucken, arbeiten wir mit COALESCE und einem nicht verwendeten
 -- Standardwert.
 SELECT *
 FROM PATIENT INNER JOIN DISEASES_CLASS ON (COALESCE(DISEASES,-1) = COALESCE(NUMBEROF,-1))
+
+-- Häufiger verwendet wird jedoch ein LEFT JOIN mit einem Standardwert, wenn der Fremdschlüssel NULL ist.
+-- Hier braucht es keinen Datensatz mit NULL in DISEASES_CLASS.
+SELECT 
+    PATIENT_ID, 
+    NAME, 
+    DISEASES, 
+    CONDITION, 
+    COALESCE(TO_CHAR(DISEASES), 'NOT APPLICABLE') AS CONDITION2
+FROM PATIENT LEFT JOIN DISEASES_CLASS ON (DISEASES = NUMBEROF)
 ```
 
 ## NULL in Listen mit IN
