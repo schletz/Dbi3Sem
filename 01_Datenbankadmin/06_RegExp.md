@@ -40,7 +40,7 @@ C4.12 (falsch)
 4. Passwörter, die mindestens 8 Stellen lang sind, mit einem Buchstaben beginnen und einer Ziffer enden. Dazwischen können Buchstaben oder Ziffern vorkommen.
 ```
 Abfde4      (falsch)
-Abfdsadfe5  (gültig)
+AbfdSadfe5  (gültig)
 1Abfdsadfe6 (falsch)
 1Abfdsadfe  (falsch)
 ```
