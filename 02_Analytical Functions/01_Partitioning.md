@@ -149,7 +149,7 @@ ORDER BY E_Bewerb, S_Klasse, S_ID;
 
 1. Ermitteln Sie pro Schüler die schlechteste Zeit. Geben Sie zusätzlich die schlechteste Zeit
    der Klasse und des jeweiligen Geschlechts in diesem Bewerb aus. Auszugeben sind die Spalten
-   *E_BEWERB, S_KLASSE, S_ID, S_ZUNAME, SCHLECHTESTEZEIT, SCHLECHTESTEZEITKLASSEGESCHLECHT*.
+   *E_BEWERB, S_KLASSE, S_ID, S_ZUNAME, ZEITKLASSE, ZEITKLASSEGESCHL*.
    Müssen Sie nach *S_Geschl* gruppieren, obwohl es nicht ausgegeben wird? Warum?
 
 1. Sie möchten die beste Zeit des Schülers pro Bewerb mit der durchschnittlichen Zeit der Abteilung in diesem Bewerb ausgeben.
