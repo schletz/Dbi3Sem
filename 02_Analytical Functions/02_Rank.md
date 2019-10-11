@@ -41,16 +41,9 @@ Funktion bereit, die Ränge ermitteln kann. Um einen Rang zu ermitteln, brauchen
 
 Wir ermitteln nun den Rang des jeweiligen Ergebnisses
 ```sql
---	S_ID          	S_ZUNAME  	E_BEWERB 	E_ZEIT 	RANG
---	1001          	Zuname1001	100m Lauf	11,3766	612 
---	1001          	Zuname1001	100m Lauf	11,998 	608 
---	1001          	Zuname1001	100m Lauf	13,3646	582 
---	1001          	Zuname1001	100m Lauf	14,0188	553 
---	1001          	Zuname1001	100m Lauf	14,8125	514 
---  ...
 SELECT 
     S_ID, S_Zuname, E_Bewerb, E_Zeit, 
-    RANK() OVER (ORDER BY E_Zeit DESC) AS Rang
+    RANK() OVER (ORDER BY E_Zeit) AS Rang
 FROM vSchuelerergebnis
 ORDER BY S_ID, S_Zuname, E_Bewerb, E_Zeit;
 ```
@@ -59,16 +52,9 @@ Das ist natürlich sinnlos, da die einzelnen Bewerbe ja unterschiedlich gereiht 
 bringt die sogenannte *PARTITION BY* Klausel. 
 
 ```sql
---	S_ID          	S_ZUNAME  	E_BEWERB 	E_ZEIT 	RANG
---	1001          	Zuname1001	100m Lauf	11,3766	216 
---	1001          	Zuname1001	100m Lauf	11,998 	212 
---	1001          	Zuname1001	100m Lauf	13,3646	186 
---	1001          	Zuname1001	100m Lauf	14,0188	157 
---	1001          	Zuname1001	100m Lauf	14,8125	118 
---  ...
 SELECT 
     S_ID, S_Zuname, E_Bewerb, E_Zeit, 
-    RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit DESC) AS Rang
+    RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit) AS Rang
 FROM vSchuelerergebnis
 ORDER BY S_ID, S_Zuname, E_Bewerb, E_Zeit;
 ```
@@ -81,20 +67,10 @@ in der WHERE Klausel verwenden können, haben wir 2 Möglichkeiten
 Der erste Ansatz sieht in SQL so aus:
 
 ```sql
---	S_ID          	S_ZUNAME  	E_BEWERB 	E_ZEIT   	RANG
---	1010          	Zuname1010	100m Lauf	18,6416  	1   
---	1012          	Zuname1012	100m Lauf	18,5704  	2   
---	1011          	Zuname1011	100m Lauf	18,5175  	3   
---	1002          	Zuname1002	400m Lauf	92,9312  	1   
---	1018          	Zuname1018	400m Lauf	92,2023  	2   
---	1015          	Zuname1015	400m Lauf	90,2113  	3   
---	1014          	Zuname1014	5km Lauf 	2194,0326	1   
---	1016          	Zuname1016	5km Lauf 	2036,6976	2   
---	1002          	Zuname1002	5km Lauf 	2007,4765	3   
 CREATE VIEW vRanking AS
 SELECT 
     S_ID, S_Zuname, E_Bewerb, E_Zeit, 
-    RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit DESC) AS Rang
+    RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit) AS Rang
 FROM vSchuelerergebnis;
 
 SELECT * FROM vRanking WHERE Rang <= 3
@@ -102,13 +78,12 @@ ORDER BY E_Bewerb, Rang
 ```
 
 Möchten wir keine View anlegen, wird die Abfrage für das Ranking einfach in FROM geschrieben:
-
 ```sql
 SELECT *
 FROM (
     SELECT 
         S_ID, S_Zuname, E_Bewerb, E_Zeit, 
-        RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit DESC) AS Rang
+        RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit) AS Rang
     FROM vSchuelerergebnis) Raenge
 WHERE Rang <= 3
 ORDER BY E_Bewerb, Rang;
@@ -133,18 +108,16 @@ gibt es eine Liste aller verfügbaren Funktionen:
 
 
 ## Übungen
-
-1. Geben Sie pro Abteilung die ersten 3 Plätze der Frauen im Bewerb *100m Lauf* aus. Lösen Sie das Beispiel
+1. Reihen Sie die Ergebnisse pro Abteilung und Bewerb, wobei die kleinste Zeit den besten Rang (1) haben
+   soll.
+1. Reihen Sie die besten Ergebnisse jedes Schülers pro Bewerb innerhalb seiner Klasse. Erstellen Sie dafür
+   eine View *vSchuelerBeste* mit dem besten Ergebnis des Schülers pro Bewerb. Danach reihen Sie die Daten dieser View.
+1. Lösen Sie die vorige Aufgabe ohne View, indem Sie statt der View eine Unterabfrage im FROM verwenden.
+1. Geben Sie - basierend auf der View *vSchuelerBeste* - den Prozentrang (*PERCENT_RANK*) innerhalb der Abteilung
+   in diesem Bewerb aus. Was sagt der Prozentrang aus?
+1. Geben Sie pro Abteilung die besten 3 Ergebnisse der Frauen im Bewerb *100m Lauf* aus. Lösen Sie das Beispiel
    so, indem Sie zuerst nur den Rang innerhalb von Abteilung und Bewerb der Frauen im 100m Lauf ermitteln.
    Danach erstellen Sie eine Unterabfrage für die Filterung des Ranges. Nach welchen Kriterien müssen Sie
    partitionieren?
 
-| S_ABTEILUNG	| S_ID	| S_ZUNAME  	| S_GESCHL	| E_BEWERB 	| E_ZEIT 	| RANG	| 
-| -----------	| ----	| ----------	| --------	| ---------	| -------	| ----	| 
-| FIT        	| 1014	| Zuname1014	| w       	| 100m Lauf	| 18,2026	| 1   	| 
-| FIT        	| 1020	| Zuname1020	| w       	| 100m Lauf	| 17,58  	| 2   	| 
-| FIT        	| 1019	| Zuname1019	| w       	| 100m Lauf	| 16,9165	| 3   	| 
-| HIF        	| 1010	| Zuname1010	| w       	| 100m Lauf	| 18,6416	| 1   	| 
-| HIF        	| 1010	| Zuname1010	| w       	| 100m Lauf	| 17,6304	| 2   	| 
-| HIF        	| 1009	| Zuname1009	| w       	| 100m Lauf	| 17,6053	| 3   	| 
 
