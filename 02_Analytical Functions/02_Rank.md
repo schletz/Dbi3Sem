@@ -22,15 +22,21 @@ das Ergebnis mit 3 getrennten Abfragen ermitteln.
 --	1015          	Zuname1015	FIT        	1AFIT   	w       	1273	1015      	100m Lauf	9,9832   
 SELECT *
 FROM vSchuelerergebnis se1
-WHERE E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb = '100m Lauf')
+WHERE 
+    E_Bewerb = '100m Lauf' AND 
+    E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb = '100m Lauf')
 UNION
 SELECT *
 FROM vSchuelerergebnis se1
-WHERE E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb = '400m Lauf')
+WHERE 
+    E_Bewerb = '400m Lauf' AND
+    E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb = '400m Lauf')
 UNION
 SELECT *
 FROM vSchuelerergebnis se1
-WHERE E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb = '5km Lauf')
+WHERE 
+    E_Bewerb = '5km Lauf' AND
+    E_Zeit = (SELECT MIN(se2.E_Zeit) FROM vSchuelerergebnis se2 WHERE E_Bewerb = '5km Lauf');
 ```
 
 Diese Abfrage ist natürlich schon mühsamer. Zum Glück stellt uns die Datenbank mit *RANK* eine analytische
