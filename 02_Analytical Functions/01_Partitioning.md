@@ -82,6 +82,8 @@ ORDER BY E_Bewerb, S_Klasse, E_ID;
 
 ## PARTITION BY und GROUP BY
 
+![](PartitionGroupBy.png)
+
 Die Aussage "vom Feinen ins Grobe" wird dann klar, wenn wir die beste Zeit des Schülers und die Beste
 Zeit seiner Klasse gegenüberstellen wollen. Die feinere Aussage ist die beste Zeit des Schülers pro Bewerb.
 Hier muss mit einer Gruppierung gearbeitet werden, da wir keine Einzelergebnisse haben wollen:
