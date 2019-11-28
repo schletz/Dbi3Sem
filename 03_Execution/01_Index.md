@@ -4,14 +4,12 @@
 
 <sup>Quelle: https://www.progress.com/tutorials/odbc/using-indexes</sup>
 
-Weitere Informationen auf https://use-the-index-luke.com/sql/explain-plan/oracle/operations
-
 ## Anlegen eines Index
 ```sql
 CREATE INDEX idx ON Table(Cols)
 ```
 
-## Anlegen der Tabellen und Generieren Musterdaten
+## Anlegen der Tabellen und Generieren der Musterdaten
 ```sql
 drop table sales_person;
 drop table sales;
@@ -140,3 +138,5 @@ FROM    SALES
 WHERE   sales_date = to_date('12-12-2011','dd-mm-yyyy');
 drop index idx_date_person;
 ```
+
+Weitere Informationen auf https://use-the-index-luke.com/sql/explain-plan/oracle/operations
