@@ -238,4 +238,4 @@ drop index idx_date_person;
 ```
 
 Weitere Informationen auf https://use-the-index-luke.com/sql/explain-plan/oracle/operations, Punkt "Index and Table Access".
-
+Unterlagen auf http://griesmayer.com/content/Oracle%20OLD/Semester_3/09_Index/Folie_Index.pdf
