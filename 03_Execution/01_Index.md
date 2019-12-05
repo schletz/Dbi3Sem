@@ -237,4 +237,5 @@ WHERE   sales_date = to_date('12-12-2011','dd-mm-yyyy');
 drop index idx_date_person;
 ```
 
-Weitere Informationen auf https://use-the-index-luke.com/sql/explain-plan/oracle/operations
+Weitere Informationen auf https://use-the-index-luke.com/sql/explain-plan/oracle/operations, Punkt "Index and Table Access".
+
