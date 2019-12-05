@@ -4,9 +4,10 @@
 
 <sup>Quelle: https://www.progress.com/tutorials/odbc/using-indexes</sup>
 
-## Anlegen eines Index
+## Anlegen eines Index und eines UNIQUE Index
 ```sql
 CREATE INDEX idx ON Table(Cols)
+CREATE UNIQUE INDEX index_name ON table_name(column1[,column2,...]);
 ```
 
 ## Anlegen der Tabellen und Generieren der Musterdaten
