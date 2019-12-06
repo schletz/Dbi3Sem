@@ -50,7 +50,7 @@ Liest die gesamte Tabelle in den Speicher. Wird bei folgendem *SELECT* durchgef�
 SELECT * FROM SALES_PERSON;
 ```
 
-#### INDEX UNIQUE SCAN
+#### INDEX UNIQUE SCAN und TABLE ACCESS BY INDEX ROWID
 
 Wenn wir nach einem eindeutigen Indexwert (meist dem Primärschlüssel) filtern, kommt nur ein Wert
 zurück. Die Datenbank führt einen *Unique Scan* durch und greift dann mit der Row ID des Index
