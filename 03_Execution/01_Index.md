@@ -5,23 +5,25 @@
 <sup>Quelle: https://www.progress.com/tutorials/odbc/using-indexes</sup>
 
 ## Anlegen eines Index und eines UNIQUE Index
+
 ```sql
 CREATE INDEX idx ON Table(Cols)
 CREATE UNIQUE INDEX index_name ON table_name(column1[,column2,...]);
 ```
 
-## Anlegen der Tabellen und Generieren der Musterdaten
+## Anlegen der SALES_PERSON Tabelle
+
 ```sql
 drop table sales_person;
 drop table sales;
 
 CREATE TABLE SALES_PERSON
 (
-	SALES_PERSON_ID NUMBER PRIMARY KEY,
-	FIRST_NAME      VARCHAR(20),
-	LAST_NAME       VARCHAR(20),
-	GENDER          CHAR(1),
-	BIRTH_DATE      DATE
+  SALES_PERSON_ID NUMBER PRIMARY KEY,
+  FIRST_NAME      VARCHAR2(20),
+  LAST_NAME       VARCHAR2(20),
+  GENDER          CHAR(1),
+  BIRTH_DATE      DATE
 );
 
 INSERT INTO SALES_PERSON VALUES (1, 'Thomas',    'Griesmayer', 'M', to_date('1973-07-14', 'yyyy-mm-dd'));
@@ -31,21 +33,72 @@ INSERT INTO SALES_PERSON VALUES (4, 'Alexander', 'Lober',      'M', to_date('197
 INSERT INTO SALES_PERSON VALUES (5, 'Thomas',    'Lober',      'M', to_date('1954-05-22', 'yyyy-mm-dd'));
 INSERT INTO SALES_PERSON VALUES (6, 'Anderas',   'Huberter',   'M', to_date('1969-03-16', 'yyyy-mm-dd'));
 commit;
+```
 
+### Abrufen des Execution Plan und Erklärung
 
+Mit F10 kann in Oracle SQL Developer der Ausführungsplan angezeigt werden. Am Besten ist hierfür das
+öffnen eines eigenen Worksheets (ALT + F10), welches nur die zu analysierende Anweisung enthält.
+
+![](execution_plan.png)
+
+#### TABLE ACCESS FULL (Full Table Scan)
+
+Liest die gesamte Tabelle in den Speicher. Wird bei folgendem *SELECT* durchgeführt:
+
+```sql
+SELECT * FROM SALES_PERSON;
+```
+
+#### INDEX UNIQUE SCAN
+
+Wenn wir nach einem eindeutigen Indexwert (meist dem Primärschlüssel) filtern, kommt nur ein Wert
+zurück. Die Datenbank führt einen *Unique Scan* durch und greift dann mit der Row ID des Index
+auf die Tabelle zu.
+
+```sql
+SELECT * FROM SALES_PERSON WHERE SALES_PERSON_ID = 1;
+```
+
+#### INDEX FULL SCAN und INDEX FAST FULL SCAN
+
+Die folgende Abfrage kann vollständig mit dem Index beantwortet werden. Es ist kein Zugriff auf die
+Tabelle notwendig.
+
+```sql
+SELECT SALES_PERSON_ID FROM SALES_PERSON;
+```
+
+#### INDEX RANGE SCAN
+
+Nun legen wir einen Index auf die Spalte GENDER an. Da die Werte mehrfach vorkommen, verwenden wir
+einen normalen Index (und keinen UNIQUE Index):
+
+```sql
+CREATE INDEX idx_GENDER ON SALES_PERSON(GENDER);
+```
+
+Führen wir folgendes Statement aus, erhalten wir einen Range Scan. Es werden über den Index alle
+Zeilen herausgefunden, dessen Wert von *GENDER* *M* ist.
+
+```sql
+SELECT * FROM SALES_PERSON WHERE GENDER = 'M';
+
+```
+
+## Anlegen der SALES Tabelle und Generieren der Musterdaten
 
 CREATE TABLE SALES
 (
-	SALES_DATE      DATE,
-	SALES_TIME      NUMBER,
-	PRODUCT_TYPE    VARCHAR(20),
-	SALES_PERSON_ID NUMBER,
-	PRODUCTS        NUMBER,
-	REVENUE         DECIMAL(8,2)
-);
+  SALES_DATE      DATE,
+  SALES_TIME      NUMBER,
+  PRODUCT_TYPE    VARCHAR(20),
+  SALES_PERSON_ID NUMBER,
+  PRODUCTS        NUMBER,
+  REVENUE         DECIMAL(8,2)
+  );
 
-
-CREATE OR REPLACE PROCEDURE TESTDATA AS 
+CREATE OR REPLACE PROCEDURE TESTDATA AS
 X INTEGER;
 PRD INTEGER;
 ANZ INTEGER;
