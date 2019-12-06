@@ -88,6 +88,7 @@ SELECT * FROM SALES_PERSON WHERE GENDER = 'M';
 
 ## Anlegen der SALES Tabelle und Generieren der Musterdaten
 
+```sql
 CREATE TABLE SALES
 (
   SALES_DATE      DATE,
