@@ -37,8 +37,8 @@ commit;
 
 ### Abrufen des Execution Plan und Erklärung
 
-Mit F10 kann in Oracle SQL Developer der Ausführungsplan angezeigt werden. Am Besten ist hierfür das
-öffnen eines eigenen Worksheets (ALT + F10), welches nur die zu analysierende Anweisung enthält.
+Mit *F10* kann in Oracle SQL Developer der Ausführungsplan angezeigt werden. Am Besten ist hierfür das
+Öffnen eines eigenen Worksheets (*ALT + F10*), welches nur die zu analysierende Anweisung enthält.
 
 ![](execution_plan.png)
 
