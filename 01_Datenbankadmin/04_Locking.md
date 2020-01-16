@@ -104,7 +104,6 @@ Erst nach einem *COMMIT* unter *User2* verschwindet der Lock.
 | COMMIT;                                                                    	| Was sieht User2                                                                 |
 | Was sieht User1?                                                          	| COMMIT;                                                                         |
 
-/* 10 */*	| 
 
 ## Deadlock
 
