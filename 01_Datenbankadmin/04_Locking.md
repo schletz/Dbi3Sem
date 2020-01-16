@@ -2,6 +2,15 @@
 
 Unterlagen auf http://griesmayer.com/?menu=Oracle%20OLD&semester=Semester_3&topic=08_Locking
 
+Autocommit muss deaktiviert sein. Es werden 2 User benötigt:
+
+```sql
+CREATE USER User1 IDENTIFIED BY oracle;
+GRANT DBA,CONNECT TO User1;
+CREATE USER User2 IDENTIFIED BY oracle;
+GRANT DBA,CONNECT TO User2;
+```
+
 ## Busy wait
 Legen Sie die Tabelle *GRIESMAYER_ACCOUNTS* wie unter *01_Transactions* mit dem **User1** an und geben Sie User2
 alle Rechte auf diese Tabelle:
@@ -86,7 +95,19 @@ durch User2 weiterhin gesperrt:
 
 Erst nach einem *COMMIT* unter *User2* verschwindet der Lock.
 
+## Weitere Beispiele
+
+| User1                                                                      	| User2                                                                        	| 
+| ---------------------------------------------------------------------------	| -----------------------------------------------------------------------------	| 
+| *UPDATE CUSTOMER SET BALANCE = BALANCE + 100 WHERE  CUSTOMER_ID = 6;*	      | Was sieht User2?                                                             	| 
+| Was sieht User1?                                                           	| *UPDATE GRIESMAYER.CUSTOMER SET BALANCE = BALANCE - 500 WHERE CUSTOMER_ID = 1;* |
+| COMMIT;                                                                    	| Was sieht User2                                                                 |
+| Was sieht User1?                                                          	| COMMIT;                                                                         |
+
+/* 10 */*	| 
+
 ## Deadlock
+
 Führen Sie in SQLDeveloper folgende Anweisungen unter den entsprechenden Usern aus:
 
 | User1                                                                                                                                                  	| User2                                                                                                                                                  	| 
