@@ -83,7 +83,7 @@ Die einzelnen Befehle bewirken folgendes:
 ### Testen des Datenbankzugriffes
 
 Zum Testen führen wir in unserem Programm nun eine kleine Abfrage aus, indem Sie die *Main* Methode
-durch den folgenden Code ersetzen. Vergessen Sie nicht die in den kommentar angegebenen *using*
+durch den folgenden Code ersetzen. Vergessen Sie nicht die in den Kommentar angegebenen *using*
 Anweisungen einzubinden. Starten Sie das Programm einfach mit *F5* in Visual Studio oder
 *dotnet run* in der Konsole.
 
@@ -195,7 +195,7 @@ namespace SportfestApp.Model
 
 Eine Modelklasse alleine gibt nur an, wie EF Code den Rückgabewert der Abfrage mappen soll. Damit
 wir die View abfragen können, muss die Klasse *ModelContext* noch editiert werden. Der nachfolgende
-Code gibt die Ergänzungen in den betreffenenden Teilen der Klasse an. Der Rest bleibt unverändert.
+Code gibt die Ergänzungen in den betreffenden Teilen der Klasse an. Der Rest bleibt unverändert.
 
 ```c#
 public partial class ModelContext : DbContext
@@ -244,7 +244,7 @@ BEWERBE IN DER DATENBANK
 
 ## Zugreifen auf Stored Procedures
 
-Legen Sie in der Sportfestdatenbank eine prozedur mit dem Namen *get_results* an. Diese
+Legen Sie in der Sportfestdatenbank eine Prozedur mit dem Namen *get_results* an. Diese
 Prozedur liest Werte aus der Datenbank in einen Cursor. Dieser Cursor wird als*OUT* Parameter
 an unsere Applikation geliefert.
 
