@@ -195,23 +195,17 @@ namespace SportfestApp.Model
 
 Eine Modelklasse alleine gibt nur an, wie EF Code den Rückgabewert der Abfrage mappen soll. Damit
 wir die View abfragen können, muss die Klasse *ModelContext* noch editiert werden. Der nachfolgende
-Code gibt die Ergänzungen in den betreffenden Teilen der Klasse an. Der Rest bleibt unverändert.
+Code gibt die Ergänzung in der Klasse an. Der Rest bleibt unverändert.
+
+Beachten Sie, dass hierfür der Typ *DbQuery* und nicht *DbSet* verwendet wird. Er ist sozusagen ein
+read-only Zugang zur Datenbank. Ein *DbSet* braucht einen Primärschlüssel, um schreibend zugreifen
+zu können.
 
 ```c#
 public partial class ModelContext : DbContext
 {
     // Andere Tabellen
-    public virtual DbSet<Bewerb> Bewerbe { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Konfiguration der anderen Entities
-
-        modelBuilder.Entity<Bewerb>(entity =>
-        {
-            entity.HasKey(e => e.Name);
-        });
-    }
+    public virtual DbQuery<Bewerb> Bewerbe { get; set; }
 }
 ```
 
@@ -251,8 +245,8 @@ an unsere Applikation geliefert.
 ```sql
 CREATE OR REPLACE
 PROCEDURE get_results (bewerb     IN  Ergebnisse.E_Bewerb%TYPE,
-                      p_recordset OUT SYS_REFCURSOR) AS 
-BEGIN 
+                      p_recordset OUT SYS_REFCURSOR) AS
+BEGIN
   OPEN p_recordset FOR
     SELECT *
     FROM   Ergebnisse
@@ -320,4 +314,56 @@ Nun kann in der Main Methode einfach die Prozedur über die Contextklasse aufger
 
 ```c#
 var results = db.GetResults("100m Lauf");
+```
+
+## Übung
+
+Wir wollen nun für eine bestimmte Klasse das Ranking pro Bewerb ermitteln. Dafür können wir die
+analytischen Funktionen einsetzen:
+
+```sql
+SELECT 
+    S_ID, S_Zuname, E_Bewerb, E_Zeit,
+    RANK() OVER (PARTITION BY E_Bewerb ORDER BY E_Zeit) AS Rang
+FROM Schueler INNER JOIN Ergebnisse ON (S_ID = E_Schueler)
+WHERE S_Klasse = '1AHIF';
+```
+
+Nun soll das Ergebnis durch eine PL/SQL Prozedur geliefert werden. Diese Prozedur hat einen *IN*
+Parameter (*klasse*) und gibt das Ergebnis zurück. Geben Sie dabei so vor:
+
+1. Schreiben Sie die Prozedur *get_ranking* und erstellen Sie sie in der Datenbank.
+2. Da die Prozedur eine vom Aufbau her eigene Tabelle zurückgibt, müssen Sie die Modelklasse dafür
+   schreiben. Dafür erstellen Sie im Ordner *Model* eine neue Klasse *Rank*. Achten Sie beim Mapping
+   darauf, dass Sie die korrekten *Column* Annotations setzen.
+3. Registrieren Sie ihre Modelklasse - wie bei der View - als *DbQuery&lt;Rank&gt;*
+   Property in Ihrem
+   Context. Am Besten Sie benennen das Property nach der Mehrzahl (*Ranks*), damit keine Kollisionen
+   mit dem Typnamen entstehen.
+4. Erstellen Sie eine Methode `public IQueryable<Rank> GetRanking(string klasse)` im Context, die
+   mit der FromSql() Funktion das Ergebnis der Prozedur liefert.
+5. Rufen Sie in Ihrer *Main* Methode die Funktion *GetRanking* mit folgendem Code auf. Das Ergebnis
+   muss dann der untenstehenden Ausgabe entsprechen.
+
+```c#
+var ranking = from r in db.GetRanking("1AFIT")
+                where r.Rang <= 3
+                orderby r.EBewerb
+                select r;
+foreach (Rank r in ranking)
+{
+    Console.WriteLine($"Platz {r.Rang} im Bewerb {r.EBewerb} hat {r.SZuname} mit {r.EZeit} s");
+}
+```
+
+```text
+Platz 1 im Bewerb 100m Lauf hat Zuname1015 mit 9.9832 s
+Platz 2 im Bewerb 100m Lauf hat Zuname1012 mit 12.6026 s
+Platz 3 im Bewerb 100m Lauf hat Zuname1011 mit 12.9620 s
+Platz 1 im Bewerb 400m Lauf hat Zuname1014 mit 59.3951 s
+Platz 2 im Bewerb 400m Lauf hat Zuname1011 mit 61.1649 s
+Platz 3 im Bewerb 400m Lauf hat Zuname1015 mit 63.2361 s
+Platz 1 im Bewerb 5km Lauf hat Zuname1011 mit 1248.8879 s
+Platz 2 im Bewerb 5km Lauf hat Zuname1012 mit 1252.5676 s
+Platz 3 im Bewerb 5km Lauf hat Zuname1011 mit 1422.9360 s
 ```
