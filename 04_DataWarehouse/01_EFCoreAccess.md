@@ -315,3 +315,9 @@ public partial class ModelContext : DbContext
                             new OracleParameter("result", OracleDbType.RefCursor, ParameterDirection.Output));
 }
 ```
+
+Nun kann in der Main Methode einfach die Prozedur über die Contextklasse aufgerufen werden:
+
+```c#
+var results = db.GetResults("100m Lauf");
+```
