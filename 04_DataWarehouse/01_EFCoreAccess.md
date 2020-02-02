@@ -343,7 +343,8 @@ Parameter (*klasse*) und gibt das Ergebnis zurück. Geben Sie dabei so vor:
 4. Erstellen Sie eine Methode `public IQueryable<Rank> GetRanking(string klasse)` im Context, die
    mit der FromSql() Funktion das Ergebnis der Prozedur liefert.
 5. Rufen Sie in Ihrer *Main* Methode die Funktion *GetRanking* mit folgendem Code auf. Das Ergebnis
-   muss dann der untenstehenden Ausgabe entsprechen.
+   muss dann der untenstehenden Ausgabe entsprechen. Falls Sie andere Bezeichnungen für die Spalten
+   in der Modelklasse gewählt haben, ist der Code natürlich anzupassen.
 
 ```c#
 var ranking = from r in db.GetRanking("1AFIT")
