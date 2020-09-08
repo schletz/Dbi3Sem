@@ -73,5 +73,4 @@ Punkte:
   redundant (mehrfach) speichern. Das Root Element soll *PruefungExport* heißen.
 - Schreiben Sie in einem (vernünftigen) Editor die XML Datei mit korrektem Header und setzen Sie
   Ihren Elementbaum konkret um.
-- Überlegen Sie sich, was mehr Sinn macht: Speicherung der Prüfungen innerhalb des Schülers oder des Lehrers.
-
+- Überlegen Sie sich, was mehr Sinn macht: Speicherung der Prüfungen innerhalb des Schülers, des Lehrers oder außerhalb.
