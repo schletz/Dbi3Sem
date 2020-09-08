@@ -16,7 +16,7 @@
 ### Wintersemester
 
 - [XML](11_XML/README.md)
-- JSON (semistrukturierte Formate), JSON Schema, Modelklassen, Serialisierung, Deserialisierung
+- [JSON Grundlagen](12_JSON/01_Intro.md), JSON Schema, Modelklassen, Serialisierung, Deserialisierung
 - NoSQL (Dokumentbasierend)
   - Überblick (Graph, Key/Value, Big Data)
   - Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen
