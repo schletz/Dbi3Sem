@@ -20,7 +20,7 @@ Betrachten Sie das folgende XML Dokument:
     <Buch id="1000">
         <Titel>C# Programming</Titel>
         <Kategorie>
-            <Id>Pro</Id>
+            Pro
             <NameDE>Programmieren</NameDE>
             <NameEN>Programming</NameEN>
         </Kategorie>
@@ -29,7 +29,7 @@ Betrachten Sie das folgende XML Dokument:
     <Buch id="1001">
         <Titel>Java in a Nutshell</Titel>
         <Kategorie>
-            <Id>Pro</Id>
+            Pro
             <NameDE>Programmieren</NameDE>
             <NameEN>Programming</NameEN>
         </Kategorie>
