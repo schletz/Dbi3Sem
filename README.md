@@ -1,24 +1,43 @@
-# Inhalte
-## 2stündiger Block
-- PL/SQL
-    - Trigger
-    - Procedures
-    - Functions
-- Joomla
+# Inhalte im 5. und 6. Semester
 
-## 3stündiger Block
-- Datenbankadministration (Wintersemester)
-    - Transactions
-    - Index
-    - Userrechte
-    - Security
-    - Analytische Funktionen
-- Data Warehouse
-    - Importschnittstellen in Oracle (SQL Loader)
-- Business Intelligence mit SQL Server
+## Teil 1: 2 Wochenstunden
+
+### Wintersemester
+
+- PL/SQL
+
+### Sommersemester
+
+- [Analytische Funktionen](02_Analytical%20Functions/README.md)
+- [DBA (Oracle)](01_Datenbankadmin)
+
+## Teil 2: 3 Wochenstunden
+
+### Wintersemester
+
+- [XML](11_XML/README.md)
+- JSON (semistrukturierte Formate), JSON Schema, Modelklassen, Serialisierung, Deserialisierung
+- NoSQL (Dokumentbasierend)
+  - Überblick (Graph, Key/Value, Big Data)
+  - Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen
+  - Modeländerung
+  - Indizierung
+  - Lokale Lösung (MongoDb)
+  - Cloudlösung (Cosmos Db)
+  
+### Sommersemester
+
+- Business Intelligence & DWH
+  - Loader
+  - Cube
+  - PowerBI
+- Data Mining
+  - Classification
+  - Decision Tree
 
 
 # Download und Konfiguration der VM
+
 Oracle ist ein Datenbankserver, der in unserem Falle in einer virtuellen Maschine läuft. Oracle stellt sogenannte Developer VMs bereit, um Erfahrungen mit der Datenbank zu sammeln. Auf <a href="http://www.oracle.com/technetwork/community/developer-vm/index.html" target="_blank">[Pre-Built Developer VMs (for Oracle VM VirtualBox)]</a> kann die VM *Database App Development VM* (am Besten im Browser auf der Seite danach suchen, es gibt viele VMs dort) bezogen werden, die unter anderen folgende Komponenten beinhaltet:
 
 - Oracle Linux 7
