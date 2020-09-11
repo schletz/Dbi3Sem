@@ -74,3 +74,66 @@ Punkte:
 - Schreiben Sie in einem (vernünftigen) Editor die XML Datei mit korrektem Header und setzen Sie
   Ihren Elementbaum konkret um.
 - Überlegen Sie sich, was mehr Sinn macht: Speicherung der Prüfungen innerhalb des Schülers, des Lehrers oder außerhalb.
+
+## Parsen mit .NET
+
+Erstellen Sie in der Konsole eine neue C# Konsolenapplikation:
+
+```text
+Path>md XmlParserDemo
+Path>cd XmlParserDemo
+Path>dotnet new console
+Path>start XmlParserDemo.csproj
+```
+
+Der nachfolgende Code zeigt das Parsen einer XML Datei (nämlich das oben beschriebene XML Beispiel
+*Bibliothek*). Ersetzen Sie den Inhalt Ihrer Datei *Program.cs* durch den nachfolgenden Code. Danach
+Erstellen Sie in Visual Studio eine neue Datei mit dem Namen *books.xml*. Achten Sie darauf,
+dass Sie bei den Eigenschaften dieser Datei im Solution Explorer die Option *Copy always* bei
+der Einstellung *Copy to Output Directory* setzen.
+
+```c#
+using System;
+using System.IO;
+using System.Text;
+using System.Xml;
+
+namespace XmlParserDemo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Einen leeren Elementbaum im Speicher erstellen.
+            var doc = new XmlDocument();
+            // Die Datei books.xml mit UTF-8 Codierung einlesen.
+            using var xmlFile = new StreamReader(path: "books.xml", encoding: Encoding.UTF8);
+
+            // Den Elementbaum aufbauen (parsen).
+            doc.Load(xmlFile);
+            // Das root Element kommt nur 1x vor. Deswegen kann leicht darauf zugegriffen werden.
+            XmlElement root = doc.DocumentElement;
+            foreach (XmlElement buch in root.GetElementsByTagName("Buch"))
+            {
+                Console.WriteLine($"Buch ID    {buch.GetAttribute("id")}");
+                // Eine C# Spezialität ist der "Indexer". Eckige Klammern bedeuten nicht immer
+                // einen Arrayzugriff, sie können auch Elemente einer Liste suchen.
+                // Hier wird das Unterelement Titel gesucht.
+                Console.WriteLine($"Titel:     {buch["Titel"].InnerText}");
+                // Da mehrere Kategorien vorkommen können, verwenden wir wieder eine Schleife.
+                foreach (XmlElement kat in buch.GetElementsByTagName("Kategorie"))
+                {
+                    // Vorsicht: kat["NameEN"] würde NULL liefern, wenn das ELement NameEN nicht
+                    //           existiert. Deswegen ?.
+                    Console.WriteLine($"Kategorie: {kat["NameDE"].InnerText} - {kat["NameEN"]?.InnerText}");
+                }
+            }
+        }
+    }
+}
+```
+
+### Übung
+
+Passen Sie dieses Programm nun an, sodass Sie die Prüfungen aus Ihrer erstellen XML Datei für den
+Prüfungsexport ausgeben können.
