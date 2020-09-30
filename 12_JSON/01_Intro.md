@@ -14,6 +14,7 @@ Hinweis: Erstellen Sie eine Variable und weisen Sie das nachfolgende JSON Dokume
 
 - Geben Sie den Namen der ersten Klasse im Dokument aus.
 - Geben Sie den Nachnamen des zweiten Studierenden der ersten Klasse aus.
+- Geben Sie den Wert von *dateOfBirth* des zweiten Schülers der ersten Klasse aus. Was passiert?
 
 ```javascript
 [
