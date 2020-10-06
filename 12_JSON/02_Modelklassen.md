@@ -52,6 +52,15 @@ Folgendes fällt auf:
 - *DateTime* ist ein Wertetyp. Um den *null* Wert beim Geburtsdatum speichern zu können, muss daher
   der nullable Type *DateTime?* verwendet werden.
 
+In .NET Core (ab Version 3) ist bereits im Namespace *System.Test.Json* eine Möglichkeit
+integriert, die Datei mit 2 Codezeilen einzulesen. Es wird eine fertig befüllte Instanz von
+MyDocument zurückgegeben.
+
+```c#
+using var filestream = new FileStream("pruefungen.json", FileMode.Open, FileAccess.Read);
+MyDocument pruefungen = await JsonSerializer.DeserializeAsync<MyDocument>(filestream);
+```
+
 ## Übung 1
 
 Erstellen Sie eine neue C# Konsolenapplikation mit dem Namen *JsonDemo* und öffnen sie die
