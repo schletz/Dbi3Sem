@@ -74,8 +74,9 @@ Path>start JsonDemo.csproj
 ```
 
 Laden Sie die Datei [stundenplan.json](stundenplan.json) herunter und kopieren Sie sie in ihren
-Projektordner. Bei den Eigenschaften der Datei im Solution Explorer müssen Sie wieder *Copy Always*
-angeben.
+Projektordner. Dafür klicken Sie auf den Link und wählen *Raw* bei der Ansicht. Danach können
+Sie mt *STRG + S* die JSON Datei speichern. Bei den Eigenschaften der Datei im Solution Explorer
+müssen Sie wieder *Copy Always* angeben.
 
 Ersetzen Sie nun die Datei *Program.cs* durch den angegebenen Inhalt. Schreiben Sie die Modelklassen,
 sodass sie die Datei [stundenplan.json](stundenplan.json) eingelesen (deserialisiert) werden kann.
