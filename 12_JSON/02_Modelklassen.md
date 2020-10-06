@@ -54,7 +54,7 @@ Folgendes fällt auf:
 
 In .NET Core (ab Version 3) ist bereits im Namespace *System.Test.Json* eine Möglichkeit
 integriert, die Datei mit 2 Codezeilen einzulesen. Es wird eine fertig befüllte Instanz von
-MyDocument zurückgegeben.
+*MyDocument* zurückgegeben.
 
 ```c#
 using var filestream = new FileStream("pruefungen.json", FileMode.Open, FileAccess.Read);
