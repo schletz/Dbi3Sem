@@ -21,7 +21,8 @@ class Schueler
 
 ## Mapping von Datentypen
 
-Im Vergleich zu C# bietet JSON nur die Unterscheidung zwischen number, string und object an. Dadurch
+Im Vergleich zu C# bietet JSON nur die Unterscheidung zwischen number, string, object und
+array an. Dadurch
 werden einige Typen auf den selben JSON Typ abgebildet. Falsche Zuordnungen machen sich durch
 Laufzeitfehler bei der Deserialisierung (dem Einlesen der JSON Datei) bemerkbar.
 
