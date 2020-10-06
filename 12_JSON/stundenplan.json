@@ -1,0 +1,830 @@
+[
+  {
+    "Id": "4AHIF",
+    "Kv": {
+      "Id": "NIJ",
+      "Zuname": "Niklas",
+      "Vorname": "Johanna"
+    },
+    "Lehrer": [
+      {
+        "Id": "SZ",
+        "Zuname": "Schletz",
+        "Vorname": "Michael",
+        "Gegenstaende": [
+          {
+            "Id": "DBI",
+            "Name": "Datenbanken",
+            "Zeiten": [
+              {
+                "Wochentag": "MO",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 10
+              }
+            ]
+          },
+          {
+            "Id": "AM",
+            "Name": "Mathematik",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 6
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NIJ",
+        "Zuname": "Niklas",
+        "Vorname": "Johanna",
+        "Gegenstaende": [
+          {
+            "Id": "DBI",
+            "Name": "Datenbanken",
+            "Zeiten": [
+              {
+                "Wochentag": "MO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 10
+              }
+            ]
+          },
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "FR",
+                "Stunde": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "SZ",
+        "Zuname": "Schletz",
+        "Vorname": "Michael",
+        "Gegenstaende": [
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 2
+              }
+            ]
+          },
+          {
+            "Id": "DBI",
+            "Name": "Datenbanken",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "PS",
+        "Zuname": "Prei\u00DFl",
+        "Vorname": "Johann",
+        "Gegenstaende": [
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 7
+              },
+              {
+                "Wochentag": "FR",
+                "Stunde": 1
+              }
+            ]
+          },
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 9
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 6
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "PS",
+        "Zuname": "Prei\u00DFl",
+        "Vorname": "Johann",
+        "Gegenstaende": [
+          {
+            "Id": "DBI",
+            "Name": "Datenbanken",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 4
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 6
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 5
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": "4BHIF",
+    "Kv": {
+      "Id": "BAM",
+      "Zuname": "Balluch",
+      "Vorname": "Manfred"
+    },
+    "Lehrer": [
+      {
+        "Id": "SZ",
+        "Zuname": "Schletz",
+        "Vorname": "Michael",
+        "Gegenstaende": [
+          {
+            "Id": "AM",
+            "Name": "Mathematik",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 7
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 8
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NIJ",
+        "Zuname": "Niklas",
+        "Vorname": "Johanna",
+        "Gegenstaende": [
+          {
+            "Id": "AM",
+            "Name": "Mathematik",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 6
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 9
+              }
+            ]
+          },
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "MI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 7
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "PS",
+        "Zuname": "Prei\u00DFl",
+        "Vorname": "Johann",
+        "Gegenstaende": [
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 6
+              }
+            ]
+          },
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "SZ",
+        "Zuname": "Schletz",
+        "Vorname": "Michael",
+        "Gegenstaende": [
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "MO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 9
+              }
+            ]
+          },
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 9
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NIJ",
+        "Zuname": "Niklas",
+        "Vorname": "Johanna",
+        "Gegenstaende": [
+          {
+            "Id": "AM",
+            "Name": "Mathematik",
+            "Zeiten": [
+              {
+                "Wochentag": "MO",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 4
+              }
+            ]
+          },
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "MI",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 10
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": "4CHIF",
+    "Kv": {
+      "Id": "BAM",
+      "Zuname": "Balluch",
+      "Vorname": "Manfred"
+    },
+    "Lehrer": [
+      {
+        "Id": "PS",
+        "Zuname": "Prei\u00DFl",
+        "Vorname": "Johann",
+        "Gegenstaende": [
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "MI",
+                "Stunde": 4
+              },
+              {
+                "Wochentag": "FR",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "FR",
+                "Stunde": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NAI",
+        "Zuname": "Naimer",
+        "Vorname": "Eva",
+        "Gegenstaende": [
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 4
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 4
+              }
+            ]
+          },
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 7
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NIJ",
+        "Zuname": "Niklas",
+        "Vorname": "Johanna",
+        "Gegenstaende": [
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "MI",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 9
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "SRM",
+        "Zuname": "Schrutek",
+        "Vorname": "Martin",
+        "Gegenstaende": [
+          {
+            "Id": "DBI",
+            "Name": "Datenbanken",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 4
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "FR",
+                "Stunde": 10
+              }
+            ]
+          },
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 6
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "SRM",
+        "Zuname": "Schrutek",
+        "Vorname": "Martin",
+        "Gegenstaende": [
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "MI",
+                "Stunde": 10
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 7
+              }
+            ]
+          },
+          {
+            "Id": "AM",
+            "Name": "Mathematik",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": "4EHIF",
+    "Kv": {
+      "Id": "PS",
+      "Zuname": "Prei\u00DFl",
+      "Vorname": "Johann"
+    },
+    "Lehrer": [
+      {
+        "Id": "NAI",
+        "Zuname": "Naimer",
+        "Vorname": "Eva",
+        "Gegenstaende": [
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 4
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 9
+              }
+            ]
+          },
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 7
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 1
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NAI",
+        "Zuname": "Naimer",
+        "Vorname": "Eva",
+        "Gegenstaende": [
+          {
+            "Id": "DBI",
+            "Name": "Datenbanken",
+            "Zeiten": [
+              {
+                "Wochentag": "DI",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 6
+              }
+            ]
+          },
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "MO",
+                "Stunde": 7
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 4
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "BAM",
+        "Zuname": "Balluch",
+        "Vorname": "Manfred",
+        "Gegenstaende": [
+          {
+            "Id": "D",
+            "Name": "Deutsch",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 2
+              }
+            ]
+          },
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "MO",
+                "Stunde": 8
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 4
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "SRM",
+        "Zuname": "Schrutek",
+        "Vorname": "Martin",
+        "Gegenstaende": [
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 6
+              },
+              {
+                "Wochentag": "DO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 10
+              }
+            ]
+          },
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "MI",
+                "Stunde": 7
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 9
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Id": "NIJ",
+        "Zuname": "Niklas",
+        "Vorname": "Johanna",
+        "Gegenstaende": [
+          {
+            "Id": "E",
+            "Name": "Englisch",
+            "Zeiten": [
+              {
+                "Wochentag": "DO",
+                "Stunde": 3
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 2
+              },
+              {
+                "Wochentag": "MO",
+                "Stunde": 9
+              }
+            ]
+          },
+          {
+            "Id": "POS",
+            "Name": "Programmieren",
+            "Zeiten": [
+              {
+                "Wochentag": "FR",
+                "Stunde": 7
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 5
+              },
+              {
+                "Wochentag": "DI",
+                "Stunde": 3
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
