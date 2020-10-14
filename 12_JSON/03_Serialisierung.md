@@ -95,71 +95,6 @@ namespace JsonTest
             // Wir generieren ein paar Testdaten.
             Schule schule = GenerateData();
 
-            // SERIALISIERUNG MIT JsonConvert.SerializeObject
-            // {
-            //   "Schulkennzahl": 905417,
-            //   "Klassen": [
-            //     {
-            //       "Name": "3AHIF",
-            //       "Raum": "C3.01",
-            //       "Schueler": [
-            //         {
-            //           "Id": 11,
-            //           "Geburtsdatum": "2000-01-11T00:00:00",
-            //           "Vorname": "Mustervorname11",
-            //           "Zuname": "Musterzuname11"
-            //         },
-            //         {
-            //           "Id": 12,
-            //           "Geburtsdatum": "2000-01-12T00:00:00",
-            //           "Vorname": "Mustervorname12",
-            //           "Zuname": "Musterzuname12"
-            //         },
-            //         {
-            //           "Id": 13,
-            //           "Geburtsdatum": "2000-01-13T00:00:00",
-            //           "Vorname": "Mustervorname13",
-            //           "Zuname": "Musterzuname13"
-            //         }
-            //       ]
-            //     },
-            //     {
-            //       "Name": "3BHIF",
-            //       "Raum": "C3.02",
-            //       "Schueler": [
-            //         {
-            //           "Id": 21,
-            //           "Geburtsdatum": "2000-01-21T00:00:00",
-            //           "Vorname": "Mustervorname21",
-            //           "Zuname": "Musterzuname21"
-            //         },
-            //         {
-            //           "Id": 22,
-            //           "Geburtsdatum": "2000-01-22T00:00:00",
-            //           "Vorname": "Mustervorname22",
-            //           "Zuname": "Musterzuname22"
-            //         },
-            //         {
-            //           "Id": 23,
-            //           "Geburtsdatum": "2000-01-23T00:00:00",
-            //           "Vorname": "Mustervorname23",
-            //           "Zuname": "Musterzuname23"
-            //         }
-            //       ]
-            //     }
-            //   ],
-            //   "Lehrer": [
-            //     {
-            //       "Name": "Musterprof1"
-            //     },
-            //     {
-            //       "Name": "Musterprof2"
-            //     },
-            //     {
-            //       "Name": "Musterprof3"
-            //     }
-            //   ]
-            // }
             string json = JsonConvert.SerializeObject(schule, Formatting.Indented);
             Console.WriteLine("SERIALISIERUNG");
             Console.WriteLine(json);
@@ -228,6 +163,75 @@ namespace JsonTest
             return schule;
         }
     }
+}
+```
+
+### Ausgabe
+
+```javascript
+{
+  "Schulkennzahl": 905417,
+  "Klassen": [
+    {
+      "Name": "3AHIF",
+      "Raum": "C3.01",
+      "Schueler": [
+        {
+          "Id": 11,
+          "Geburtsdatum": "2000-01-11T00:00:00",
+          "Vorname": "Mustervorname11",
+          "Zuname": "Musterzuname11"
+        },
+        {
+          "Id": 12,
+          "Geburtsdatum": "2000-01-12T00:00:00",
+          "Vorname": "Mustervorname12",
+          "Zuname": "Musterzuname12"
+        },
+        {
+          "Id": 13,
+          "Geburtsdatum": "2000-01-13T00:00:00",
+          "Vorname": "Mustervorname13",
+          "Zuname": "Musterzuname13"
+        }
+      ]
+    },
+    {
+      "Name": "3BHIF",
+      "Raum": "C3.02",
+      "Schueler": [
+        {
+          "Id": 21,
+          "Geburtsdatum": "2000-01-21T00:00:00",
+          "Vorname": "Mustervorname21",
+          "Zuname": "Musterzuname21"
+        },
+        {
+          "Id": 22,
+          "Geburtsdatum": "2000-01-22T00:00:00",
+          "Vorname": "Mustervorname22",
+          "Zuname": "Musterzuname22"
+        },
+        {
+          "Id": 23,
+          "Geburtsdatum": "2000-01-23T00:00:00",
+          "Vorname": "Mustervorname23",
+          "Zuname": "Musterzuname23"
+        }
+      ]
+    }
+  ],
+  "Lehrer": [
+    {
+      "Name": "Musterprof1"
+    },
+    {
+      "Name": "Musterprof2"
+    },
+    {
+      "Name": "Musterprof3"
+    }
+  ]
 }
 ```
 
@@ -326,166 +330,6 @@ namespace JsonTest
         {
             // Wir generieren ein paar Testdaten.
             Schule schule = GenerateData();
-
-            // SERIALISIERUNG MIT JsonConvert.SerializeObject
-            // {
-            //   "$id": "1",
-            //   "Schulkennzahl": 905417,
-            //   "Klassen": [
-            //     {
-            //       "$id": "2",
-            //       "Name": "3AHIF",
-            //       "Raum": "C3.01",
-            //       "_Schule": {
-            //         "$ref": "1"
-            //       },
-            //       "Schueler": [
-            //         {
-            //           "$id": "3",
-            //           "Id": 11,
-            //           "Geburtsdatum": "2000-01-11T00:00:00",
-            //           "Vorname": "Mustervorname11",
-            //           "Zuname": "Musterzuname11",
-            //           "_Klasse": {
-            //             "$ref": "2"
-            //           }
-            //         },
-            //         {
-            //           "$id": "4",
-            //           "Id": 12,
-            //           "Geburtsdatum": "2000-01-12T00:00:00",
-            //           "Vorname": "Mustervorname12",
-            //           "Zuname": "Musterzuname12",
-            //           "_Klasse": {
-            //             "$ref": "2"
-            //           }
-            //         },
-            //         {
-            //           "$id": "5",
-            //           "Id": 13,
-            //           "Geburtsdatum": "2000-01-13T00:00:00",
-            //           "Vorname": "Mustervorname13",
-            //           "Zuname": "Musterzuname13",
-            //           "_Klasse": {
-            //             "$ref": "2"
-            //           }
-            //         }
-            //       ],
-            //       "Unterrichte": [
-            //         {
-            //           "$id": "6",
-            //           "Fach": "AM",
-            //           "_Lehrer": {
-            //             "$id": "7",
-            //             "Name": "Musterprof1",
-            //             "_Schule": {
-            //               "$ref": "1"
-            //             },
-            //             "Unterrichte": [
-            //               {
-            //                 "$ref": "6"
-            //               },
-            //               {
-            //                 "$id": "8",
-            //                 "Fach": "D",
-            //                 "_Lehrer": {
-            //                   "$ref": "7"
-            //                 },
-            //                 "_Klasse": {
-            //                   "$id": "9",
-            //                   "Name": "3BHIF",
-            //                   "Raum": "C3.02",
-            //                   "_Schule": {
-            //                     "$ref": "1"
-            //                   },
-            //                   "Schueler": [
-            //                     {
-            //                       "$id": "10",
-            //                       "Id": 21,
-            //                       "Geburtsdatum": "2000-01-21T00:00:00",
-            //                       "Vorname": "Mustervorname21",
-            //                       "Zuname": "Musterzuname21",
-            //                       "_Klasse": {
-            //                         "$ref": "9"
-            //                       }
-            //                     },
-            //                     {
-            //                       "$id": "11",
-            //                       "Id": 22,
-            //                       "Geburtsdatum": "2000-01-22T00:00:00",
-            //                       "Vorname": "Mustervorname22",
-            //                       "Zuname": "Musterzuname22",
-            //                       "_Klasse": {
-            //                         "$ref": "9"
-            //                       }
-            //                     },
-            //                     {
-            //                       "$id": "12",
-            //                       "Id": 23,
-            //                       "Geburtsdatum": "2000-01-23T00:00:00",
-            //                       "Vorname": "Mustervorname23",
-            //                       "Zuname": "Musterzuname23",
-            //                       "_Klasse": {
-            //                         "$ref": "9"
-            //                       }
-            //                     }
-            //                   ],
-            //                   "Unterrichte": [
-            //                     {
-            //                       "$ref": "8"
-            //                     },
-            //                     {
-            //                       "$id": "13",
-            //                       "Fach": "POS",
-            //                       "_Lehrer": {
-            //                         "$id": "14",
-            //                         "Name": "Musterprof2",
-            //                         "_Schule": {
-            //                           "$ref": "1"
-            //                         },
-            //                         "Unterrichte": [
-            //                           {
-            //                             "$ref": "13"
-            //                           }
-            //                         ]
-            //                       },
-            //                       "_Klasse": {
-            //                         "$ref": "9"
-            //                       }
-            //                     }
-            //                   ]
-            //                 }
-            //               }
-            //             ]
-            //           },
-            //           "_Klasse": {
-            //             "$ref": "2"
-            //           }
-            //         }
-            //       ]
-            //     },
-            //     {
-            //       "$ref": "9"
-            //     }
-            //   ],
-            //   "Lehrer": [
-            //     {
-            //       "$ref": "7"
-            //     },
-            //     {
-            //       "$ref": "14"
-            //     },
-            //     {
-            //       "$id": "15",
-            //       "Name": "Musterprof3",
-            //       "_Schule": {
-            //         "$ref": "1"
-            //       },
-            //       "Unterrichte": []
-            //     }
-            //   ]
-            // }
-            // 
             string json = JsonConvert.SerializeObject(schule,
                 Formatting.Indented,
                 new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
@@ -567,6 +411,168 @@ namespace JsonTest
             return schule;
         }
     }
+}
+```
+
+### Ausgabe
+
+```javascript
+{
+  "$id": "1",
+  "Schulkennzahl": 905417,
+  "Klassen": [
+    {
+      "$id": "2",
+      "Name": "3AHIF",
+      "Raum": "C3.01",
+      "_Schule": {
+        "$ref": "1"
+      },
+      "Schueler": [
+        {
+          "$id": "3",
+          "Id": 11,
+          "Geburtsdatum": "2000-01-11T00:00:00",
+          "Vorname": "Mustervorname11",
+          "Zuname": "Musterzuname11",
+          "_Klasse": {
+            "$ref": "2"
+          }
+        },
+        {
+          "$id": "4",
+          "Id": 12,
+          "Geburtsdatum": "2000-01-12T00:00:00",
+          "Vorname": "Mustervorname12",
+          "Zuname": "Musterzuname12",
+          "_Klasse": {
+            "$ref": "2"
+          }
+        },
+        {
+          "$id": "5",
+          "Id": 13,
+          "Geburtsdatum": "2000-01-13T00:00:00",
+          "Vorname": "Mustervorname13",
+          "Zuname": "Musterzuname13",
+          "_Klasse": {
+            "$ref": "2"
+          }
+        }
+      ],
+      "Unterrichte": [
+        {
+          "$id": "6",
+          "Fach": "AM",
+          "_Lehrer": {
+            "$id": "7",
+            "Name": "Musterprof1",
+            "_Schule": {
+              "$ref": "1"
+            },
+            "Unterrichte": [
+              {
+                "$ref": "6"
+              },
+              {
+                "$id": "8",
+                "Fach": "D",
+                "_Lehrer": {
+                  "$ref": "7"
+                },
+                "_Klasse": {
+                  "$id": "9",
+                  "Name": "3BHIF",
+                  "Raum": "C3.02",
+                  "_Schule": {
+                    "$ref": "1"
+                  },
+                  "Schueler": [
+                    {
+                      "$id": "10",
+                      "Id": 21,
+                      "Geburtsdatum": "2000-01-21T00:00:00",
+                      "Vorname": "Mustervorname21",
+                      "Zuname": "Musterzuname21",
+                      "_Klasse": {
+                        "$ref": "9"
+                      }
+                    },
+                    {
+                      "$id": "11",
+                      "Id": 22,
+                      "Geburtsdatum": "2000-01-22T00:00:00",
+                      "Vorname": "Mustervorname22",
+                      "Zuname": "Musterzuname22",
+                      "_Klasse": {
+                        "$ref": "9"
+                      }
+                    },
+                    {
+                      "$id": "12",
+                      "Id": 23,
+                      "Geburtsdatum": "2000-01-23T00:00:00",
+                      "Vorname": "Mustervorname23",
+                      "Zuname": "Musterzuname23",
+                      "_Klasse": {
+                        "$ref": "9"
+                      }
+                    }
+                  ],
+                  "Unterrichte": [
+                    {
+                      "$ref": "8"
+                    },
+                    {
+                      "$id": "13",
+                      "Fach": "POS",
+                      "_Lehrer": {
+                        "$id": "14",
+                        "Name": "Musterprof2",
+                        "_Schule": {
+                          "$ref": "1"
+                        },
+                        "Unterrichte": [
+                          {
+                            "$ref": "13"
+                          }
+                        ]
+                      },
+                      "_Klasse": {
+                        "$ref": "9"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "_Klasse": {
+            "$ref": "2"
+          }
+        }
+      ]
+    },
+    {
+      "$ref": "9"
+    }
+  ],
+  "Lehrer": [
+    {
+      "$ref": "7"
+    },
+    {
+      "$ref": "14"
+    },
+    {
+      "$id": "15",
+      "Name": "Musterprof3",
+      "_Schule": {
+        "$ref": "1"
+      },
+      "Unterrichte": []
+    }
+  ]
 }
 ```
 
