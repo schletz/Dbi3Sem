@@ -581,4 +581,7 @@ namespace JsonTest
 In der letzten Übung 2 zu [Modelklassen erstellen](02_Modelklassen.md) erstellten Sie eine
 Datenstruktur, die den Stundenplan der Schule abbildet. Erstellen Sie nun ein .NET Programm,
 welches diese Datenstruktur mit einigen Musterdaten befüllt und das Modell in eine JSON Datei
-mit Hilfe Newtonsoft Json schreibt. 
+mit Hilfe Newtonsoft Json schreibt.
+
+Das Schreiben einer Datei ist in der [Dokumentation von Newtonsoft JSON](https://www.newtonsoft.com/json/help/html/SerializeWithJsonSerializerToFile.htm)
+erklärt.
