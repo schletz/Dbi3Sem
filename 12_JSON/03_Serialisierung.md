@@ -2,6 +2,11 @@
 
 ## Newtonsoft Json
 
+Für das folgende Programm benötigen Sie das Paket
+[Netwonsoft Json](https://www.nuget.org/packages/Newtonsoft.Json/). Das Paket können Sie wie
+[in dieser Anleitung beschrieben](https://docs.microsoft.com/en-us/nuget/quickstart/install-and-use-a-package-in-visual-studio)
+in Visual Studio installieren.
+
 ```c#
 // *************************************************************************************************
 // JSONSERIALIZER von Newtonsoft ohne Loop Detection
@@ -564,3 +569,10 @@ namespace JsonTest
     }
 }
 ```
+
+## Übung
+
+In der letzten Übung 2 zu [Modelklassen erstellen](02_Modelklassen.md) erstellten Sie eine
+Datenstruktur, die den Stundenplan der Schule abbildet. Erstellen Sie nun ein .NET Programm,
+welches diese Datenstruktur mit einigen Musterdaten befüllt und das Modell in eine JSON Datei
+mit Hilfe Newtonsoft Json schreibt. 
