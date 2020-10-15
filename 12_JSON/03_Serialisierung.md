@@ -237,7 +237,7 @@ namespace JsonTest
 
 ## Übung
 
-In der Datei [Wetterwarnungen.json](Wetterwarnungen.json) finden Sie eine JSON Datei, wo Wetterwarnungen
+In der Datei [Wetterwarnungen.json](Wetterwarnungen.json) finden Sie JSON Daten, wo Wetterwarnungen
 für verschiedene Stationen gespeichert sind.
 
 - Schreiben Sie C# Modelklassen, die den Inhalt dieser JSON Datei speichern können.
