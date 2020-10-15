@@ -1,0 +1,554 @@
+﻿// *************************************************************************************************
+// EXPORTDATEI DER WETTERWARNUNGEN
+// Musterdaten, die Stationen sind echte Datensätze.
+//
+// Aufbau:
+// {
+//   "Stationen": [
+//     {
+//       "Id": 1001,                            <-- Eindeutige Stations-ID
+//       "Stationsname": "Wien Hohe Warte",     <-- Name der Station
+//       "Seehoehe": 209.5                      <-- Seehöhe in Metern
+//     },
+//     ...
+//   ],
+//
+//   "Warntexte": [
+//     {
+//       "Meldung": "Glatteis",                 <-- ID des Warntextes
+//       "Gefahrenstufe": 3                     <-- Gefahrenstufe (1, 2 oder 3)
+//     },
+//     ...
+//   ],
+//
+//   "Warnungen": [
+//     {
+//       "WarnId": 1001,                        <-- Laufnummer
+//       "Station": 1006,                       <-- Verweis auf die Stations-ID (Foreign Key)
+//       "Warntext": "Glatteis",                <-- Verweis auf den Warntext (Foreign Key)
+//       "ErsterTag": "2018-03-15",             <-- Erster Tag, für den diese Warnung gültig ist
+//       "LetzterTag": "2018-03-18"             <-- Letzter Tag, für den diese Warnung gültig ist
+//     },
+//     ...
+//   ]
+// }
+//
+// *************************************************************************************************
+{
+  "Stationen": [
+    {
+      "Id": 1001,
+      "Stationsname": "Wien Hohe Warte",
+      "Seehoehe": 209.5
+    },
+    {
+      "Id": 1002,
+      "Stationsname": "Wien Mariabrunn",
+      "Seehoehe": 227
+    },
+    {
+      "Id": 1003,
+      "Stationsname": "Eisenstadt",
+      "Seehoehe": 182.5
+    },
+    {
+      "Id": 1004,
+      "Stationsname": "St. Pölten",
+      "Seehoehe": 270
+    },
+    {
+      "Id": 1005,
+      "Stationsname": "Linz",
+      "Seehoehe": 262
+    },
+    {
+      "Id": 1006,
+      "Stationsname": "Hörsching Flughafen",
+      "Seehoehe": 313
+    },
+    {
+      "Id": 1007,
+      "Stationsname": "Salzburg Freisaal",
+      "Seehoehe": 418
+    },
+    {
+      "Id": 1008,
+      "Stationsname": "Salzburg Flugh.",
+      "Seehoehe": 445
+    },
+    {
+      "Id": 1009,
+      "Stationsname": "Aigen",
+      "Seehoehe": 652
+    },
+    {
+      "Id": 1010,
+      "Stationsname": "Innsbruck Flugh.",
+      "Seehoehe": 585
+    },
+    {
+      "Id": 1011,
+      "Stationsname": "Bregenz",
+      "Seehoehe": 437
+    },
+    {
+      "Id": 1012,
+      "Stationsname": "Graz Universität",
+      "Seehoehe": 379
+    },
+    {
+      "Id": 1013,
+      "Stationsname": "Graz Flughafen",
+      "Seehoehe": 363
+    },
+    {
+      "Id": 1014,
+      "Stationsname": "Lienz",
+      "Seehoehe": 668
+    },
+    {
+      "Id": 1015,
+      "Stationsname": "Klagenfurt Flugh.",
+      "Seehoehe": 452
+    },
+    {
+      "Id": 1016,
+      "Stationsname": "Sonnblick",
+      "Seehoehe": 3114
+    },
+    {
+      "Id": 1017,
+      "Stationsname": "Feuerkogel",
+      "Seehoehe": 1620
+    },
+    {
+      "Id": 1018,
+      "Stationsname": "Villacher Alpe",
+      "Seehoehe": 2160
+    }
+  ],
+  "Warntexte": [
+    {
+      "Meldung": "Glatteis",
+      "Gefahrenstufe": 3
+    },
+    {
+      "Meldung": "Große Kälte (Tmin < -10°C)",
+      "Gefahrenstufe": 2
+    },
+    {
+      "Meldung": "Hitze (Tmax > 30°C)",
+      "Gefahrenstufe": 2
+    },
+    {
+      "Meldung": "Schneesturm",
+      "Gefahrenstufe": 2
+    },
+    {
+      "Meldung": "Starker Regen",
+      "Gefahrenstufe": 1
+    },
+    {
+      "Meldung": "Starker Wind",
+      "Gefahrenstufe": 1
+    },
+    {
+      "Meldung": "Sturmböen",
+      "Gefahrenstufe": 2
+    }
+  ],
+  "Warnungen": [
+    {
+      "WarnId": 1001,
+      "Station": 1006,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-15",
+      "LetzterTag": "2018-03-18"
+    },
+    {
+      "WarnId": 1002,
+      "Station": 1007,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-01-05",
+      "LetzterTag": "2018-01-08"
+    },
+    {
+      "WarnId": 1003,
+      "Station": 1013,
+      "Warntext": "Starker Regen",
+      "ErsterTag": "2018-02-07",
+      "LetzterTag": "2018-02-10"
+    },
+    {
+      "WarnId": 1004,
+      "Station": 1013,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-01-01",
+      "LetzterTag": "2018-01-03"
+    },
+    {
+      "WarnId": 1005,
+      "Station": 1013,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-02-11",
+      "LetzterTag": "2018-02-13"
+    },
+    {
+      "WarnId": 1006,
+      "Station": 1006,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-01-02",
+      "LetzterTag": "2018-01-06"
+    },
+    {
+      "WarnId": 1007,
+      "Station": 1012,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-02-24",
+      "LetzterTag": "2018-02-28"
+    },
+    {
+      "WarnId": 1008,
+      "Station": 1018,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-03-06",
+      "LetzterTag": "2018-03-08"
+    },
+    {
+      "WarnId": 1009,
+      "Station": 1012,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-04-02",
+      "LetzterTag": "2018-04-04"
+    },
+    {
+      "WarnId": 1010,
+      "Station": 1002,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-02-28",
+      "LetzterTag": "2018-03-03"
+    },
+    {
+      "WarnId": 1011,
+      "Station": 1016,
+      "Warntext": "Große Kälte (Tmin < -10°C)",
+      "ErsterTag": "2018-02-12",
+      "LetzterTag": "2018-02-15"
+    },
+    {
+      "WarnId": 1012,
+      "Station": 1008,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-04-07",
+      "LetzterTag": "2018-04-09"
+    },
+    {
+      "WarnId": 1013,
+      "Station": 1001,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-03-24",
+      "LetzterTag": "2018-03-25"
+    },
+    {
+      "WarnId": 1014,
+      "Station": 1010,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-01-16",
+      "LetzterTag": "2018-01-20"
+    },
+    {
+      "WarnId": 1015,
+      "Station": 1011,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-03-27",
+      "LetzterTag": "2018-03-30"
+    },
+    {
+      "WarnId": 1016,
+      "Station": 1014,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-23",
+      "LetzterTag": "2018-03-25"
+    },
+    {
+      "WarnId": 1017,
+      "Station": 1012,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-01-30",
+      "LetzterTag": "2018-01-31"
+    },
+    {
+      "WarnId": 1018,
+      "Station": 1002,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-01-26",
+      "LetzterTag": "2018-01-30"
+    },
+    {
+      "WarnId": 1019,
+      "Station": 1017,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-02-26",
+      "LetzterTag": "2018-03-02"
+    },
+    {
+      "WarnId": 1020,
+      "Station": 1014,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-02-18",
+      "LetzterTag": "2018-02-22"
+    },
+    {
+      "WarnId": 1021,
+      "Station": 1011,
+      "Warntext": "Starker Regen",
+      "ErsterTag": "2018-04-03",
+      "LetzterTag": "2018-04-04"
+    },
+    {
+      "WarnId": 1022,
+      "Station": 1001,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-01-18",
+      "LetzterTag": "2018-01-22"
+    },
+    {
+      "WarnId": 1023,
+      "Station": 1015,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-04-04",
+      "LetzterTag": "2018-04-06"
+    },
+    {
+      "WarnId": 1024,
+      "Station": 1006,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-02-24",
+      "LetzterTag": "2018-02-25"
+    },
+    {
+      "WarnId": 1025,
+      "Station": 1003,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-01-12",
+      "LetzterTag": "2018-01-13"
+    },
+    {
+      "WarnId": 1026,
+      "Station": 1001,
+      "Warntext": "Große Kälte (Tmin < -10°C)",
+      "ErsterTag": "2018-03-22",
+      "LetzterTag": "2018-03-25"
+    },
+    {
+      "WarnId": 1027,
+      "Station": 1015,
+      "Warntext": "Starker Regen",
+      "ErsterTag": "2018-02-09",
+      "LetzterTag": "2018-02-13"
+    },
+    {
+      "WarnId": 1028,
+      "Station": 1007,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-11",
+      "LetzterTag": "2018-03-14"
+    },
+    {
+      "WarnId": 1029,
+      "Station": 1005,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-01-05",
+      "LetzterTag": "2018-01-09"
+    },
+    {
+      "WarnId": 1030,
+      "Station": 1003,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-01-04",
+      "LetzterTag": "2018-01-07"
+    },
+    {
+      "WarnId": 1031,
+      "Station": 1005,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-04-05",
+      "LetzterTag": "2018-04-06"
+    },
+    {
+      "WarnId": 1032,
+      "Station": 1003,
+      "Warntext": "Starker Regen",
+      "ErsterTag": "2018-02-05",
+      "LetzterTag": "2018-02-06"
+    },
+    {
+      "WarnId": 1033,
+      "Station": 1010,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-01-24",
+      "LetzterTag": "2018-01-26"
+    },
+    {
+      "WarnId": 1034,
+      "Station": 1010,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-01-31",
+      "LetzterTag": "2018-02-03"
+    },
+    {
+      "WarnId": 1035,
+      "Station": 1015,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-01-22",
+      "LetzterTag": "2018-01-24"
+    },
+    {
+      "WarnId": 1036,
+      "Station": 1015,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-03-07",
+      "LetzterTag": "2018-03-08"
+    },
+    {
+      "WarnId": 1037,
+      "Station": 1006,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-04-02",
+      "LetzterTag": "2018-04-04"
+    },
+    {
+      "WarnId": 1038,
+      "Station": 1002,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-03-21",
+      "LetzterTag": "2018-03-25"
+    },
+    {
+      "WarnId": 1039,
+      "Station": 1004,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-21",
+      "LetzterTag": "2018-03-23"
+    },
+    {
+      "WarnId": 1040,
+      "Station": 1004,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-28",
+      "LetzterTag": "2018-03-30"
+    },
+    {
+      "WarnId": 1041,
+      "Station": 1004,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-03-31",
+      "LetzterTag": "2018-04-03"
+    },
+    {
+      "WarnId": 1042,
+      "Station": 1018,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-01-13",
+      "LetzterTag": "2018-01-14"
+    },
+    {
+      "WarnId": 1043,
+      "Station": 1002,
+      "Warntext": "Große Kälte (Tmin < -10°C)",
+      "ErsterTag": "2018-03-10",
+      "LetzterTag": "2018-03-13"
+    },
+    {
+      "WarnId": 1044,
+      "Station": 1012,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-24",
+      "LetzterTag": "2018-03-28"
+    },
+    {
+      "WarnId": 1045,
+      "Station": 1014,
+      "Warntext": "Starker Wind",
+      "ErsterTag": "2018-03-23",
+      "LetzterTag": "2018-03-24"
+    },
+    {
+      "WarnId": 1046,
+      "Station": 1015,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-01-03",
+      "LetzterTag": "2018-01-05"
+    },
+    {
+      "WarnId": 1047,
+      "Station": 1007,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-04-09",
+      "LetzterTag": "2018-04-12"
+    },
+    {
+      "WarnId": 1048,
+      "Station": 1011,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-01-27",
+      "LetzterTag": "2018-01-28"
+    },
+    {
+      "WarnId": 1049,
+      "Station": 1002,
+      "Warntext": "Starker Regen",
+      "ErsterTag": "2018-04-11",
+      "LetzterTag": "2018-04-12"
+    },
+    {
+      "WarnId": 1050,
+      "Station": 1012,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-03-16",
+      "LetzterTag": "2018-03-20"
+    },
+    {
+      "WarnId": 1051,
+      "Station": 1014,
+      "Warntext": "Sturmböen",
+      "ErsterTag": "2018-03-09",
+      "LetzterTag": "2018-03-11"
+    },
+    {
+      "WarnId": 1052,
+      "Station": 1005,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-28",
+      "LetzterTag": "2018-03-30"
+    },
+    {
+      "WarnId": 1053,
+      "Station": 1016,
+      "Warntext": "Große Kälte (Tmin < -10°C)",
+      "ErsterTag": "2018-03-30",
+      "LetzterTag": "2018-04-03"
+    },
+    {
+      "WarnId": 1054,
+      "Station": 1003,
+      "Warntext": "Schneesturm",
+      "ErsterTag": "2018-02-10",
+      "LetzterTag": "2018-02-13"
+    },
+    {
+      "WarnId": 1055,
+      "Station": 1018,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-02-05",
+      "LetzterTag": "2018-02-09"
+    },
+    {
+      "WarnId": 1056,
+      "Station": 1010,
+      "Warntext": "Glatteis",
+      "ErsterTag": "2018-03-01",
+      "LetzterTag": "2018-03-04"
+    }
+  ]
+}
