@@ -238,8 +238,9 @@ namespace JsonTest
 ## Übung
 
 In der Datei [Wetterwarnungen.json](Wetterwarnungen.json) finden Sie JSON Daten, wo Wetterwarnungen
-für verschiedene Stationen gespeichert sind. Das Lesen mit Newtonsoft JSON ist auf https://www.newtonsoft.com/json/help/html/ReadJson.htm
-beschrieben.
+für verschiedene Stationen gespeichert sind. Das Lesen mit Newtonsoft JSON ist auf https://www.newtonsoft.com/json/help/html/DeserializeWithJsonSerializerFromFile.htm
+beschrieben. Mit `JsonConvert.SerializeObject(myObject);` können Sie ein Objekt in einen JSON String
+umwandeln.
 
 - Schreiben Sie C# Modelklassen, die den Inhalt dieser JSON Datei speichern können.
 - Installieren Sie das Paket Newtonsoft JSON.
