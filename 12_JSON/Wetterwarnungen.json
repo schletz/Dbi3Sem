@@ -1,40 +1,4 @@
-﻿// *************************************************************************************************
-// EXPORTDATEI DER WETTERWARNUNGEN
-// Musterdaten, die Stationen sind echte Datensätze.
-//
-// Aufbau:
-// {
-//   "Stationen": [
-//     {
-//       "Id": 1001,                            <-- Eindeutige Stations-ID
-//       "Stationsname": "Wien Hohe Warte",     <-- Name der Station
-//       "Seehoehe": 209.5                      <-- Seehöhe in Metern
-//     },
-//     ...
-//   ],
-//
-//   "Warntexte": [
-//     {
-//       "Meldung": "Glatteis",                 <-- ID des Warntextes
-//       "Gefahrenstufe": 3                     <-- Gefahrenstufe (1, 2 oder 3)
-//     },
-//     ...
-//   ],
-//
-//   "Warnungen": [
-//     {
-//       "WarnId": 1001,                        <-- Laufnummer
-//       "Station": 1006,                       <-- Verweis auf die Stations-ID (Foreign Key)
-//       "Warntext": "Glatteis",                <-- Verweis auf den Warntext (Foreign Key)
-//       "ErsterTag": "2018-03-15",             <-- Erster Tag, für den diese Warnung gültig ist
-//       "LetzterTag": "2018-03-18"             <-- Letzter Tag, für den diese Warnung gültig ist
-//     },
-//     ...
-//   ]
-// }
-//
-// *************************************************************************************************
-{
+﻿{
   "Stationen": [
     {
       "Id": 1001,
