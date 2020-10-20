@@ -10,15 +10,15 @@ Aus Sicht der Applikationsentwicklung (z. B. Ihre Diplomarbeit) führen eher die
 
 | Relational                                                                                                       | NoSQL                                                                                                           |
 | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Datenzentrierte   Sichtweise: Wie werden die Daten für die Datenbank optimal gespeichert?                        | Applikationszentrierte   Sichtweise: Wie kann mein Programm auf die Daten optimal zugreifen?                    |
+| Datenzentrierte   Sichtweise: Welche Daten habe/brauche ich? Wie werden sie in der Datenbank optimal gespeichert?                        | Applikationszentrierte   Sichtweise: Wie kann mein Programm auf die Daten optimal zugreifen?                    |
 | Modellierungsprozess   unabhängig von der Software.                                                              | Modellierung erfolgt in   Verbindung mit den geforderten Programmfeatures.                                      |
-| Zugriff   aus OOP Sprachen meist über einen OR Mapper, der das relationale Schema in   ein Objektmodell wandelt. | Daten werden als Objektgraphen   geladen.                                                                       |
+| Zugriff   aus OOP Sprachen meist über einen OR Mapper, der das relationale Schema in   ein Objektmodell wandelt. | Daten werden als Objektgraphen   geladen, somit erfolgt ein direkterer Zugriff darauf.                                                                       |
 | Mehrere   Programme können auf die Datenbank zugreifen.                                                          | Durch die stark   applikationszentrierte Sicht ist eine Verwendung in anderen Programmen   schwierig.           |
 | Änderungen   im Schema brauchen Migrationen (ALTER TABLE).                                                       | Änderungen im Schema erfolgen im   Laufe des Betriebs, die neueren Datensätze haben einfach zusätzliche Felder. |
-| Hohe   Anforderungen an die Validität der Daten (Fremdschlüssel, Constraints)                                    | Die Daten werden einmal   gespeichert, Inkonsistenzen können in Kauf genommen werden.                           |
+| Hohe   Anforderungen an die Validität der Daten (Fremdschlüssel, Constraints)                                    | Die Daten werden jedenfalls   gespeichert, Inkonsistenzen können in Kauf genommen werden.                           |
 | Historisierung   von Daten ist schwierig.                                                                        | Durch Einbettung können die   Daten untrennbar mit dem Dokument verbunden werden.                               |
 | Redundanzen   werden als Antipattern gesehen und sind zu vermeiden.                                              | Daten können für einen   schnelleren Zugriff mehrfach in unterschiedlichen Arten gespeichert werden.            |
-| Erstellung   im Entwicklungsprozess mit Code first oder Database first                                           | Erstellung erfolgt aus der   Applikation heraus.                                                                |
+| Erstellung   im Entwicklungsprozess mit Code first oder Database first.                                           | Erstellung erfolgt aus der   Applikation heraus.                                                                |
 
 Einen guten Einstieg in das Thema ist auf Microsoft Docs unter der Adresse
 https://docs.microsoft.com/de-de/dotnet/architecture/cloud-native/relational-vs-nosql-data
