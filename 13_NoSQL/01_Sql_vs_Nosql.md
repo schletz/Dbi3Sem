@@ -1,9 +1,9 @@
 # SQL oder NoSQL?
 
 Beim Vergleich der beiden Speichertechnologien werden oft Argumente wie Performance oder
-Partitioning (Verteilen der Daten auf unterschiedlichen Systemem) hervorgebracht. Häufig stellen
+Partitioning (Verteilen der Daten auf unterschiedlichen Systemen) hervorgebracht. Häufig stellen
 aber unsere Applikationen keine großen Anforderungen an die Performance des Datenspeichers, da die
-Datenmenten nicht groß sind.
+Datenmengen nicht groß sind.
 
 Aus Sicht der Applikationsentwicklung (z. B. Ihre Diplomarbeit) führen eher die folgenden
 Überlegungen zur Wahl von SQL oder NoSQL Systemen:
