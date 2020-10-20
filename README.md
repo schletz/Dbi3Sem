@@ -24,7 +24,7 @@
   - [Installation von MongoDb](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
   - [Abfragen mit der Mongo Shell](https://docs.mongodb.com/manual/tutorial/query-documents/)
   - Zugriff auf die MongoDb
-  - 
+
 ### Sommersemester
 
 - Business Intelligence & DWH
