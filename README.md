@@ -16,14 +16,13 @@
 ### Wintersemester
 
 - [XML](11_XML/README.md)
-- [JSON Grundlagen](12_JSON/01_Intro.md), [Modelklassen](12_JSON/02_Modelklassen.md), [Serialisierung](12_JSON/03_Serialisierung.md), Deserialisierung
+- [JSON Grundlagen](12_JSON/01_Intro.md), [Modelklassen](12_JSON/02_Modelklassen.md), [Serialisierung](12_JSON/03_Serialisierung.md)
 - NoSQL (Dokumentbasierend)
-  - Überblick (Graph, Key/Value, Big Data)
-  - Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen
-  - Modeländerung
-  - Indizierung
-  - Lokale Lösung (MongoDb)
-  - Cloudlösung (Cosmos Db)
+  - [SQL vs NoSQL](13_NoSQL/01_Sql_vs_Nosql.md)
+  - [Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen](https://docs.microsoft.com/en-us/azure/cosmos-db/modeling-data)
+  - [Installation von MongoDb](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+  - [Abfragen mit der Mongo Shell](https://docs.mongodb.com/manual/tutorial/query-documents/)
+  - Zugriff aus C#: Das Repository Pattern
   
 ### Sommersemester
 
