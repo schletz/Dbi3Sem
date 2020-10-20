@@ -20,10 +20,11 @@
 - NoSQL (Dokumentbasierend)
   - [SQL vs NoSQL](13_NoSQL/01_Sql_vs_Nosql.md)
   - [Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen](https://docs.microsoft.com/en-us/azure/cosmos-db/modeling-data)
+  - LiteDb in C#
   - [Installation von MongoDb](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
   - [Abfragen mit der Mongo Shell](https://docs.mongodb.com/manual/tutorial/query-documents/)
-  - Zugriff aus C#: Das Repository Pattern
-  
+  - Zugriff auf die MongoDb
+  - 
 ### Sommersemester
 
 - Business Intelligence & DWH
