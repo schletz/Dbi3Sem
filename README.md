@@ -16,11 +16,17 @@
 ### Wintersemester
 
 - [XML](11_XML/README.md)
-- [JSON Grundlagen](12_JSON/01_Intro.md), [Modelklassen](12_JSON/02_Modelklassen.md), [Serialisierung](12_JSON/03_Serialisierung.md)
+- JSON
+  - [JSON Grundlagen](12_JSON/01_Intro.md)
+  - [Modelklassen](12_JSON/02_Modelklassen.md)
+  - [Serialisierung](12_JSON/03_Serialisierung.md)
 - NoSQL (Dokumentbasierend)
   - [SQL vs NoSQL](13_NoSQL/01_Sql_vs_Nosql.md)
-  - [Installation von MongoDb](13_NoSQL/02_Mongodb_Install.md)
+  - [Installation von MongoDB](13_NoSQL/02_Mongodb_Install.md)
+  - [Filtern in MongoDB](13_NoSQL/03_MongoDb_Find.md)
+  - [Updates in MongoDB](13_NoSQL/04_MongoDb_Update.md)
   - [Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen](https://docs.microsoft.com/en-us/azure/cosmos-db/modeling-data)
+  - [Projektion und Aggregation](13_NoSQL/06_MongoDb_Aggregate.md)
   - LiteDb in C#
 
 ### Sommersemester

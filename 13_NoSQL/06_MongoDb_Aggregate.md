@@ -1,0 +1,2 @@
+# Aggregation und Projektion
+
