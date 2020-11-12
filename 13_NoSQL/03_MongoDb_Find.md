@@ -29,6 +29,8 @@ Lambda Expression. Der 2. Parameter ist der Wert, der gesucht werden soll. Die n
 Methode bekommt diesen Suchfilter. Es wird allerdings noch nichts abgefragt. Erst mit *FirstOrDefault()*
 bzw. *ToList()* werden die Daten in den Speicher geladen und können verwendet werden.
 
+### Mit AsQueryable()
+
 Wer schon mit LINQ gearbeitet hat, findet folgenden Zugang vertrauter:
 
 ```c#
