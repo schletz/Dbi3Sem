@@ -1,6 +1,6 @@
 # Update von Dokumenten
 
-> - Musterprogramm: Ordner [04_MongoDb_Update](04_MongoDb_Find)
+> - Musterprogramm: Ordner [04_MongoDb_Update](04_MongoDb_Update)
 
 ```c#
             // Lehrer ABB ändert die Email Adresse auf abb@spengergasse.at
