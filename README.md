@@ -26,8 +26,8 @@
   - [Filtern in MongoDB](13_NoSQL/03_MongoDb_Find.md)
   - [Updates in MongoDB](13_NoSQL/04_MongoDb_Update.md)
   - [Repository Pattern](13_NoSQL/05_MongoDb_Repository.md)
-  - [Schema mittels Modelklassen (Embedding vs. Referencing) entwerfen](https://docs.microsoft.com/en-us/azure/cosmos-db/modeling-data)
-  - [Projektion und Aggregation](13_NoSQL/06_MongoDb_Aggregate.md)
+  - [Schema mittels Modelklassen entwerfen](13_NoSQL/06_MongoDb_Modelling.md)
+  - [Projektion und Aggregation](13_NoSQL/07_MongoDb_Aggregate.md)
   - LiteDb in C#
 
 ### Sommersemester
