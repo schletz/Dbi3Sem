@@ -24,3 +24,75 @@ einfügen.
 
 ![](plantuml_vscode.png)
 
+## Modellierungsbeispiel "Kolloqienanmeldung"
+
+![](pruefung_20201202.png)
+
+```text
+@startuml
+
+class Kontakt << VALUE OBJECT >> {
+    Vorname: String
+    Nachname: String
+    Email: String
+}
+
+class Adresse << VALUE OBJECT >> {
+    Strasse: String
+    Plz: String
+    Ort: String
+}
+
+class Schueler {
+    Id: Integer
+    Kontakt: Kontakt
+    Adresse: Adresse
+    Accountname: String
+    LastLogin: DateTime
+}
+
+class Lehrer {
+    Id: Integer
+    Kontakt: Kontakt
+    Adresse: Adresse
+}
+
+' Zeitverlauf (Lebenszyklus)
+' Eine Prüfungsanmeldung ist vor der Prüfung.
+' Am Tag der Prüfung entstehen dann die weiteren Infos wie
+' Aufgabenstellung, Note, ...
+class Prefungsanmeldung {
+    Id: Integer
+    Schueler: Kontakt
+    Lehrer: Lehrer
+    DatumPruefung: DateTime
+    DatumAnmeldung: DateTime
+    Account: String
+}
+
+class Pruefung {
+    Id: Integer
+    Schueler: Kontakt
+    Lehrer: Kontakt
+    Klasse: String 
+    DatumPruefung: DateTime
+    Note: Integer
+    Aufgabenstellung: String
+    Anmerkung: String
+}
+
+' Aggregation (has-a Beziehung)
+Prefungsanmeldung o--> Lehrer
+
+' Composition (part-of Beziehung)
+Schueler *--> Adresse
+Schueler *--> Kontakt
+Lehrer *--> Adresse
+Lehrer *--> Kontakt
+
+Pruefung *--> "1" Kontakt : "Schueler"
+Pruefung *--> "1" Kontakt : "Lehrer"
+Prefungsanmeldung *--> Kontakt : "Schueler"
+
+@enduml
+```
