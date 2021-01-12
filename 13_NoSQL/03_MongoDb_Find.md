@@ -56,7 +56,7 @@ mit `mongo` gestartet und folgendes eingegeben:
 
 ```text
 use Stundenplan
-db.getCollection("Klasse").find({ "_id" : "3CHIF" })
+db.Klasse.find({ "_id" : "3CHIF" })
 ```
 
 ![](shell_find.png)

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace MongoDbDemo.Domain
 {
+    /// <summary>
+    /// Modelklasse für die Collection Lehrer
+    /// </summary>
     class Lehrer
     {
         [BsonId]

@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace MongoDbDemo.Infrastructure
 {
+    /// <summary>
+    /// Stellt spezifische Methoden für die Collection Schueler bereit.
+    /// </summary>
     class SchuelerRepository<TKey> : Repository<Schueler, TKey>
     {
         private readonly IMongoCollection<Schueler> _coll;
@@ -27,8 +30,9 @@ namespace MongoDbDemo.Infrastructure
             return _coll
                 .AsQueryable()
                 .GroupBy(s => s.KlasseId)
-                .Select(g => new { g.Key, Count = g.Count() })
-                .ToDictionary(g => g.Key, g => g.Count);
+                .Select(g => new { Id = g.Key, Count = g.Count() })
+                .OrderBy(g => g.Count).ThenBy(g => g.Id)
+                .ToDictionary(g => g.Id, g => g.Count);
         }
     }
 }
