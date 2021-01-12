@@ -8,8 +8,9 @@ using System.Text;
 
 namespace MongoDbDemo.Infrastructure
 {
-
-    // Stellt CRUD Operationen für eine Collection bereit.
+    /// <summary>
+    /// Stellt CRUD Operationen für eine Collection bereit.
+    /// </summary>
     class Repository<TCollection, TKey>
     {
         IMongoCollection<TCollection> _coll;
@@ -25,7 +26,7 @@ namespace MongoDbDemo.Infrastructure
         {
             return _coll.AsQueryable();
         }
-        public TCollection FindById(object id)
+        public TCollection FindById(TKey id)
         {
             return _coll.Find(
                 Builders<TCollection>.Filter.Eq("_id", id)
@@ -47,6 +48,10 @@ namespace MongoDbDemo.Infrastructure
         public void Insert(TCollection item)
         {
             _coll.InsertOne(item);
+        }
+        public void InsertMany(IEnumerable<TCollection> items)
+        {
+            _coll.InsertMany(items);
         }
     }
 }

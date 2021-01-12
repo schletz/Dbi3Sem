@@ -35,6 +35,7 @@ namespace MongoDbDemo.Infrastructure
             _db = _client.GetDatabase(database);
         }
         public bool EnableLogging { get; set; }
+
         /// <summary>
         /// Liefert das Repository für die Collection Schueler
         /// </summary>

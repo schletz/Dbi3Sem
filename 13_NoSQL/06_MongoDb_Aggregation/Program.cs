@@ -26,16 +26,19 @@ namespace MongoDbDemo
             manager.EnableLogging = true;
 
             // Ruft die spezifischen Methoden des Schüler Repositories auf.
+            int count = schuelerRepo.GetSchuelerProKlasse("5AHIF");
+            Console.WriteLine($"{count} Schüler in der 5AHIF gefunden.");
+
+            var stats = schuelerRepo.GetSchuelerProKlasse();
+            foreach (var s in stats)
             {
-                int count = schuelerRepo.GetSchuelerProKlasse("5AHIF");
-                Console.WriteLine($"{count} Schüler in der 5AHIF gefunden.");
+                Console.WriteLine($"Die {s.Key} hat {s.Value} Schüler");
             }
+
+            var volljaehrig = schuelerRepo.GetSchuelerVolljaehrig(DateTime.UtcNow).OrderBy(s => s.Gebdat);
+            foreach (var s in volljaehrig)
             {
-                var stats = schuelerRepo.GetSchuelerProKlasse();
-                foreach (var s in stats)
-                {
-                    Console.WriteLine($"Die {s.Key} hat {s.Value} Schüler");
-                }
+                Console.WriteLine($"{s.Vorname} {s.Zuname} ist volljährig (Gebdat: {s.Gebdat:dd.MM.yyyy})");
             }
         }
     }

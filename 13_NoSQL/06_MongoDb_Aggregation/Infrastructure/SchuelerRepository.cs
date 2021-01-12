@@ -34,5 +34,16 @@ namespace MongoDbDemo.Infrastructure
                 .OrderBy(g => g.Count).ThenBy(g => g.Id)
                 .ToDictionary(g => g.Id, g => g.Count);
         }
+        /// <summary>
+        /// Liefert die volljährigen Schüler. Damit die Funktion deterministisch ist, wird das
+        /// Datum übergeben.
+        /// </summary>
+        public List<Schueler> GetSchuelerVolljaehrig(DateTime today)
+        {
+            return _coll
+                .AsQueryable()
+                .Where(s => s.Gebdat <= today.AddYears(-18))
+                .ToList();
+        }
     }
 }
