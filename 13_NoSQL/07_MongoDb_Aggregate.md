@@ -36,6 +36,7 @@ class Lehrer
 > aggregated results.<sup>(https://docs.mongodb.com/manual/core/aggregation-pipeline/)</sup>
 
 ![](aggregation_pipeline.png)
+
 <sup>Quelle: https://www.codeproject.com/Articles/1149682/Aggregation-in-MongoDB</sup>
 
 Für die folgenden Beispiele öffnen wir die Mongo Shell in der Konsole mit `C:\MongoDB\bin>mongo.exe`.
