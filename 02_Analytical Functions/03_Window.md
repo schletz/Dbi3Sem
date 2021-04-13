@@ -31,6 +31,9 @@ vergangenen Werte bis zum aktuellen Datensatz zu berücksichtigen. Mit *ROWS BET
 eine Funktion auf die vorangegangenen Datensätze angewandt werden. Hier wird das gleitende
 Mittel pro Bewerb bis zum aktuellen Ergebnis berechnet.
 
+Natürlich ist ein ORDER BY erforderlich, da die Datenbank wissen muss, welcher Wert vorher und
+welcher Wert nachher kommt.
+
 ```sql
 SELECT vSchuelerergebnis.*,
     AVG(E_Zeit) OVER(PARTITION BY E_Bewerb ORDER BY E_ID ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Average
