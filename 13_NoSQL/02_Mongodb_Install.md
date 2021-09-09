@@ -46,7 +46,7 @@ verwendet werden können, gibt es für NoSQL keine einheitliche "Modellierungssp
 schlussendlich der Datenbestand mittels Modelklassen in Java oder C# verwaltet wird (bzw. werden kann)
 können Klassendiagramme verwendet werden. Solche Diagramme könenn wie folgt erzeugt werden:
 
-1. Installiere [https://code.visualstudio.com/](Visual Studio Code)
+1. Installiere [Visual Studio Code](https://code.visualstudio.com)
 2. Installiere die folgenden Extensions:
    - Markdown PDF
    - Markdown Preview Enhanced
