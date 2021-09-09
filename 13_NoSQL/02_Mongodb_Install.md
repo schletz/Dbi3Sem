@@ -51,7 +51,7 @@ können Klassendiagramme verwendet werden. Solche Diagramme könenn wie folgt er
    - Markdown PDF
    - Markdown Preview Enhanced
    - PlantUML
-3. Öffne die VS Code Konfiguration (*F1* - "*settings*" eingeben - "*Preferences: Open Settings (JSON)*)
+3. Öffne die VS Code Konfiguration (*F1* - "*settings*" eingeben - "*Preferences: Open Settings (JSON)*" wählen)
    und füge folgende Zeilen hinzu:
 
 ```javascript
