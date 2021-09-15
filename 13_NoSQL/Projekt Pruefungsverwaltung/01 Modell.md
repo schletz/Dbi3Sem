@@ -15,3 +15,36 @@ Dinge erledigt werden können
 
 - **Aufstieg** Es soll ermittelt werden können, wie viele Schüler nach den Prüfungen positiv sind, sich also alle negativen Noten ausgebessert haben.
 
+```plantuml
+@startuml
+class Student {
+   Id : Long
+   Firstname : Long
+   Lastname : Long
+   DateOfBirth : DateTime
+   Guid : Guid
+}
+
+class Teacher {
+    Id : String
+    Firstname : Long
+    Lastname : Long    
+}
+
+class Exam {
+    PupilId : Long
+    PupilFirstname : String
+    PupilLastname : String
+    PupilDateOfBirth : DateTime
+    PupilSchoolClass : String
+
+    Teacher : Teacher
+    Assistant : Teacher
+
+    Subject : String
+    Date : DateTime
+    Grade : Integer
+}
+
+@enduml
+```
