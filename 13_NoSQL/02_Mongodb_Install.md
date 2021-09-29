@@ -39,6 +39,10 @@ mongod --config mongod.cfg
 Die Dateien stehen auch unter [mongod.cfg](mongod.cfg) und [startMongoDb.bat](startMongoDb.bat) zum Download
 bereit.
 
+## Verbinden mit dem MongoDB Compass
+
+Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://127.0.0.1:27017` erreicht werden.
+
 ## PlantUML und VS Code als Modellierungswerkzeug
 
 Im Gegensatz zu relationalen Datenbanken, wo ER Diagramme als datenbankenunabhängiges Modellierungstool
