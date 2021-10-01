@@ -19,24 +19,25 @@ Dinge erledigt werden können
 @startuml
 class Student {
    Id : Long
-   Firstname : Long
-   Lastname : Long
+   Firstname : String
+   Lastname : String
    DateOfBirth : DateTime
    Guid : Guid
 }
 
 class Teacher {
     Id : String
-    Firstname : Long
-    Lastname : Long    
+    Firstname : String
+    Lastname : String
+    Email : String?
 }
 
 class Exam {
-    PupilId : Long
-    PupilFirstname : String
-    PupilLastname : String
-    PupilDateOfBirth : DateTime
-    PupilSchoolClass : String
+    StudentId : Long
+    StudentFirstname : String
+    StudentLastname : String
+    StudentDateOfBirth : DateTime
+    StudentSchoolClass : String
 
     Teacher : Teacher
     Assistant : Teacher
