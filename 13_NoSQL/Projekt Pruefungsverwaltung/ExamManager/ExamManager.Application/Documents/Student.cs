@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +9,21 @@ namespace ExamManager.Application.Documents
 {
     public class Student
     {
-        public Student(
-            long id, string firstname, string lastname,
-            DateTime dateOfBirth, Guid guid)
+        /// <summary>
+        /// Konstruktor ohne GUID. Sie wird automatisch generiert.
+        /// </summary>
+        public Student(long id, 
+            string firstname, 
+            string lastname,
+            DateTime dateOfBirth)
         {
             Id = id;
             Firstname = firstname;
             Lastname = lastname;
             DateOfBirth = dateOfBirth;
-            Guid = guid;
+            Guid = Guid.NewGuid();
         }
 
-        public Student(long id, string firstname, string lastname,
-            DateTime dateOfBirth) : this(id, firstname, lastname, dateOfBirth, Guid.NewGuid())
-        { }
         public long Id { get; private set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }

@@ -29,10 +29,17 @@ namespace ExamManager.Application.Infrastructure
             _db = _client.GetDatabase(database);
         }
 
-        public StudentRepository GetStudentRepository()
+        public Repository<TDocument, TKey> GetRepository<TDocument, TKey>(Func<TDocument, TKey> keySelector)
         {
-            var coll = _db.GetCollection<Student>(nameof(Student));
-            return new StudentRepository(coll);
+            var name = typeof(TDocument).Name;
+            var coll = _db.GetCollection<TDocument>(name);
+            return new Repository<TDocument, TKey>(coll, keySelector);
         }
+        
+        //public StudentRepository GetRepository<TDocument, TKey>(Func<Student, long> keySelector)
+        //{
+        //    var coll = _db.GetCollection<Student>(nameof(Student));
+        //    return new StudentRepository(coll);
+        //}
     }
 }
