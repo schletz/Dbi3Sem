@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using ExamManager.Application.Documents;
+using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,12 @@ namespace ExamManager.Application.Infrastructure
 
             _client = new MongoClient(settings);
             _db = _client.GetDatabase(database);
+        }
+
+        public StudentRepository GetStudentRepository()
+        {
+            var coll = _db.GetCollection<Student>(nameof(Student));
+            return new StudentRepository(coll);
         }
     }
 }
