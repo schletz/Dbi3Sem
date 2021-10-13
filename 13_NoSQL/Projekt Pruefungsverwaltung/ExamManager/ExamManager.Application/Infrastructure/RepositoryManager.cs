@@ -1,4 +1,5 @@
-﻿using ExamManager.Application.Documents;
+﻿using Bogus;
+using ExamManager.Application.Documents;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 using System;
@@ -43,10 +44,36 @@ namespace ExamManager.Application.Infrastructure
             return new StudentRepository(coll, keySelector);
         }
 
-        //public StudentRepository GetRepository<TDocument, TKey>(Func<Student, long> keySelector)
-        //{
-        //    var coll = _db.GetCollection<Student>(nameof(Student));
-        //    return new StudentRepository(coll);
-        //}
+        public void Seed()
+        {
+            _db.DropCollection(nameof(Student));
+
+            Randomizer.Seed = new Random(1454);
+            int id = 1000;
+            var subjects = new string[] { "POS", "DBI", "D", "E", "AM" };
+            var students = new Faker<Student>("de")
+                .CustomInstantiator(f =>
+                {
+                    return new Student(
+                        id: id++,
+                        firstname: f.Name.FirstName(),
+                        lastname: f.Name.LastName(),
+                        dateOfBirth: new DateTime(2003, 1, 1).AddDays(f.Random.Int(0, 4 * 365)));
+                })
+                .Rules((f, s) =>
+                {
+                    var grades = new Faker<Grade>("de")
+                        .CustomInstantiator(f =>
+                            new Grade(value: f.Random.Int(1, 5), subject: f.Random.ListItem(subjects)))
+                        .Generate(5);
+                    foreach (var g in grades)
+                    {
+                        s.UpsertGrade(g);
+                    }
+                })
+                .Generate(100)
+                .ToList();
+            _db.GetCollection<Student>(nameof(Student)).InsertMany(students);
+        }
     }
 }

@@ -23,8 +23,17 @@ class Student {
    Lastname : String
    DateOfBirth : DateTime
    Guid : Guid
+   Grades : Dictionary<string, Grade>
+   ---
+   CalcAufstieg() : boolean
+   UpsertGrade(grade : Grade)
 }
 
+class Grade {
+    Value : Integer
+    Subject : String
+    Updated : DateTime
+}
 class Teacher {
     Id : String
     Firstname : String
@@ -46,6 +55,9 @@ class Exam {
     Date : DateTime
     Grade : Integer
 }
+
+Exam *--> Teacher
+Student *--> Grade
 
 @enduml
 ```

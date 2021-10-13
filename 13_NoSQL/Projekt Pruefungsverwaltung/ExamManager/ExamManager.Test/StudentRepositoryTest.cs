@@ -12,6 +12,16 @@ namespace ExamManager.Test
     public class StudentRepositoryTest
     {
         [Fact]
+        public void SeedDatabaseTest()
+        {
+            var manager = new RepositoryManager("127.0.0.1", "Exams");
+            manager.Seed();
+            var repo = manager.GetRepository<Student, long>(s => s.Id);
+            Assert.True(repo.Queryable.Any());
+            var aufsteiger = repo.Queryable.Where(s => s.Aufstieg).ToList();
+
+        }
+        [Fact]
         public void InsertStudentTest()
         {
             var s1 = new Student(
@@ -29,5 +39,7 @@ namespace ExamManager.Test
             Assert.True(s1.Id == s2.Id);
             Assert.True(s1.Guid == s2.Guid);
         }
+
+
     }
 }

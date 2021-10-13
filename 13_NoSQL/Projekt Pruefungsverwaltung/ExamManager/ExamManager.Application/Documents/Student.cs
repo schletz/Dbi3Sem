@@ -29,5 +29,18 @@ namespace ExamManager.Application.Documents
         public string Lastname { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Guid Guid { get; set; }
+        public Dictionary<string, Grade> Grades { get; private set; } = new(0);
+        [BsonElement]   // Schreibe den Aufstieg auch in die DB
+        public bool Aufstieg => !Grades.Values.Any(g => g.Value == 5);
+        public void UpsertGrade(Grade g)
+        {
+            if (Grades.TryGetValue(g.Subject, out var existing))
+            {
+                existing.Value = g.Value;
+                existing.Updated = g.Updated = DateTime.UtcNow;
+                return;
+            }
+            Grades.Add(g.Subject, g);
+        }
     }
 }
