@@ -8,38 +8,14 @@ using System.Threading.Tasks;
 
 namespace ExamManager.Application.Infrastructure
 {
-    public class StudentRepository
+    public class StudentRepository : Repository<Student, long>
     {
-        private readonly IMongoCollection<Student> _coll;
-
-        public StudentRepository(IMongoCollection<Student> coll)
+        public StudentRepository(IMongoCollection<Student> coll, Func<Student, long> keySelector) : base(coll, keySelector)
         {
-            _coll = coll;
         }
 
-        public Student? GetStudentById(long id)
+        public void InsertGrade(int grade)
         {
-            return _coll.AsQueryable().FirstOrDefault(s => s.Id == id);
-        }
-
-        public void InsertStudent(Student s)
-        {
-            _coll.InsertOne(s);
-        }
-
-        public void UpdateStudent(Student s)
-        {
-            _coll.ReplaceOne(Builders<Student>.Filter.Eq("_id", s.Id), s);
-        }
-
-        public void DeleteStudent(long id)
-        {
-            _coll.DeleteOne(Builders<Student>.Filter.Eq("_id", id));
-        }
-
-        public void DeleteAllStudents()
-        {
-            _coll.DeleteMany(Builders<Student>.Filter.Empty);
         }
     }
 }

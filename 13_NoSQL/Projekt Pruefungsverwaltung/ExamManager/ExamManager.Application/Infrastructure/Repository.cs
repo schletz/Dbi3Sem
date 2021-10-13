@@ -1,5 +1,6 @@
 ﻿using ExamManager.Application.Documents;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,10 @@ namespace ExamManager.Application.Infrastructure
 {
     public class Repository<TDocument, TKey>
     {
-        private readonly IMongoCollection<TDocument> _coll;
+        protected readonly IMongoCollection<TDocument> _coll;
         private readonly Func<TDocument, TKey> _keySelector;
+        public IMongoQueryable<TDocument> Queryable => _coll.AsQueryable();
+
         public Repository(IMongoCollection<TDocument> coll, Func<TDocument, TKey> keySelector)
         {
             _coll = coll;
@@ -19,7 +22,7 @@ namespace ExamManager.Application.Infrastructure
         }
         public void InsertOne(TDocument element) => _coll.InsertOne(element);
         public void DeleteOne(TKey id) => _coll.DeleteOne(Builders<TDocument>.Filter.Eq("_id", id));
-        public void UpdateStudent(TDocument element)
+        public void UpdateOne(TDocument element)
         {
             _coll.ReplaceOne(Builders<TDocument>.Filter.Eq("_id", _keySelector(element)), element);
         }

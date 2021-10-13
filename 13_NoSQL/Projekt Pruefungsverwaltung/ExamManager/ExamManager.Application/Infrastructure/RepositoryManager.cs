@@ -35,7 +35,14 @@ namespace ExamManager.Application.Infrastructure
             var coll = _db.GetCollection<TDocument>(name);
             return new Repository<TDocument, TKey>(coll, keySelector);
         }
-        
+
+        public StudentRepository GetRepository<TDocument, TKey>(Func<Student, long> keySelector)
+        {
+            var name = typeof(Student).Name;
+            var coll = _db.GetCollection<Student>(name);
+            return new StudentRepository(coll, keySelector);
+        }
+
         //public StudentRepository GetRepository<TDocument, TKey>(Func<Student, long> keySelector)
         //{
         //    var coll = _db.GetCollection<Student>(nameof(Student));
