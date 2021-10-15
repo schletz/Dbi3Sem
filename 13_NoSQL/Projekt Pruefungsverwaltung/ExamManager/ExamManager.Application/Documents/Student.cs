@@ -37,7 +37,7 @@ namespace ExamManager.Application.Documents
             if (Grades.TryGetValue(g.Subject, out var existing))
             {
                 existing.Value = g.Value;
-                existing.Updated = g.Updated = DateTime.UtcNow;
+                existing.Updated = DateTime.UtcNow;
                 return;
             }
             Grades.Add(g.Subject, g);

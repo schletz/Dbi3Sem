@@ -61,3 +61,12 @@ Student *--> Grade
 
 @enduml
 ```
+## Anmerkungen
+
+Student ist ein Aggregate für Grade, da die Noten des
+Schülers eingebettet werden. Daher gibt es keine
+Collection Grades in der Datenbank und Grade hat auch keine Id. Der Schüler verwaltet also seine Noten.
+Nachteil 1: Möchte man die Noten wissen, muss zuerst
+der Schüler gelesen werden. Für den Notendurchschnitt für ein Fach wissen, muss also die ganze Schülercollection gelesen werden.
+Nachteil 2: Wird das System auch zur Noteneingabe
+verwendet, so muss immer der Schüler gelesen, aktualisiert und geschrieben werden. Greifen 2 Lehrer gleichzeitig darauf zu, führt das zu Problemen.
