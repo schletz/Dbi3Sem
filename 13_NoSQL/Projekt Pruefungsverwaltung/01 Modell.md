@@ -73,7 +73,7 @@ class GradedExam {
     Grade : Integer
     DateGraded : DateTime
     ---
-    GradedExam(exam : Exam, grade : Integer)
+    GradedExam(exam : Exam, assistant : Teacher, grade : Integer)
 }
 
 Exam *--> Teacher
