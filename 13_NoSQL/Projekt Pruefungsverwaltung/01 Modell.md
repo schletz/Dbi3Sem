@@ -56,7 +56,8 @@ class Exam {
     Subject : String
     DateCrated : DateTime
     ---
-    Grade(int grade) : GradedExam
+    Exam(student : Student, teacher : Teacher, subject : String)
+    Grade(grade : Integer) : GradedExam
 }
 
 class GradedExam {
