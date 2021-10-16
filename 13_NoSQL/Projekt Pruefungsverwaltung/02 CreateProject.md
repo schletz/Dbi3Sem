@@ -1,5 +1,12 @@
 # Erstellen der Solution
 
+Die nachfolgenden Befehle erstellen in Windows eine .NET Solution mit mehreren Teilprojekten.
+Unter macOS oder Linux müssen die Befehle adaptiert werden (`rm -ef ExamManager`
+bzw. `mkdir` statt `md`).
+
+Prüfe vor dem Anlegen mit `dotnet --info`, ob die neueste .NET SDK auf dem Rechner installiert
+ist. Die Ausgabe muss *.NET SDK* und dann die aktuelle Version beinhalten.
+
 ```text
 rd /S /Q ExamManager
 md ExamManager
