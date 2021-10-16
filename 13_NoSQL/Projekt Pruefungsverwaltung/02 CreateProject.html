@@ -37,9 +37,10 @@
     <body class="vscode-body vscode-light">
         <h1 id="erstellen-der-solution">Erstellen der Solution</h1>
 <p>Die nachfolgenden Befehle erstellen in Windows eine .NET Solution mit mehreren Teilprojekten.
-Unter macOS oder Linux müssen die Befehle adaptiert werden (<code>rm -ef ExamManager</code>
-bzw. <code>mkdir</code> statt <code>md</code>).</p>
-<p>Prüfe vor dem Anlegen mit <code>dotnet --info</code>, ob die neueste .NET SDK auf dem Rechner installiert
+Unter macOS oder Linux müssen die Befehle adaptiert werden (<em>rm -ef ExamManager</em>
+bzw. <em>mkdir</em> statt <em>md</em>). Der Befehl <em>start ExamManager.sln</em> ist ein Windowsbefehl, um die
+erstellte Solution mit dem Default Programm (meist Visual Studio) zu starten.</p>
+<p>Prüfe vor dem Anlegen mit <em>dotnet --info</em>, ob die neueste .NET SDK auf dem Rechner installiert
 ist. Die Ausgabe muss <em>.NET SDK</em> und dann die aktuelle Version beinhalten.</p>
 <pre><code class="language-text"><div>rd /S /Q ExamManager
 md ExamManager
