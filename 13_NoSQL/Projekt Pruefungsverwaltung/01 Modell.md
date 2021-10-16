@@ -110,8 +110,8 @@ seine Noten.
   Noten. Dies ist für die Berechnung des Aufstiegs wichtig. Deswegen werden die Noten in
   diesem Beispiel auch als Collection eingebettet (aggregate pattern). Da die Noten einmalig
   importiert und nicht bearbeitet werden, ist dies eine gute Lösung.
-- **Nachteil 1:** Möchte man die Noten wissen, muss zuerst der Schüler gelesen werden. Für
-den Notendurchschnitt für ein Fach wissen, muss also die ganze Schüler Collection gelesen werden.
+- **Nachteil 1:** Möchte man die Noten wissen, muss zuerst der Schüler gelesen werden. Um
+den Notendurchschnitt für ein Fach zu ermitteln, muss also die ganze Schüler Collection gelesen werden.
 - **Nachteil 2:** Wird das System auch zur Noteneingabe verwendet, so muss immer der Schüler gelesen,
 aktualisiert und geschrieben werden. Greifen 2 Lehrer gleichzeitig darauf zu, führt das zu Problemen.
 
