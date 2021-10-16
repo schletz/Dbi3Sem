@@ -25,8 +25,9 @@ class Student {
    Guid : Guid
    Grades : Dictionary<string, Grade>
    ---
+   GetNegativeGrades() : List<Grade>
    CalcAufstieg(Exams: List<GradedExam>) : Boolean
-   GenerateExams(teacher : Teacher) : List<Exam>
+   GenerateExam(subject : String, teacher : Teacher) : Exam
    UpsertGrade(grade : Grade)
 }
 
@@ -67,6 +68,7 @@ class GradedExam {
 }
 
 Exam *--> Teacher
+GradedExam *--> Teacher
 Student *--> Grade
 GradedExam -up-|> Exam
 @enduml
