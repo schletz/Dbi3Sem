@@ -2,17 +2,25 @@
 
 Von unserer Schülerverwaltung bekommen wir verschiedene Exportdateien (CSV):
 
-- **Schüler** mit Schülernr, Name, Klasse, Geburtsdatum
-- **Zeugnisnoten** mit Schülernr, Fach, Note
-- **Lehrerdaten** mit Kürzel, Name, Email
+- **Schüler** mit Schülernr, Name, Klasse und Geburtsdatum.
+- **Zeugnisnoten** mit Schülernr, Fach und Note.
+- **Lehrerdaten** mit Kürzel, Name und Email (optional).
 
 Wir möchten ein Tool schreiben, mit dem folgende Aufgaben erledigt werden können
 
-- **Prüferzuteilung** Es können für negative Noten Prüfungen angelegt werden. Diese Prüfung hat einen Prüfer.
+- **Prüferzuteilung** Es können für negative Noten Prüfungen (Exams) angelegt werden. Diese Prüfung   
+  hat einen Gegenstand (subject), einen Prüfer (teacher) und einen Schüler (student).
+- **Beurteilung** Der Prüfer gibt im Herbst die Note ein und es kann ein Protokoll mit Name, Prüfer 
+  und Note erstellt werden. Bei der Beurteilung ist dann auch der Beisitzer (Assistant) bekannt, der 
+  vorher noch nicht feststeht.
+- **Aufstieg** Es soll ermittelt werden können, ob ein Schüler nach den Prüfungen positiv ist, 
+  sich also alle negativen Noten ausgebessert hat (der Aufstieg mit einem Nicht genügend wird
+  als Vereinfachung nicht berücksichtigt, denn es wären hierfür auch die Noten des letzten Jahres 
+  erforderlich).
 
-- **Beurteilung** Der Prüfer gibt die Note ein, es kann ein Protokoll mit Name, Prüfer und Note erstellt werden.
+## Modell
 
-- **Aufstieg** Es soll ermittelt werden können, wie viele Schüler nach den Prüfungen positiv sind, sich also alle negativen Noten ausgebessert haben.
+Ein Domänenmodell für diese Aufgaben kann wie folgt aussehen:
 
 ```plantuml
 @startuml
