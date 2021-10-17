@@ -48,17 +48,21 @@ namespace MongoDbDemo
             Console.WriteLine("BEISPIEL 3: ÄLTESTER SCHÜLER PRO KLASSE *************************");
             // Es kann sein, dass mehrere Schüler am ältesten sind (wenn sie am selben Tag Geburtstag haben).
 
-            // Folgender Ausdruck wird nicht unterstützt:
+            // Folgender Ausdruck wird nicht unterstützt (Unable to determine the serialization information for the outer key selector)
             //var aelteste = schuelerCollection
             //    .AsQueryable()
             //    .GroupBy(s => s.KlasseId)
             //    .Select(g => new
             //    {
-            //        Klasse = g.Key,
-            //        Schueler = g.Where(s => s.Gebdat == g.Min(s => s.Gebdat))
+            //        KlasseId = g.Key,
+            //        Gebdat = g.Min(s => s.Gebdat)
             //    })
-            //    .OrderBy(g => g.Klasse)
+            //    .Join(schuelerCollection.AsQueryable(), s => new { s.KlasseId, s.Gebdat }, s => new { s.KlasseId, s.Gebdat }, (s1, s2) => s2)
             //    .ToList();
+
+            // Man könnte 2x AsQueryable().ToList() verwenden, jedoch wird dann die gesamte Collection
+            // übertragen. Daher senden wir eine selbst definierte Pipeline.
+
             var pipeline = PipelineDefinition<Schueler, ClassStatDto>.Create(
 @"{
     '$group': {
@@ -79,15 +83,8 @@ namespace MongoDbDemo
           '$match': {
             '$expr': {
               '$and': [
-                {
-                  '$eq': [
-                    '$$klasse', '$KlasseId'
-                  ]
-                }, {
-                  '$eq': [
-                    '$$minGebdat', '$Gebdat'
-                  ]
-                }
+                { '$eq': [ '$$klasse', '$KlasseId' ] },
+                { '$eq': [ '$$minGebdat', '$Gebdat' ] }
               ]
             }
           }
