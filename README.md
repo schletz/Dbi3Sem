@@ -24,9 +24,8 @@
   - [Installation von MongoDB](13_NoSQL/02_Mongodb_Install.md)
   - [Filtern in MongoDB](13_NoSQL/03_MongoDb_Find.md)
   - [Updates in MongoDB](13_NoSQL/04_MongoDb_Update.md)
-  - [Repository Pattern](13_NoSQL/05_MongoDb_Repository.md)
-  - [Projektion und Aggregation](13_NoSQL/06_MongoDb_Aggregate.md)
-  - [Modellierung einer NoSQL Dokumentdatenbank](13_NoSQL/07_MongoDb_Modelling.md)
+  - [Projektion und Aggregation](13_NoSQL/05_MongoDb_Aggregate.md)
+  - [Modellierung einer NoSQL Dokumentdatenbank mit Repository Pattern](13_NoSQL/06_MongoDb_Modelling.md)
 
 # Download und Konfiguration der VM (für PL/SQL)
 
