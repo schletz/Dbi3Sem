@@ -1,6 +1,6 @@
 # Aggregation und Projektion
 
-Die Datenbank Stundenplan wird mit dem Programm in [05_MongoDb_Aggregation](06_MongoDb_Aggregation)
+Die Datenbank Stundenplan wird mit dem Programm in [05_MongoDb_Aggregation](05_MongoDb_Aggregation)
 erzeugt und beinhaltet 3 Collections: Schueler, Klasse und Lehrer.
 
 ```c#
