@@ -59,8 +59,7 @@ namespace MongoDbDemo
             //    })
             //    .OrderBy(g => g.Klasse)
             //    .ToList();
-            string[] stages = new string[]
-            {
+            var pipeline = PipelineDefinition<Schueler, ClassStatDto>.Create(
 @"{
     '$group': {
       '_id': '$KlasseId',
@@ -99,10 +98,9 @@ namespace MongoDbDemo
   }",
 @"{
     '$sort': { 'Klasse': 1 }
-}"
-            };
+}");
 
-            var result = schuelerCollection.Aggregate(PipelineDefinition<Schueler, ClassStatDto>.Create(stages)).ToList();
+            var result = schuelerCollection.Aggregate(pipeline).ToList();
             foreach (var r in result)
             {
                 Console.WriteLine($"Die ältesten Schüler der {r.Klasse} sind: ");
