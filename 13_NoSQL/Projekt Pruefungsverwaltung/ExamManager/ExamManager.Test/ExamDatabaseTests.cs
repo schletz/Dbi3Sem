@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ExamManager.Test
 {
-    public class RepositoryManagerTests
+    public class ExamDatabaseTests
     {
         [Fact]
         public void SeedDatabaseTest()

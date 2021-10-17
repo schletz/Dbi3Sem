@@ -109,7 +109,7 @@ namespace ExamManager.Application.Infrastructure
                                 student: n.Student,
                                 teacher: rnd.ListItem(teachers),
                                 subject: n.Grade.Subject);
-                            return rnd.Bool(0.2f) || teacher.Shortname == assistant.Shortname
+                            return rnd.Bool(0.5f) && teacher.Shortname != assistant.Shortname
                                 ? new GradedExam(
                                     exam: e,
                                     assistant: rnd.ListItem(teachers),
