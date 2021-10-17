@@ -1,32 +1,29 @@
 # Aggregation und Projektion
 
 Die Datenbank Stundenplan wird mit dem Programm in [05_MongoDb_Aggregation](05_MongoDb_Aggregation)
-erzeugt und beinhaltet 3 Collections: Schueler, Klasse und Lehrer.
+erzeugt und eine Schülercollection:
 
 ```c#
 class Schueler
 {
+    public Schueler(string vorname, string zuname, string klasseId)
+    {
+        Id = Guid.NewGuid();
+        Vorname = vorname;
+        Zuname = zuname;
+        KlasseId = klasseId;
+    }
+
     [BsonId]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; private set; }
+
     public string Vorname { get; set; }
     public string Zuname { get; set; }
-    public DateTime? Gebdat { get; set; }
     public string KlasseId { get; set; }
-}
-class Klasse
-{
-    [BsonId]
-    public string Id { get; set; }
-    public string KvId { get; set; }
-}
-class Lehrer
-{
-    [BsonId]
-    public string Id { get; set; }
-    public string Vorname { get; set; } = "";
-    public string Zuname { get; set; } = "";
-    public string Email { get; set; } = "";
-}        
+
+    [BsonDateTimeOptions(DateOnly = true)]
+    public DateTime? Gebdat { get; set; }
+}    
 ```
 
 ## Aggregation Pipelines in der Mongo Shell
@@ -152,14 +149,3 @@ _db.GetCollection<Schueler>(nameof(Schueler))
 
 - MongoDB Aggregation: https://docs.mongodb.com/manual/aggregation/
 - MongoDB Treiber Referenz: http://mongodb.github.io/mongo-csharp-driver/2.11/reference/
-
-## Erweiterung des Repositories um spezifische Methoden
-
-Im vorigen Kapitel wurde ein Repository erstellt, welche auf die Collection zugreifen kann. Im
-Programm [06_MongoDb_Aggregation](06_MongoDb_Aggregation) wurde dieses Konzept erweitert:
-
-- Es gibt einen RepositoryManager, der die Verbindung zur Datenbank herstellt.
-- Jede Collection ist durch ein eigenes generisches Repository abgebildet.
-- Die Collection Schueler hat ein eigenes Repository, welches vom generischen Repository abgeleitet wurde.
-
-Die Details sind im Programmcode beschrieben.

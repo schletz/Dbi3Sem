@@ -3,7 +3,7 @@
 > - Musterprogramm: Ordner [04_MongoDb_Update](04_MongoDb_Update)
 
 ```c#
-            // Lehrer ABB ändert die Email Adresse auf abb@spengergasse.at
+            // Lehrer ABB Ã¤ndert die Email Adresse auf abb@spengergasse.at
             db.GetCollection<Lehrer>(nameof(Lehrer))
                 .UpdateOne(
                     Builders<Lehrer>.Filter.Eq(l => l.Id, "ABB"),
@@ -11,9 +11,9 @@
                 ));
 
             // ************************************************************************
-            // Lehrer LAN ändert die Email Adresse auf lan@spengergasse.at
+            // Lehrer LAN Ã¤ndert die Email Adresse auf lan@spengergasse.at
             // Beachte: LAN ist auch Klassenvorstand und muss daher in den Klassen
-            //          ebenfalls geändert werden
+            //          ebenfalls geÃ¤ndert werden
             db.GetCollection<Lehrer>(nameof(Lehrer))
                 .UpdateOne(
                     Builders<Lehrer>.Filter.Eq(l => l.Id, "LAN"),
@@ -25,15 +25,15 @@
                     Builders<Klasse>.Update.Set(l => l.Kv.Email, "lan@spengergasse.at"
                 ));
 
-            // Lehrer ABB bekommt eine zusätzliche Lehrbefähigung  in E
+            // Lehrer ABB bekommt eine zusÃ¤tzliche LehrbefÃ¤higung  in E
             db.GetCollection<Lehrer>(nameof(Lehrer))
                 .UpdateOne(
                     Builders<Lehrer>.Filter.Eq(l => l.Id, "ABB"),
                     Builders<Lehrer>.Update.AddToSet(l => l.Lehrbefaehigung, "E")
                 );
 
-            // Einsparung: Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 € weniger
-            // Gehalt. Zuerst suchen wir alle Datensätze, dann werden die entsprechenden Update
+            // Einsparung: Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 â‚¬ weniger
+            // Gehalt. Zuerst suchen wir alle DatensÃ¤tze, dann werden die entsprechenden Update
             // Anweisungen an die Datenbank gesendet.
             db.GetCollection<Lehrer>(nameof(Lehrer))
                 .AsQueryable()
@@ -46,7 +46,7 @@
                         Builders<Lehrer>.Update.Set(le => le.Gehalt, l.Gehalt - 100));
                 });
 
-            // Die folgende Lösung verwendet Replace und ersetzt das ganze Lehrerdokument.
+            // Die folgende LÃ¶sung verwendet Replace und ersetzt das ganze Lehrerdokument.
             db.GetCollection<Lehrer>(nameof(Lehrer))
                 .AsQueryable()
                 .Where(l => l.Gehalt > 4000)
@@ -58,7 +58,7 @@
                         Builders<Lehrer>.Filter.Eq(le => le.Id, l.Id), l);
                 });
 
-            // Die folgende Lösung verwendet Bulk Uperationen und ist somit schneller.
+            // Die folgende LÃ¶sung verwendet Bulk Uperationen und ist somit schneller.
             // Eine Projektion projiziert jeden Datensatz auf eine Update Operation
             var requests = db.GetCollection<Lehrer>(nameof(Lehrer))
                 .AsQueryable()

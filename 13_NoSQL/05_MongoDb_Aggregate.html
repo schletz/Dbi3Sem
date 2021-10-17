@@ -38,30 +38,27 @@
     <body class="vscode-body vscode-light">
         <h1 id="aggregation-und-projektion">Aggregation und Projektion</h1>
 <p>Die Datenbank Stundenplan wird mit dem Programm in <a href="05_MongoDb_Aggregation">05_MongoDb_Aggregation</a>
-erzeugt und beinhaltet 3 Collections: Schueler, Klasse und Lehrer.</p>
+erzeugt und eine Schülercollection:</p>
 <pre><code class="language-c#"><div><span class="hljs-keyword">class</span> <span class="hljs-title">Schueler</span>
 {
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Schueler</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> vorname, <span class="hljs-keyword">string</span> zuname, <span class="hljs-keyword">string</span> klasseId</span>)</span>
+    {
+        Id = Guid.NewGuid();
+        Vorname = vorname;
+        Zuname = zuname;
+        KlasseId = klasseId;
+    }
+
     [<span class="hljs-meta">BsonId</span>]
-    <span class="hljs-keyword">public</span> Guid Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = Guid.NewGuid();
+    <span class="hljs-keyword">public</span> Guid Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">private</span> <span class="hljs-keyword">set</span>; }
+
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Vorname { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Zuname { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> DateTime? Gebdat { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> KlasseId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-}
-<span class="hljs-keyword">class</span> <span class="hljs-title">Klasse</span>
-{
-    [<span class="hljs-meta">BsonId</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> KvId { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-}
-<span class="hljs-keyword">class</span> <span class="hljs-title">Lehrer</span>
-{
-    [<span class="hljs-meta">BsonId</span>]
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Id { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Vorname { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;&quot;</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Zuname { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;&quot;</span>;
-    <span class="hljs-keyword">public</span> <span class="hljs-keyword">string</span> Email { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; } = <span class="hljs-string">&quot;&quot;</span>;
-}        
+
+    [<span class="hljs-meta">BsonDateTimeOptions(DateOnly = true)</span>]
+    <span class="hljs-keyword">public</span> DateTime? Gebdat { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}    
 </div></code></pre>
 <h2 id="aggregation-pipelines-in-der-mongo-shell">Aggregation Pipelines in der Mongo Shell</h2>
 <blockquote>
@@ -160,15 +157,6 @@ _db.GetCollection&lt;Schueler&gt;(<span class="hljs-keyword">nameof</span>(Schue
 <li>MongoDB Aggregation: <a href="https://docs.mongodb.com/manual/aggregation/">https://docs.mongodb.com/manual/aggregation/</a></li>
 <li>MongoDB Treiber Referenz: <a href="http://mongodb.github.io/mongo-csharp-driver/2.11/reference/">http://mongodb.github.io/mongo-csharp-driver/2.11/reference/</a></li>
 </ul>
-<h2 id="erweiterung-des-repositories-um-spezifische-methoden">Erweiterung des Repositories um spezifische Methoden</h2>
-<p>Im vorigen Kapitel wurde ein Repository erstellt, welche auf die Collection zugreifen kann. Im
-Programm <a href="06_MongoDb_Aggregation">06_MongoDb_Aggregation</a> wurde dieses Konzept erweitert:</p>
-<ul>
-<li>Es gibt einen RepositoryManager, der die Verbindung zur Datenbank herstellt.</li>
-<li>Jede Collection ist durch ein eigenes generisches Repository abgebildet.</li>
-<li>Die Collection Schueler hat ein eigenes Repository, welches vom generischen Repository abgeleitet wurde.</li>
-</ul>
-<p>Die Details sind im Programmcode beschrieben.</p>
 
     </body>
     </html>
