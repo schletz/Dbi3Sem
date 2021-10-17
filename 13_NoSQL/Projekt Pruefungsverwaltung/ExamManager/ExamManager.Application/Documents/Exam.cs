@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExamManager.Application.Documents
 {
-    public class Exam
+    public class Exam : IDocument<Guid>
     {
         public Exam(Student student, Teacher teacher, string subject)
         {

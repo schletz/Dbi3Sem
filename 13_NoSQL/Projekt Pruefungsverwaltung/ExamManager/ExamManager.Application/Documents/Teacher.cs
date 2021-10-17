@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ExamManager.Application.Documents
 {
-    public class Teacher
+    public class Teacher : IDocument<string>
     {
         public Teacher(string shortname, string firstname, string lastname)
         {
@@ -16,13 +16,8 @@ namespace ExamManager.Application.Documents
             Lastname = lastname;
         }
 
-        /// <summary>
-        /// Das Lehrerkürzel ist die ID. Da das Property nicht ID heißt, wird eine Annotation zur
-        /// Definition des Schlüssels verwendet.
-        /// </summary>
-        [BsonId]
+        public string Id => Shortname;
         public string Shortname { get; set; }
-
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string? Email { get; set; }

@@ -10,7 +10,7 @@ namespace ExamManager.Application.Documents
     /// <summary>
     /// Speichert die Daten eines Schülers in einer Collection.
     /// </summary>
-    public class Student
+    public class Student : IDocument<long>
     {
         /// <summary>
         /// Konstruktor ohne GUID. Sie wird automatisch generiert.
@@ -30,6 +30,12 @@ namespace ExamManager.Application.Documents
         }
 
         /// <summary>
+        /// Backing field für das Dictionary Grades. Wird in die DB gemappt.
+        /// </summary>
+        [BsonElement("Grades")]
+        private readonly Dictionary<string, Grade> _grades = new Dictionary<string, Grade>(0);
+
+        /// <summary>
         /// Schülernummer (mehr als 9 Stellen lang, deswegen ein long Wert)
         /// </summary>
         public long Id { get; private set; }
@@ -42,14 +48,12 @@ namespace ExamManager.Application.Documents
         public DateTime DateOfBirth { get; set; }
 
         public Guid Guid { get; set; }
-        public Dictionary<string, Grade> Grades { get; private set; } = new(0);
 
         /// <summary>
-        /// Damit der Aufstieg über Filterfunktionen von der Datenbank ermittelt werden kann,
-        /// muss [BsonElement] bei diesem read only property hinzugefügt werden.
+        /// Externer Zugriff auf die Noten. Wird nicht in die DB gemappt.
         /// </summary>
-        [BsonElement]
-        public bool Aufstieg => !Grades.Values.Any(g => g.Value == 5);
+        [BsonIgnore]             // Optional, wird automatisch angenommen.
+        public IReadOnlyDictionary<string, Grade> Grades => _grades;
 
         /// <summary>
         /// Für den leichteren Zugriff auf die negativen Noten liefern wird diese zurück.
@@ -58,15 +62,29 @@ namespace ExamManager.Application.Documents
         [BsonIgnore]
         public IEnumerable<Grade> NegativeGrades => Grades.Values.Where(g => g.Value == 5);
 
+        /// <summary>
+        /// Damit positiv abgeschlossene Schüler über die Datenbank leicht ausgelesen werden können,
+        /// muss [BsonElement] bei diesem read only property hinzugefügt werden.
+        /// </summary>
+        [BsonElement]
+        public bool IsPositive => !NegativeGrades.Any();
+
+        public bool CalcAufstieg(IEnumerable<GradedExam> exams) => !GradesAfterExam(exams).Any(g => g.Value == 5);
+
+        public IEnumerable<Grade> GradesAfterExam(IEnumerable<GradedExam> exams) =>
+            _grades
+                .GroupJoin(exams, g => g.Key, e => e.Subject, (grade, exams) =>
+                        exams.FirstOrDefault()?.Grade ?? grade.Value);
+
         public void UpsertGrade(Grade g)
         {
-            if (Grades.TryGetValue(g.Subject, out var existing))
+            if (_grades.TryGetValue(g.Subject, out var existing))
             {
                 existing.Value = g.Value;
                 existing.Updated = DateTime.UtcNow;
                 return;
             }
-            Grades.Add(g.Subject, g);
+            _grades.Add(g.Subject, g);
         }
     }
 }

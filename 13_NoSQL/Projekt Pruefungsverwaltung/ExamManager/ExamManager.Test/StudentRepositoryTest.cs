@@ -20,8 +20,8 @@ namespace ExamManager.Test
                 lastname: "LN1",
                 schoolClass: "5AHIF",
                 dateOfBirth: new DateTime(2002, 12, 31));
-            var manager = new RepositoryManager("127.0.0.1", "Exams");
-            var repo = manager.GetRepository<Student, long>(s => s.Id);
+            var manager = new ExamDatabase("127.0.0.1", "Exams") { EnableLogging = true };
+            StudentRepository repo = manager.StudentRepository;
 
             repo.DeleteAll();
             repo.InsertOne(s1);

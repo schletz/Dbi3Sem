@@ -7,7 +7,7 @@ namespace ExamManager.Application.Documents
     /// </summary>
     public class GradedExam : Exam
     {
-        public GradedExam(Exam exam, Teacher assistant, int grade)
+        public GradedExam(Exam exam, Teacher assistant, Grade grade)
             : base(exam)
         {
             Assistant = assistant;
@@ -16,7 +16,7 @@ namespace ExamManager.Application.Documents
         }
 
         public Teacher Assistant { get; set; }
-        public int Grade { get; set; }
+        public Grade Grade { get; set; }
         public DateTime DateGraded { get; private set; }
     }
 }

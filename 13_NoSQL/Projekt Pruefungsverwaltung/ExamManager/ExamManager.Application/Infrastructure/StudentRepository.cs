@@ -10,7 +10,7 @@ namespace ExamManager.Application.Infrastructure
 {
     public class StudentRepository : Repository<Student, long>
     {
-        public StudentRepository(IMongoCollection<Student> coll, Func<Student, long> keySelector) : base(coll, keySelector)
+        public StudentRepository(IMongoCollection<Student> coll) : base(coll)
         {
         }
 

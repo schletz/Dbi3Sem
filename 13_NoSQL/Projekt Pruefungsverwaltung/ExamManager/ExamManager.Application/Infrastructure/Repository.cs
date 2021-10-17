@@ -9,31 +9,32 @@ using System.Threading.Tasks;
 
 namespace ExamManager.Application.Infrastructure
 {
-    public class Repository<TDocument, TKey>
+    /// <summary>
+    /// Generisches Repository für alle Documents
+    /// </summary>
+    public class Repository<TDocument, TKey> where TDocument : IDocument<TKey>
     {
         protected readonly IMongoCollection<TDocument> _coll;
-        private readonly Func<TDocument, TKey> _keySelector;
+
         public IMongoQueryable<TDocument> Queryable => _coll.AsQueryable();
 
-        public Repository(IMongoCollection<TDocument> coll, Func<TDocument, TKey> keySelector)
+        public Repository(IMongoCollection<TDocument> coll)
         {
             _coll = coll;
-            _keySelector = keySelector;
         }
-        public void InsertOne(TDocument element) => _coll.InsertOne(element);
-        public void DeleteOne(TKey id) => _coll.DeleteOne(Builders<TDocument>.Filter.Eq("_id", id));
-        public void UpdateOne(TDocument element)
-        {
-            _coll.ReplaceOne(Builders<TDocument>.Filter.Eq("_id", _keySelector(element)), element);
-        }
-        public TDocument? FindById(TKey id)
+
+        public virtual void InsertOne(TDocument element) => _coll.InsertOne(element);
+
+        public virtual void DeleteOne(TKey id) => _coll.DeleteOne(Builders<TDocument>.Filter.Eq("_id", id));
+
+        public virtual void UpdateOne(TDocument element) => _coll.ReplaceOne(Builders<TDocument>.Filter.Eq("_id", element.Id), element);
+
+        public virtual TDocument? FindById(TKey id)
         {
             var result = _coll.Find(Builders<TDocument>.Filter.Eq("_id", id));
             return result.FirstOrDefault();
         }
-        public void DeleteAll()
-        {
-            _coll.DeleteMany(Builders<TDocument>.Filter.Empty);
-        }
+
+        public virtual void DeleteAll() => _coll.DeleteMany(Builders<TDocument>.Filter.Empty);
     }
 }

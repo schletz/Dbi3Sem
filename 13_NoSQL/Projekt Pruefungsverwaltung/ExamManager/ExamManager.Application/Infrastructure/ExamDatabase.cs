@@ -5,25 +5,29 @@ using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ExamManager.Application.Infrastructure
 {
-    public class RepositoryManager
+    public class ExamDatabase
     {
         private readonly MongoClient _client;
         private readonly IMongoDatabase _db;
         public bool EnableLogging { get; set; }
 
-        public RepositoryManager(string host, string database)
+        public ExamDatabase(string host, string database)
         {
             var settings = new MongoClientSettings
             {
 #if DEBUG
                 ClusterConfigurator = cb =>
-                    cb.Subscribe<CommandStartedEvent>(e => { if (EnableLogging) Console.WriteLine(e.Command.ToString()); }),
+                    cb.Subscribe<CommandStartedEvent>(e =>
+                    {
+                        if (EnableLogging) Debug.WriteLine(e.Command.ToString());
+                    }),
 #endif
                 Server = new MongoServerAddress(host)
             };
@@ -32,19 +36,9 @@ namespace ExamManager.Application.Infrastructure
             _db = _client.GetDatabase(database);
         }
 
-        public Repository<TDocument, TKey> GetRepository<TDocument, TKey>(Func<TDocument, TKey> keySelector)
-        {
-            var name = typeof(TDocument).Name;
-            var coll = _db.GetCollection<TDocument>(name);
-            return new Repository<TDocument, TKey>(coll, keySelector);
-        }
-
-        public StudentRepository GetRepository<TDocument, TKey>(Func<Student, long> keySelector)
-        {
-            var name = typeof(Student).Name;
-            var coll = _db.GetCollection<Student>(name);
-            return new StudentRepository(coll, keySelector);
-        }
+        public Repository<Exam, Guid> ExamRepository => new Repository<Exam, Guid>(_db.GetCollection<Exam>(nameof(Exam)));
+        public StudentRepository StudentRepository => new StudentRepository(_db.GetCollection<Student>(nameof(Student)));
+        public TeacherRepository TeacherRepository => new TeacherRepository(_db.GetCollection<Teacher>(nameof(Teacher)));
 
         public void Seed()
         {
@@ -116,7 +110,10 @@ namespace ExamManager.Application.Infrastructure
                                 teacher: rnd.ListItem(teachers),
                                 subject: n.Grade.Subject);
                             return rnd.Bool(0.2f) || teacher.Shortname == assistant.Shortname
-                                ? new GradedExam(exam: e, assistant: rnd.ListItem(teachers), grade: rnd.Int(3, 5))
+                                ? new GradedExam(
+                                    exam: e,
+                                    assistant: rnd.ListItem(teachers),
+                                    grade: new Grade(value: rnd.Int(3, 5), subject: n.Grade.Subject))
                                 : e;
                         })
                         .ToList();

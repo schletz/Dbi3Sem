@@ -14,9 +14,9 @@ namespace ExamManager.Test
         [Fact]
         public void SeedDatabaseTest()
         {
-            var manager = new RepositoryManager("127.0.0.1", "Exams");
+            var manager = new ExamDatabase("127.0.0.1", "Exams");
             manager.Seed();
-            var repo = manager.GetRepository<Student, long>(s => s.Id);
+            var repo = manager.StudentRepository;
             Assert.True(repo.Queryable.Any());
         }
     }

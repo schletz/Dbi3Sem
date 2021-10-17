@@ -70,16 +70,17 @@ class Exam {
 
 class GradedExam {
     Assistant : Teacher
-    Grade : Integer
+    Grade : Grade
     DateGraded : DateTime
     ---
-    GradedExam(exam : Exam, assistant : Teacher, grade : Integer)
+    GradedExam(exam : Exam, assistant : Teacher, grade : Grade)
 }
 
 Exam *--> Teacher
 GradedExam *--> Teacher
 Student *--> Grade
 GradedExam -up-|> Exam
+GradedExam *--> Grade
 @enduml
 ```
 ## Anmerkungen
