@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ExamManager.Application.Documents
 {
+    /// <summary>
+    /// Eingebettetes Objekt für Noten. Hat keine ID, da es vom Student verwaltet wird.
+    /// </summary>
     public class Grade
     {
         public Grade(int value, string subject)

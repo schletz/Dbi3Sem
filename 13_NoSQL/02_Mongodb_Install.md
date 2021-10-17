@@ -1,47 +1,22 @@
 # Installation von MongoDb
 
-## Videos
-
-Die Videos sind auf Microsoft Stream mit einem Schulaccount abrufbar.
-
-- Installation: https://web.microsoftstream.com/video/66e14f96-8189-4e81-9f73-766f7fc9e877
-- Shell und Treiber: https://web.microsoftstream.com/video/010e51eb-81d9-4865-a683-ad61f5482032
+- Lade von [mongodb.com](https://www.mongodb.com/try/download/community) die aktuellste
+  Communitiy Version von MongoDb.
+- Installiere das Programm in *C:\MongoDB*.
+- Die Datenbank muss nicht als Netzwerkdienst installiert werden, da wir sie über eine bat
+  Datei starten.
 
 ### Beispieldatei mongod.cfg
 
-Ist MongoDB in *C:\MongoDB* installiert, so kann die Konfiguration wie folgt aussehen:
-
-```text
-# Where and how to store data.
-storage:
-  dbPath: C:\MongoDB\data
-  journal:
-    enabled: true
-# where to write logging data.
-systemLog:
-  destination: file
-  logAppend: true
-  path:  C:\MongoDB\log\mongod.log
-
-# network interfaces
-net:
-  port: 27017
-  bindIp: 127.0.0.1
-```
-
-Die Datei *startMongoDb.bat* wird in *C:\MongoDB* gespeichert und sieht so aus:
-
-```text
-cd C:\MongoDB\bin
-mongod --config mongod.cfg
-```
-
-Die Dateien stehen auch unter [mongod.cfg](mongod.cfg) und [startMongoDb.bat](startMongoDb.bat) zum Download
-bereit.
+Ist MongoDB in *C:\MongoDB* installiert, führe folgende Schritte durch:
+- Lade [mongod.cfg](mongod.cfg) herunter und kopiere sie in *C:\MongoDB\bin*
+- Lade [startMongoDb.bat](startMongoDb.bat) und kopiere sie in *C:\MongoDB*
+- Starte MongoDB durch Doppelklick auf die Datei *C:\MongoDB\startMongoDb.bat*
 
 ## Verbinden mit dem MongoDB Compass
 
-Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://127.0.0.1:27017` erreicht werden.
+Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://127.0.0.1:27017` erreicht
+werden. Natürlich muss die Datenbank vorher gestartet werden.
 
 ## PlantUML und VS Code als Modellierungswerkzeug
 
@@ -66,6 +41,13 @@ können Klassendiagramme verwendet werden. Solche Diagramme könenn wie folgt er
 Nun steht durch die Extension *Markdown Preview Enhanced* ein Icon bereit, welches eine Vorschau mit
 dem gerenderten Diagramm bietet:
 ![](preview_vscode.png)
+
+## Videos
+
+Die Videos sind auf Microsoft Stream mit einem Schulaccount abrufbar.
+
+- Installation: https://web.microsoftstream.com/video/66e14f96-8189-4e81-9f73-766f7fc9e877
+- Shell und Treiber: https://web.microsoftstream.com/video/010e51eb-81d9-4865-a683-ad61f5482032
 
 ## Weitere Links
 

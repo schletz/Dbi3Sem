@@ -1,2 +1,2 @@
-cd C:\MongoDB\bin
+cd /D C:\MongoDB\bin
 mongod --config mongod.cfg

@@ -123,7 +123,7 @@ die Datenbank nur unnötig vergrößern.
 
 Über die Vererbung wird der State des Objektes abgebildet. Dadurch können bestimmte Methoden wie
 *CalcAufstieg()* den Typ GradedExam verlangen. In der Datenbank werden alle Prüfungen in der Collection
-*Exam* verwaltet. MongoDB generiert automatisch ein Feld *_discriminator*, welches den Typ speichert.
+*Exam* verwaltet. MongoDB generiert automatisch ein Feld *_t*, welches den Typ speichert.
 Beim Auslesen kann - auch wenn alle Prüfungen in einer Collection verwaltet werden - ein
 Objekt vom Typ GradedExam erzeugt werden. Mit *is* (*instanceof* in Java) kann der Typ der
 Prüfung bei Bedarf festgestellt werden.

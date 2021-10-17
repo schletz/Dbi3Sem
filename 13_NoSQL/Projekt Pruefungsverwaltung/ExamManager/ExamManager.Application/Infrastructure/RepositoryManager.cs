@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Bogus.Extensions;
 using ExamManager.Application.Documents;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
@@ -15,6 +16,7 @@ namespace ExamManager.Application.Infrastructure
         private readonly MongoClient _client;
         private readonly IMongoDatabase _db;
         public bool EnableLogging { get; set; }
+
         public RepositoryManager(string host, string database)
         {
             var settings = new MongoClientSettings
@@ -47,33 +49,78 @@ namespace ExamManager.Application.Infrastructure
         public void Seed()
         {
             _db.DropCollection(nameof(Student));
+            _db.DropCollection(nameof(Exam));
+            _db.DropCollection(nameof(Teacher));
 
             Randomizer.Seed = new Random(1454);
+            var rnd = new Randomizer();
+
+            var teachers = new Faker<Teacher>("de")
+                .CustomInstantiator(f =>
+                {
+                    var lastname = f.Name.LastName();
+                    return new Teacher(
+                        shortname: lastname.Length < 3 ? lastname.ToUpper() : lastname.Substring(0, 3).ToUpper(),
+                        firstname: f.Name.FirstName(),
+                        lastname: lastname)
+                    {
+                        Email = $"{lastname.ToLower()}@spengergasse.at".OrDefault(f, 0.25f) // using Bogus.Extensions;
+                    };
+                })
+                .Generate(200)       // Take nimmt nur 20 Elemente des Enumerators
+                .GroupBy(g => g.Shortname)
+                .Select(g => g.First())
+                .Take(20)
+                .ToList();
+            _db.GetCollection<Teacher>(nameof(Teacher)).InsertMany(teachers);
+
             int id = 1000;
             var subjects = new string[] { "POS", "DBI", "D", "E", "AM" };
+            var classes = new string[] { "4AHIF", "4BHIF", "4CHIF", "4EHIF" };
             var students = new Faker<Student>("de")
                 .CustomInstantiator(f =>
                 {
-                    return new Student(
+                    var s = new Student(
                         id: id++,
                         firstname: f.Name.FirstName(),
                         lastname: f.Name.LastName(),
+                        schoolClass: f.Random.ListItem(classes),
                         dateOfBirth: new DateTime(2003, 1, 1).AddDays(f.Random.Int(0, 4 * 365)));
-                })
-                .Rules((f, s) =>
-                {
+
                     var grades = new Faker<Grade>("de")
                         .CustomInstantiator(f =>
-                            new Grade(value: f.Random.Int(1, 5), subject: f.Random.ListItem(subjects)))
+                            new Grade(
+                                value: f.Random.Int(1, 5),
+                                subject: f.Random.ListItem(subjects)))
                         .Generate(5);
                     foreach (var g in grades)
                     {
                         s.UpsertGrade(g);
                     }
+                    return s;
                 })
                 .Generate(100)
                 .ToList();
             _db.GetCollection<Student>(nameof(Student)).InsertMany(students);
+
+            var negative = students.SelectMany(s => s.NegativeGrades.Select(n => new { Student = s, Grade = n })).ToList();
+            var exams = rnd
+                        .ListItems(negative, negative.Count / 2)
+                        .Select(n =>
+                        {
+                            var teacher = rnd.ListItem(teachers);
+                            var assistant = rnd.ListItem(teachers);
+                            // In 20% der Fälle liefern wir ein GradedExam (schon benotet).
+                            var e = new Exam(
+                                student: n.Student,
+                                teacher: rnd.ListItem(teachers),
+                                subject: n.Grade.Subject);
+                            return rnd.Bool(0.2f) || teacher.Shortname == assistant.Shortname
+                                ? new GradedExam(exam: e, assistant: rnd.ListItem(teachers), grade: rnd.Int(3, 5))
+                                : e;
+                        })
+                        .ToList();
+            _db.GetCollection<Exam>(nameof(Exam)).InsertMany(exams);
         }
     }
 }

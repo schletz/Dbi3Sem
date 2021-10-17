@@ -1,4 +1,4 @@
-# Inhalte im 5. und 6. Semester
+# Inhalte im 5. und 6. Semester (Kolleg) bzw. im IV. und V. Jahrgang (HIF)
 
 ## Teil 1: 2 Wochenstunden
 
@@ -19,29 +19,16 @@
 - JSON
   - [JSON Grundlagen](12_JSON/01_Intro.md)
   - [Modelklassen](12_JSON/02_Modelklassen.md)
-  - [Serialisierung](12_JSON/03_Serialisierung.md)
 - NoSQL (Dokumentbasierend)
   - [SQL vs NoSQL](13_NoSQL/01_Sql_vs_Nosql.md)
   - [Installation von MongoDB](13_NoSQL/02_Mongodb_Install.md)
   - [Filtern in MongoDB](13_NoSQL/03_MongoDb_Find.md)
   - [Updates in MongoDB](13_NoSQL/04_MongoDb_Update.md)
   - [Repository Pattern](13_NoSQL/05_MongoDb_Repository.md)
-  - [Schema mittels Modelklassen entwerfen](13_NoSQL/06_MongoDb_Modelling.md)
-  - [Projektion und Aggregation](13_NoSQL/07_MongoDb_Aggregate.md)
-  - LiteDb in C#
+  - [Projektion und Aggregation](13_NoSQL/06_MongoDb_Aggregate.md)
+  - [Modellierung einer NoSQL Dokumentdatenbank](13_NoSQL/07_MongoDb_Modelling.md)
 
-### Sommersemester
-
-- Business Intelligence & DWH
-  - Loader
-  - Cube
-  - PowerBI
-- Data Mining
-  - Classification
-  - Decision Tree
-
-
-# Download und Konfiguration der VM
+# Download und Konfiguration der VM (für PL/SQL)
 
 Oracle ist ein Datenbankserver, der in unserem Falle in einer virtuellen Maschine läuft. Oracle stellt sogenannte Developer VMs bereit, um Erfahrungen mit der Datenbank zu sammeln. Auf <a href="http://www.oracle.com/technetwork/community/developer-vm/index.html" target="_blank">[Pre-Built Developer VMs (for Oracle VM VirtualBox)]</a> kann die VM *Database App Development VM* (am Besten im Browser auf der Seite danach suchen, es gibt viele VMs dort) bezogen werden, die unter anderen folgende Komponenten beinhaltet:
 
