@@ -6,29 +6,19 @@ using System.Text;
 
 namespace MongoDbDemo.Domain
 {
-    class Klasse : IEquatable<Klasse>
+    class Klasse
     {
+        public Klasse(string id, Lehrer kv)
+        {
+            Id = id;
+            Kv = kv;
+        }
+
         [BsonId]
-        public string Id { get; set; }
+        public string Id { get; private set; }
         public Lehrer Kv { get; set; }
         // 5BAIF -> AIF, 4AHIF -> HIF
         public string Abteilung => Id.Substring(2, 3);
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Klasse);
-        }
-
-        public bool Equals(Klasse other)
-        {
-            return other != null &&
-                   Id == other.Id;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Id);
-        }
 
         public override string ToString() => $"     {Id} mit KV {Kv.Id}";
     }

@@ -22,6 +22,15 @@ namespace MongoDbDemo
         private static void FilterExamples(IMongoDatabase db)
         {
             {
+                // "Rohes" Filtern mit BSON Documents.
+                var filter = Builders<BsonDocument>.Filter.Eq("_id", "3CHIF");
+                var found = db.GetCollection<BsonDocument>(nameof(Klasse)).Find(filter).ToEnumerable();
+                foreach (var k in found)
+                {
+                    Console.WriteLine($"{k["_id"]} mit KV {k["Kv"]["_id"]}." );
+                }
+            }
+            {
                 // Gib die Info der Klasse 3CHIF aus.
                 // find({ "_id" : "3CHIF" })
                 Console.WriteLine("Gib die Info der Klasse 3CHIF aus.");
@@ -105,7 +114,7 @@ namespace MongoDbDemo
                 Console.WriteLine("Welche POS Lehrer verdienen mehr als 4000 Euro?");
                 var filter = Builders<Lehrer>.Filter.And(
                     Builders<Lehrer>.Filter.Gt(l => l.Gehalt, 4000),
-                    Builders<Lehrer>.Filter.AnyEq(l => l.Lehrbefaehigung, "POS"));
+                    Builders<Lehrer>.Filter.AnyEq(l => l.Lehrbefaehigungen, "POS"));
                 var found = db.GetCollection<Lehrer>(nameof(Lehrer))
                     .Find(filter);
                 Console.WriteLine(found);
@@ -116,7 +125,7 @@ namespace MongoDbDemo
                 // Alternative mit LINQ und AsQueryable
                 db.GetCollection<Lehrer>(nameof(Lehrer))
                     .AsQueryable()
-                    .Where(l => l.Gehalt > 4000 && l.Lehrbefaehigung.Any(le => le == "POS"))
+                    .Where(l => l.Gehalt > 4000 && l.Lehrbefaehigungen.Any(le => le == "POS"))
                     .ToList()
                     .ForEach(l => Console.WriteLine(l));
             }
@@ -125,7 +134,7 @@ namespace MongoDbDemo
                 // Welche Lehrer dürfen POS und DBI unterrichten?
                 // find({ "Gehalt" : { "$gt" : "4000" }, "Lehrbefaehigung" : "POS" })
                 Console.WriteLine("Welche Lehrer dürfen POS und DBI unterrichten?");
-                var filter = Builders<Lehrer>.Filter.All(l => l.Lehrbefaehigung, new string[] { "POS", "DBI" });
+                var filter = Builders<Lehrer>.Filter.All(l => l.Lehrbefaehigungen, new string[] { "POS", "DBI" });
                 var found = db.GetCollection<Lehrer>(nameof(Lehrer))
                     .Find(filter);
                 Console.WriteLine(found);
@@ -136,19 +145,19 @@ namespace MongoDbDemo
                 // Variante mit AsQueryable()
                 db.GetCollection<Lehrer>(nameof(Lehrer))
                     .AsQueryable()
-                    .Where(l => l.Lehrbefaehigung.Any(le => le == "POS") &&
-                                l.Lehrbefaehigung.Any(le => le == "DBI"))
+                    .Where(l => l.Lehrbefaehigungen.Any(le => le == "POS") &&
+                                l.Lehrbefaehigungen.Any(le => le == "DBI"))
                     .ToList()
                     .ForEach(l => Console.WriteLine(l));
 
                 // EXCEPTION: Unsupported (Lehrer die NUR POS und DBI unterrichten)
-                db.GetCollection<Lehrer>(nameof(Lehrer))
-                    .AsQueryable()
-                    // .ToList()  Wäre möglich, damit die nachfolgende Abfrage funktioniert.
-                    //            Allerdings wird hier die ganze Collection geladen!
-                    .Where(l => l.Lehrbefaehigung.All(le => le == "POS" && le == "DBI"))
-                    .ToList()
-                    .ForEach(l => Console.WriteLine(l));
+                //db.GetCollection<Lehrer>(nameof(Lehrer))
+                //    .AsQueryable()
+                //    // .ToList()  Wäre möglich, damit die nachfolgende Abfrage funktioniert.
+                //    //            Allerdings wird hier die ganze Collection geladen!
+                //    .Where(l => l.Lehrbefaehigungen.All(le => le == "POS" && le == "DBI"))
+                //    .ToList()
+                //    .ForEach(l => Console.WriteLine(l));
             }
 
             {
@@ -166,6 +175,7 @@ namespace MongoDbDemo
                     .Where(k => k.Abteilung == "HIF")
                     .ToList()
                     .ForEach(k => Console.WriteLine(k));
+                // Mögliche Lösung: Mit der [BsonElement] Annotation das Property in die DB schreiben.
             }
         }
 
@@ -176,33 +186,41 @@ namespace MongoDbDemo
 
             Randomizer.Seed = new Random(2112);
             var faecher = new string[] { "POS", "DBI", "AM", "D", "E", "BWM" };
-            var lehrer = new Faker<Lehrer>().Rules((f, l) =>
+            var lehrer = new Faker<Lehrer>().CustomInstantiator(f =>
             {
-                l.Vorname = f.Name.FirstName();
-                l.Zuname = f.Name.LastName();
-                l.Id = l.Zuname.Substring(0, 3).ToUpper();
-                l.Email = $"{l.Zuname}@spengergasse.at".OrDefault(f, 0.2f);
-                // Gehalt
-                l.Gehalt = f.Random.Decimal2(2000, 5000).OrNull(f, 0.5f);
+                var zuname = f.Name.LastName();
+                var l = new Lehrer(
+                    id: zuname.Length < 3 ? zuname.ToUpper() : zuname.Substring(0, 3).ToUpper(),
+                    vorname: f.Name.FirstName(),
+                    zuname: zuname)
+                {
+                    Email = $"{zuname}@spengergasse.at".OrDefault(f, 0.2f),
+                    Gehalt = f.Random.Decimal2(2000, 5000).OrNull(f, 0.5f)
+                };
                 // Lehrer sind in 0 - 3 Fächern aus der Liste lehrbefähigt.
-                l.Lehrbefaehigung = f.Random.ListItems(faecher, f.Random.Int(0, 3)).ToArray();
+                l.Lehrbefaehigungen.AddRange(f.Random.ListItems(faecher, f.Random.Int(0, 3)));
+                return l;
             })
-                .Generate(100)
-                .ToHashSet()
-                .ToList();
+            .Generate(100)
+            .GroupBy(l=>l.Id)
+            .Select(l=>l.First())
+            .ToList();
 
             db.GetCollection<Lehrer>(nameof(Lehrer)).InsertMany(lehrer);
 
             var abteilungen = new string[] { "HIF", "AIF", "BIF" };
 
-            var klassen = new Faker<Klasse>().Rules((f, k) =>
+            var klassen = new Faker<Klasse>().CustomInstantiator(f =>
             {
-                k.Id = f.Random.Int(1, 5) + f.Random.String2(1, "ABCD") + f.Random.ListItem(abteilungen);
-                k.Kv = f.Random.ListItem(lehrer);
+                return new Klasse(
+                    id: f.Random.Int(1, 5) + f.Random.String2(1, "ABCD") + f.Random.ListItem(abteilungen),
+                    kv: f.Random.ListItem(lehrer));
             })
-                .Generate(10)
-                .ToHashSet()
-                .ToList();
+            .Generate(100)
+            .GroupBy(k=>k.Id)
+            .Select(k=>k.First())
+            .Take(10)
+            .ToList();
 
             db.GetCollection<Klasse>(nameof(Klasse)).InsertMany(klassen);
         }
