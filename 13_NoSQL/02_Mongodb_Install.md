@@ -6,11 +6,12 @@
 - Die Datenbank muss nicht als Netzwerkdienst installiert werden, da wir sie über eine bat
   Datei starten.
 
-### Beispieldatei mongod.cfg
+### Starten der Datenbank
 
 Ist MongoDB in *C:\MongoDB* installiert, führe folgende Schritte durch:
 - Lade [mongod.cfg](mongod.cfg) herunter und kopiere sie in *C:\MongoDB\bin*
 - Lade [startMongoDb.bat](startMongoDb.bat) und kopiere sie in *C:\MongoDB*
+- Erstelle in C:\MongoDB das Verzeichnis *log* und *data*
 - Starte MongoDB durch Doppelklick auf die Datei *C:\MongoDB\startMongoDb.bat*
 
 ## Verbinden mit dem MongoDB Compass
