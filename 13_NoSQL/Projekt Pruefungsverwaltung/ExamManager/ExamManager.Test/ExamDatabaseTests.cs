@@ -19,5 +19,14 @@ namespace ExamManager.Test
             var repo = manager.StudentRepository;
             Assert.True(repo.Queryable.Any());
         }
+        [Fact]
+        public void CountGradedTest()
+        {
+            var manager = new ExamDatabase("127.0.0.1", "Exams");
+            manager.Seed();
+            var examQuery = manager.ExamRepository.Queryable;
+            List<GradedExam> graded = examQuery.OfType<GradedExam>().ToList();
+            Assert.True(graded.Count > 0);
+        }
     }
 }
