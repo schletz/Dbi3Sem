@@ -24,7 +24,7 @@ Ein Domänenmodell für diese Aufgaben kann wie folgt aussehen:
 
 ```plantuml
 @startuml
-class Student {
+class Student <<(D,#FF7700) Document>> {
    Id : Long
    Firstname : String
    Lastname : String
@@ -44,14 +44,14 @@ class Grade {
     Subject : String
     Updated : DateTime
 }
-class Teacher {
+class Teacher <<(D,#FF7700) Document>> {
     Id : String
     Firstname : String
     Lastname : String
     Email : String?
 }
 
-class Exam {
+class Exam <<(D,#FF7700) Document>> {
     Id : Guid
     StudentId : Long
     StudentFirstname : String
