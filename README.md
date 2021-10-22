@@ -27,6 +27,16 @@
   - [Projektion und Aggregation](13_NoSQL/05_MongoDb_Aggregate.md)
   - [Modellierung einer NoSQL Dokumentdatenbank mit Repository Pattern](13_NoSQL/06_MongoDb_Modelling.md)
 
+# Klonen des Repositories
+
+Öffne die Konsole in einem geeigneten Verzeichnis (z. B. C:\DBI) und gib den folgenden Befehl ein:
+```text
+git clone https://github.com/schletz/Dbi3Sem.git
+```
+
+Um Änderungen zu laden, führe die Datei *resetGit.cmd* aus. Achtung: alle lokalen Änderungen werden
+gelöscht.
+
 # Download und Konfiguration der VM (für PL/SQL)
 
 Oracle ist ein Datenbankserver, der in unserem Falle in einer virtuellen Maschine läuft. Oracle stellt sogenannte Developer VMs bereit, um Erfahrungen mit der Datenbank zu sammeln. Auf <a href="http://www.oracle.com/technetwork/community/developer-vm/index.html" target="_blank">[Pre-Built Developer VMs (for Oracle VM VirtualBox)]</a> kann die VM *Database App Development VM* (am Besten im Browser auf der Seite danach suchen, es gibt viele VMs dort) bezogen werden, die unter anderen folgende Komponenten beinhaltet:
