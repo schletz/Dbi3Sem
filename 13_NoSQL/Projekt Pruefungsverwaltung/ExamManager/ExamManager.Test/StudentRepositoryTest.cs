@@ -20,15 +20,24 @@ namespace ExamManager.Test
                 lastname: "LN1",
                 schoolClass: "5AHIF",
                 dateOfBirth: new DateTime(2002, 12, 31));
-            var manager = new ExamDatabase("127.0.0.1", "Exams") { EnableLogging = true };
-            StudentRepository repo = manager.StudentRepository;
+            var db = new ExamDatabase("127.0.0.1", "Exams") { EnableLogging = true };
+            StudentRepository repo = db.StudentRepository;
 
             repo.DeleteAll();
             repo.InsertOne(s1);
             var s2 = repo.Queryable
                 .FirstOrDefault(s => s.Id == s1.Id);
-            Assert.True(s1.Id == s2.Id);
+            Assert.True(s1.Id == s2!.Id);
             Assert.True(s1.Guid == s2.Guid);
+        }
+
+        [Fact]
+        public void GradesTest()
+        {
+            var db = new ExamDatabase("127.0.0.1", "Exams") { EnableLogging = true };
+            StudentRepository repo = db.StudentRepository;
+            var students = repo.Queryable.ToList();
+            Assert.Contains(students, s => s.NegativeGrades.Any());
         }
     }
 }

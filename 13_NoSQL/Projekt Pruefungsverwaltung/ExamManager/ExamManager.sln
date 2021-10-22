@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamManager.Wasm", "ExamManager.Wasm\ExamManager.Wasm.csproj", "{B47503D7-4FCC-4990-AD8C-EB90B20F8C86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamManager.Wasm", "ExamManager.Wasm\ExamManager.Wasm.csproj", "{B47503D7-4FCC-4990-AD8C-EB90B20F8C86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamManager.WebApi", "ExamManager.WebApi\ExamManager.WebApi.csproj", "{8BBA7FDA-BF89-40DD-9276-1BAC9138F2B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamManager.WebApi", "ExamManager.WebApi\ExamManager.WebApi.csproj", "{8BBA7FDA-BF89-40DD-9276-1BAC9138F2B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamManager.Dto", "ExamManager.Dto\ExamManager.Dto.csproj", "{FBDA8A5C-02A5-4B8E-A208-0AA5523B1606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamManager.Dto", "ExamManager.Dto\ExamManager.Dto.csproj", "{FBDA8A5C-02A5-4B8E-A208-0AA5523B1606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamManager.Test", "ExamManager.Test\ExamManager.Test.csproj", "{0A82DC13-73BF-4C3B-BAE1-1F5F8F78736E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamManager.Test", "ExamManager.Test\ExamManager.Test.csproj", "{0A82DC13-73BF-4C3B-BAE1-1F5F8F78736E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamManager.Application", "ExamManager.Application\ExamManager.Application.csproj", "{5D62D7F3-ED4A-43D1-9435-36ECD24FABD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamManager.Application", "ExamManager.Application\ExamManager.Application.csproj", "{5D62D7F3-ED4A-43D1-9435-36ECD24FABD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B47503D7-4FCC-4990-AD8C-EB90B20F8C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,5 +83,11 @@ Global
 		{5D62D7F3-ED4A-43D1-9435-36ECD24FABD7}.Release|x64.Build.0 = Release|Any CPU
 		{5D62D7F3-ED4A-43D1-9435-36ECD24FABD7}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D62D7F3-ED4A-43D1-9435-36ECD24FABD7}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F58E683F-1B32-4BB9-B24F-28D20DC2853A}
 	EndGlobalSection
 EndGlobal

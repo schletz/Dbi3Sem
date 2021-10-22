@@ -33,7 +33,7 @@ namespace ExamManager.Application.Documents
         /// Backing field für das Dictionary Grades. Wird in die DB gemappt.
         /// </summary>
         [BsonElement("Grades")]
-        private readonly Dictionary<string, Grade> _grades = new Dictionary<string, Grade>(0);
+        private Dictionary<string, Grade> _grades = new Dictionary<string, Grade>(0);
 
         /// <summary>
         /// Schülernummer (mehr als 9 Stellen lang, deswegen ein long Wert)

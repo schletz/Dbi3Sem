@@ -18,17 +18,19 @@ md ExamManager.WebApi
 md ExamManager.Wasm
 md ExamManager.Dto
 
-cd ExamManager.Application
+cd ExamManager.Dto
+dotnet new classlib
+
+cd ..\ExamManager.Application
 dotnet new classlib
 dotnet add package Bogus
 dotnet add package MongoDB.Driver
+dotnet add reference ..\ExamManager.Dto
 
 cd ..\ExamManager.Test
 dotnet new xunit
 dotnet add reference ..\ExamManager.Application
 
-cd ..\ExamManager.Dto
-dotnet new classlib
 
 cd ..\ExamManager.WebApi
 dotnet new webapi

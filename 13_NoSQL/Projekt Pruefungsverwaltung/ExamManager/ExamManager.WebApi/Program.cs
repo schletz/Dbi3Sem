@@ -13,6 +13,8 @@ namespace ExamManager.WebApi
     {
         public static void Main(string[] args)
         {
+            var db = new Application.Infrastructure.ExamDatabase("127.0.0.1", "Exams");
+            db.Seed();
             CreateHostBuilder(args).Build().Run();
         }
 
