@@ -14,4 +14,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ExamManager.Dto\ExamManager.Dto.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,29 @@
+﻿@page "/students"
+<h3>Students</h3>
+@foreach (var c in StudentList.GroupBy(s => s.SchoolClass))
+{
+    <h5>@c.Key</h5>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Schüler</th>
+                <th>Noten</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in StudentList)
+            {
+                <tr>
+                    <td>@s.Lastname @s.Firstname</td>
+                    <td>
+                        @foreach (var g in s.Grades.Values)
+                        {
+                            <span class="mr-2">@g.Subject: @g.Value</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
