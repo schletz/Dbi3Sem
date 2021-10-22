@@ -59,7 +59,7 @@ Hinweis: Erstellen Sie eine Variable und weisen Sie das nachfolgende JSON Dokume
                 "id": 1005,
                 "firstname": "Firstname5",
                 "lastname": "Lastname5",
-                "dateOfBirth": "2001-02-12",
+                "dateOfBirth": "2001-02-12"
             },
             {
                 "id": 1006,
