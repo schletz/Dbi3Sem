@@ -66,3 +66,55 @@ Definieren Sie Ihr PlantUML Klassendiagramm in dieser Datei.
 Danach können Sie im Musterprogramm zu "Find" im [Ordner 03_MongoDb_Find](03_MongoDb_Find)
 diese Klassen in C# definieren. Dafür müssen Sie das Repository klonen, falls Sie das
 nicht schon gemacht haben (`git clone https://github.com/schletz/Dbi3Sem.git`). Achten Sie auf die Konstruktoren und Datentypen.
+
+## Musterlösung
+
+```plantuml
+@startuml
+class Abteilung <<(D,#FF7700) Document>> {
+   *Name : String <<Id>>
+}
+
+class Termin <<(D,#FF7700) Document>> {
+   *Id : Guid
+   *Datum : DateTime
+   *Von : DateTime
+   *Abteilung : Abteilung
+   *MaxBesucher : int
+   ---
+}
+Termin *--> Abteilung
+
+class OfflineTermin {
+   *Besucher : List<Schulbesucher>
+}
+OfflineTermin -up-|> Termin
+OfflineTermin *--> Schulbesucher
+
+class OnlineTermin {
+   *Besucher : List<MeetingTeilnehmer>
+}
+OnlineTermin -up-|> Termin
+OnlineTermin *--> MeetingTeilnehmer
+
+class Besucher {
+   *Vorname : String
+   *Nachname : String
+   *Email : String
+   *Telefon : String   
+}
+
+class Schulbesucher {
+   BegleitungVorname : String
+   BegleitungNachname : String
+}
+Schulbesucher -up-|> Besucher
+
+class MeetingTeilnehmer {
+   *Link : String
+}
+MeetingTeilnehmer -up-|> Besucher
+
+@enduml
+
+```
