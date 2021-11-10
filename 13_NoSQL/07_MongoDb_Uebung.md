@@ -64,4 +64,5 @@ Erstellen Sie ein neues MD File in Visual Studio Code mit dem Namen *Terminverwa
 Definieren Sie Ihr PlantUML Klassendiagramm in dieser Datei.
 
 Danach können Sie im Musterprogramm zu "Find" im [Ordner 03_MongoDb_Find](03_MongoDb_Find)
-diese Klassen in C# definieren. Achten Sie auf die Konstruktoren und Datentypen.
+diese Klassen in C# definieren. Dafür müssen Sie das Repository klonen, falls Sie das
+nicht schon gemacht haben (`git clone https://github.com/schletz/Dbi3Sem.git`). Achten Sie auf die Konstruktoren und Datentypen.
