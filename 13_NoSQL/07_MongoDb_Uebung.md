@@ -120,5 +120,6 @@ Anmeldung *--> Besucher
 @enduml
 ```
 
-- Wie kann eine Applikation dem Besucher die Daten zum Termin anzeigen? Welche Abfragen sind hierfür nötig?
+- Wie kann eine Applikation dem Besucher die Daten zum Termin anzeigen? Welche Abfragen sind
+  hierfür nötig?
 
