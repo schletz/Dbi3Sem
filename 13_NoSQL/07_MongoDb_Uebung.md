@@ -67,12 +67,33 @@ Danach können Sie im Musterprogramm zu "Find" im [Ordner 03_MongoDb_Find](03_Mo
 diese Klassen in C# definieren. Dafür müssen Sie das Repository klonen, falls Sie das
 nicht schon gemacht haben (`git clone https://github.com/schletz/Dbi3Sem.git`). Achten Sie auf die Konstruktoren und Datentypen.
 
-## Musterlösung
+## Eine mögliche Lösung
 
 ```plantuml
+hide empty methods
+
 @startuml
+class Besucher {
+   *Vorname : String
+   *Nachname : String
+ 
+}
+
+class Anmelder {
+   *Email : String
+   *Telefon : String  
+}
+
+
+Anmelder -up-|> Besucher
+
 class Abteilung <<(D,#FF7700) Document>> {
    *Name : String <<Id>>
+}
+
+enum Terminart {
+   Online
+   Offline
 }
 
 class Termin <<(D,#FF7700) Document>> {
@@ -81,40 +102,23 @@ class Termin <<(D,#FF7700) Document>> {
    *Von : DateTime
    *Abteilung : Abteilung
    *MaxBesucher : int
+   *Terminart : Terminart
+   *List<Anmeldung> : Anmeldungen
    ---
 }
 Termin *--> Abteilung
+Termin *--> Terminart
+Termin *--> Anmeldung
 
-class OfflineTermin {
-   *Besucher : List<Schulbesucher>
-}
-OfflineTermin -up-|> Termin
-OfflineTermin *--> Schulbesucher
-
-class OnlineTermin {
-   *Besucher : List<MeetingTeilnehmer>
-}
-OnlineTermin -up-|> Termin
-OnlineTermin *--> MeetingTeilnehmer
-
-class Besucher {
-   *Vorname : String
-   *Nachname : String
-   *Email : String
-   *Telefon : String   
+class Anmeldung {
+   *Anmelder : Anmelder
+   *Begleiter : List<Besucher>
 }
 
-class Schulbesucher {
-   BegleitungVorname : String
-   BegleitungNachname : String
-}
-Schulbesucher -up-|> Besucher
-
-class MeetingTeilnehmer {
-   *Link : String
-}
-MeetingTeilnehmer -up-|> Besucher
-
+Anmeldung *--> Anmelder
+Anmeldung *--> Besucher
 @enduml
-
 ```
+
+- Wie kann eine Applikation dem Besucher die Daten zum Termin anzeigen? Welche Abfragen sind hierfür nötig?
+
