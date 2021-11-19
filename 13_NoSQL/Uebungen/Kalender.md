@@ -35,6 +35,10 @@ Sie ein kleines Musterprogramm, welches den Zugriff auf eine MongoDb Datenbank z
 - Fügen Sie einen User mit einigen Terminen hinzu.
 - Kontrollieren Sie im MongoDb Compass, ob die Daten korrekt geschrieben wurden.
 
+## Musterdatei
+
+Erstellen Sie in VS Code eine neue Datei *kalender_loesung.md*. Kopieren Sie den Inhalt der Datei [kalender_loesung.md](kalender_loesung.md) hinein (RAW Ansicht wählen).
+
 ## Klassendiagramm
 
 ```plantuml
