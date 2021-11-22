@@ -64,6 +64,7 @@ class Termin <<(D,#FF7700) Document>> {
    *Von : DateTime
    *Abteilung : Abteilung
    *Terminart : Terminart
+   Link: string
    *List<Anmeldung> : Anmeldungen
    ---
 }
@@ -74,7 +75,7 @@ Termin *--> Anmeldung
 class Anmeldung {
    *Email : String
    *Telefon : String     
-   *Anmelder : Anmelder
+   *Anmelder : Besucher
    *Begleiter : List<Besucher>
 }
 
