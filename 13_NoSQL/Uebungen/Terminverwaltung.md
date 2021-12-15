@@ -38,6 +38,8 @@ nicht schon gemacht haben (`git clone https://github.com/schletz/Dbi3Sem.git`). 
 
 ## Eine mögliche Lösung
 
+![](terminverwaltung_modell.svg)
+
 ```plantuml
 hide empty methods
 
