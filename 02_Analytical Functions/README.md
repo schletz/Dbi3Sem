@@ -1,6 +1,18 @@
 # Analytische Funktionen in Oracle
-Kopieren Sie den Inhalt der Datei [sportfest.sql](https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql) 
-in SQL Developer und führen Sie alle Anweisungen aus.
+
+Erstellen Sie in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Danach weisen Sie ihm
+die folgenden Rechte zu:
+
+```sql
+DROP USER Sportfest CASCADE;
+CREATE USER Sportfest IDENTIFIED BY oracle;
+GRANT CONNECT, RESOURCE, CREATE VIEW TO Sportfest;
+GRANT UNLIMITED TABLESPACE TO Sportfest;
+```
+
+Kopieren Sie danach Inhalt der Datei [sportfest.sql](https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql) 
+in SQL Developer und führen Sie alle Anweisungen aus. Achten Sie darauf, dass Sie im richten Schema
+(Sportfest) arbeiten.
 
 Unsere Datenbank speichert die einzelnen Bewerbe nach Abteilung, Klasse, Geschlecht und Bewerb. Die
 Anzahl der Datensätze gibt folgende Tabelle an:
