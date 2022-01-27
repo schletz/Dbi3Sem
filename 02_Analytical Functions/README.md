@@ -1,5 +1,8 @@
 # Analytische Funktionen in Oracle
 
+> **Hinweis:** Analytische Funktionen gibt es auch in anderen Datenbanksystemen. Die Anweisungen
+> können also auch in SQLite oder SQL Server ausgeführt werden.
+
 Erstellen Sie in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Danach weisen Sie ihm
 die folgenden Rechte zu:
 
