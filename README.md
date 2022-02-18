@@ -38,9 +38,9 @@
           <li> 
           Übungen zum Schemaentwurf
           <ul>
+          <li><a href="13_NoSQL/Uebungen%20Modelling/Terminverwaltung.md">Buchungssystem mit Terminverwaltung</a></li>
           <li><a href="13_NoSQL/Uebungen%20Modelling/HealthChecker.md">COVID Health Checker</a></li>
           <li><a href="13_NoSQL/Uebungen%20Modelling/Kalender.md">Kalender</a></li>
-          <li><a href="13_NoSQL/Uebungen%20Modelling/Terminverwaltung.md">Terminverwaltung</a></li>
           </ul>
           </li>
         </ul>
