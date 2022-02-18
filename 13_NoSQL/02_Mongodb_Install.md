@@ -37,7 +37,7 @@ können Klassendiagramme verwendet werden. Solche Diagramme könenn wie folgt er
    und füge folgende Zeilen hinzu:
 
 ```javascript
-    "markdown-pdf.plantumlOpenMarker": "```plantuml\n",
+    "markdown-pdf.plantumlOpenMarker": "```plantuml",
     "markdown-pdf.plantumlCloseMarker": "```"   
 ```
 

@@ -1,5 +1,8 @@
 # Eine kleine Prüfungsverwaltung
 
+Im Ordner [ExamManager](ExamManager) ist ein lauffähiges .NET 6 Projekt, welches die folgende
+Problemstellung abdeckt.
+
 Von unserer Schülerverwaltung bekommen wir verschiedene Exportdateien (CSV):
 
 - **Schüler** mit Schülernr, Name, Klasse und Geburtsdatum.
@@ -18,71 +21,19 @@ Wir möchten ein Tool schreiben, mit dem folgende Aufgaben erledigt werden könn
   als Vereinfachung nicht berücksichtigt, denn es wären hierfür auch die Noten des letzten Jahres 
   erforderlich).
 
+## Embedding vs. Referencing
+
+https://docs.microsoft.com/en-us/azure/cosmos-db/modeling-data
+
 ## Modell
 
 Ein Domänenmodell für diese Aufgaben kann wie folgt aussehen:
 
-```plantuml
-@startuml
-class Student <<(D,#FF7700) Document>> {
-   Id : Long
-   Firstname : String
-   Lastname : String
-   DateOfBirth : DateTime
-   SchoolClass : String   
-   Guid : Guid
-   Grades : Dictionary<string, Grade>
-   ---
-   GetNegativeGrades() : List<Grade>
-   CalcAufstieg(Exams: List<GradedExam>) : Boolean
-   GenerateExam(subject : String, teacher : Teacher) : Exam
-   UpsertGrade(grade : Grade)
-}
+![](klassenmodell.svg)
+<sup>
+https://www.plantuml.com/plantuml/uml/ZLB1Rjim3BtxAmZiuWmsq5k18V3Q9irGeDWEpdRdRDRHOCk5H0qRjlxxJAcn3CV6UacinyT7Ik_TM4R3hckJgaLheMHNasRORjDzzkvmkBw-kjh0lgzSDy150NyI07YeuGCyzhgHmq4Ponex6h2IZGhe8ow0UsJwydId39y6N4v7rP5KokhKz-rETXWx1bXAdvoISVBdZmPhijAkAbQzHlDxQpq_2xL2M7cUUpBnPsgGrKyAVUb6DbUMjv6xmxQwTK-M5JNf_I_ix9HI2r98szsm8Q4EkfeCCaajjUxx3wfut3i39gnEP0Ra6BwaNRZI-_NPac6ldJRoEzJyQPEy9C66S0vl3T-mTS9vq4mD6O-Liv49UE4QcUhfoxu4lVCQ_x5LV8sAgzOkUmlt7QfsX3x6oyZ5tp0vMdnEOOpP15pQALPbjTNYMlmYOoc6YISSvvOcwqQ8yixClO0OImYv2JEbDtmj12U3UResNY369qR3foncDXeGiTVNlhLMMKRDSL1KFOkCLv7J-bMYU4eo8GGz0xoSaS5btlrMx_Ey61S9WfVuwoC5q9EcrDmzvtyBFti2Jyatf6lNjVy0
+</sup>
 
-class Grade {
-    Value : Integer
-    Subject : String
-    Updated : DateTime
-}
-class Teacher <<(D,#FF7700) Document>> {
-    Id : String
-    Firstname : String
-    Lastname : String
-    Email : String?
-}
-
-class Exam <<(D,#FF7700) Document>> {
-    Id : Guid
-    StudentId : Long
-    StudentFirstname : String
-    StudentLastname : String
-    StudentDateOfBirth : DateTime
-    StudentSchoolClass : String
-
-    Teacher : Teacher
-
-    Subject : String
-    DateCrated : DateTime
-    ---
-    Exam(student : Student, teacher : Teacher, subject : String)
-    Grade(grade : Integer) : GradedExam
-}
-
-class GradedExam {
-    Assistant : Teacher
-    Grade : Grade
-    DateGraded : DateTime
-    ---
-    GradedExam(exam : Exam, assistant : Teacher, grade : Grade)
-}
-
-Exam *--> Teacher
-GradedExam *--> Teacher
-Student *--> Grade
-GradedExam -up-|> Exam
-GradedExam *--> Grade
-@enduml
-```
 ## Anmerkungen
 
 ### Notation
@@ -97,6 +48,7 @@ der Teacher mit dem Exam gelesen und somit auch erzeugt wird.
 Die Teacherklasse hat eine Id und ist somit auch ein eigenständiges Dokument. Sie wird in
 der Collection Teacher gespeichert. Zusätzlich werden die Lehrer, die die Prüfung durchführen,
 eingebettet.
+
 - **Vorteil**: Werden die Lehrer neu importiert, bleibt die Information des Prüfers davon unberührt
   und kann später auf das Protokoll gedruckt werden.
 - **Nachteil**: Diese Eigenschaft kann auch ein Nachteil sein. In unserem Fall nicht zutreffend,
@@ -107,6 +59,7 @@ eingebettet.
 Student ist ein Aggregate für Grade, da die Noten des Schülers eingebettet werden. Daher gibt es
 *keine Collection Grades* in der Datenbank und Grade hat auch keine Id. Der Schüler verwaltet also
 seine Noten. 
+
 - **Vorteil**: Methoden der Student Klasse können auf die Collection zugreifen und haben alle
   Noten. Dies ist für die Berechnung des Aufstiegs wichtig. Deswegen werden die Noten in
   diesem Beispiel auch als Collection eingebettet (aggregate pattern). Da die Noten einmalig
