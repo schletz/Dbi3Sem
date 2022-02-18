@@ -37,9 +37,8 @@ Sie ein kleines Musterprogramm, welches den Zugriff auf eine MongoDb Datenbank z
 
 ## Musterdatei
 
-Erstellen Sie in VS Code eine neue Datei *kalender_loesung.md*. Kopieren Sie den Inhalt der Datei [kalender_loesung.md](kalender_loesung.md) hinein (RAW Ansicht wählen).
-
-## Klassendiagramm
+Erstellen Sie in VS Code eine neue Datei *kalender_loesung.md*. Kopieren Sie den nachfolgenden Code
+als Start für Ihr PlantUML Diagramm hinein.
 
 ```plantuml
 @startuml
