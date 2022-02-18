@@ -39,7 +39,10 @@
         </ul>
         <em>Analytische Funktionen</em>
         <ul>
-          <li><a href="02_Analytical%20Functions/README.md">Analytische Funktionen</a></li>
+          <li><a href="02_Analytical%20Functions/README.md">Intro</a></li>
+          <li><a href="02_Analytical%20Functions/01_Partitioning.md">Partition by</a></li>
+          <li><a href="02_Analytical%20Functions/02_Rank.md">Rank</a></li>
+          <li><a href="02_Analytical%20Functions/03_Window.md">Window</a></li>
         </ul>
       </td>
     </tr>
