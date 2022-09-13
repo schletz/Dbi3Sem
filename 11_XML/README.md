@@ -36,6 +36,7 @@ Betrachten Sie das folgende XML Dokument:
         <Autor>Benjamin Evans, David Flanagan</Autor>
         <Auflage>1</Auflage>
     </Buch>
+</Bibliothek>
 ```
 
 Bearbeiten Sie folgende Fragestellungen:
