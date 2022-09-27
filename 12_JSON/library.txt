@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        const library = {
+            "hasChanged": false,
+            "bookCount": 1453,
+            "generatedAt": "2022-09-27T12:48:13+02:00",
+            "books": [
+                {
+                    "id": 1000,
+                    "title": "C# Programming",
+                    "categories": ["Programming", "Science"],
+                    "authors": null
+                },
+                {
+                    "id": 1001,
+                    "title": "Java Programming",
+                    "categories": ["Programming", "Java", "Science"],
+                    "authors": [
+                        {
+                            "firstname": "FN1",
+                            "lastname": "LN1"
+                        },
+                        {
+                            "firstname": "FN2",
+                            "lastname": "LN2"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Gib generatedAt aus.
+        console.log(library.generatedAt);
+        // Gib die ID des ersten Buches aus.
+        console.log(library.books[0].id);
+        // Gib den 2. Autor des 2. Buches aus
+        console.log(library.books[1].authors[1]);
+
+    </script>
+
+</body>
+</html>
