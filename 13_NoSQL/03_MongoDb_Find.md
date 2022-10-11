@@ -163,6 +163,12 @@ db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.Warnings);
 
 }
 
+// (3) Geben Sie wie bei Beispiel (2) die Warnungen aus, nur zeigen Sie auch den Stationsnamen an.
+// Was müssen Sie tun? Ist das aus Ihrer Sicht für die Performance optimal?
+{
+
+}
+
 class WeatherwarningsJson
 {
     public List<Station> Stations { get; set; } = new();
@@ -171,3 +177,8 @@ class WeatherwarningsJson
 }
 ```
 
+### Kritische Reflexion
+
+Betrachten Sie das 3. Abfragebeispiel (Ausgabe der Warnungen vom 8.2.2018 samt Stationsname).
+Was können Sie am Design der Datenbank ändern, um dieses Beispiel besser (performanter) lösen
+zu können? Finden Sie das Datenbankdesign (1:1 Mapping der JSON Importdatei) für gut gewählt?
