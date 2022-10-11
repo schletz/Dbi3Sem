@@ -5,6 +5,7 @@ using Bogus;
 using Bogus.Extensions;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Configuration;
 using MongoDB.Driver.Core.Events;
 using MongoDbDemo.Model;
 
@@ -20,20 +21,39 @@ namespace MongoDbDemo
             Console.ForegroundColor = color;
         }
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            var client = new MongoClient("mongodb://root:1234@localhost:27017");
-            var database = client.GetDatabase("Stundenplan");
-            SeedDatabase(database);
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
+            // Verbindet zur Datenbank. Der Container muss laufen und für den User root (Passwort 1234) konfiguriert sein.
+            var settings = MongoClientSettings.FromConnectionString("mongodb://root:1234@localhost:27017");
+            settings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
+            var client = new MongoClient(settings);
+            var database = client.GetDatabase("Stundenplan");
+            // Musterdaten generieren und schreiben.
+            try
+            {
+                SeedDatabase(database);
+            }
+            catch (TimeoutException)
+            {
+                Console.Error.WriteLine("Die Datenbank ist nicht erreichbar. Läuft der Container?");
+                return 1;
+            }
+            catch (MongoAuthenticationException)
+            {
+                Console.Error.WriteLine("Mit dem angegebenen Benutzer konnte keine Verbindung aufgebaut werden.");
+                return 2;
+            }
             FilterExamples(database);
+            return 0;
         }
 
         private static void FilterExamples(IMongoDatabase db)
         {
             {
+                // *********************************************************************************
                 // Gib die Info der Klasse 2BHIF aus.
                 // find({ "_id" : "2BHIF" })
                 PrintHeader("Gib die Info der Klasse 2BHIF aus.");
@@ -51,11 +71,11 @@ namespace MongoDbDemo
             }
 
             {
-                // Von welchen Klassen ist KOE der Klassenvorstand?
-                // Gib die Info der Klasse 3CHIF aus.
-                // find({ "Kv._id" : "KOE" })
-                PrintHeader("Von welchen Klassen ist KOE der Klassenvorstand?");
-                var filter = Builders<Klasse>.Filter.Eq(k => k.Kv.Id, "KOE");
+                // *********************************************************************************
+                // Von welchen Klassen ist WIL der Klassenvorstand?
+                // find({ "Kv._id" : "WIL" })
+                PrintHeader("Von welchen Klassen ist WIL der Klassenvorstand?");
+                var filter = Builders<Klasse>.Filter.Eq(k => k.Kv.Id, "WIL");
                 var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
                 Console.Write("   Abfrage: "); Console.WriteLine(results);
@@ -64,13 +84,15 @@ namespace MongoDbDemo
                     .ForEach(k => Console.WriteLine(k));
 
                 // Variante mit AsQueryable()
-                var results2 = db.GetCollection<Klasse>(nameof(Klasse))
+                db.GetCollection<Klasse>(nameof(Klasse))
                     .AsQueryable()
-                    .Where(k => k.Kv.Id == "KOE");
-                Console.WriteLine(results2.FirstOrDefault());
+                    .Where(k => k.Kv.Id == "WIL")
+                    .ToList()
+                    .ForEach(k => Console.WriteLine(k));
             }
 
             {
+                // *********************************************************************************
                 // Welche HIF Klassen gibt es?
                 // find({ "_id" : /^\d.HIF/ })
                 PrintHeader("Welche HIF Klassen gibt es?");
@@ -84,6 +106,7 @@ namespace MongoDbDemo
             }
 
             {
+                // *********************************************************************************
                 // Welche Kvs haben keine Mailadresse?
                 // find({ "Kv.Email" : null })
                 PrintHeader("KVs ohne Email Adresse");
@@ -97,6 +120,7 @@ namespace MongoDbDemo
             }
 
             {
+                // *********************************************************************************
                 // Welche Lehrer verdienen mehr als 4000 Euro?
                 // find({ "Gehalt" : { "$gt" : "4000" } })
                 PrintHeader("Lehrer, die mehr als 4000 Euro Gehalt haben.");
@@ -117,6 +141,7 @@ namespace MongoDbDemo
             }
 
             {
+                // *********************************************************************************
                 // Welche POS Lehrer verdienen mehr als 4000 Euro?
                 // find({ "Gehalt" : { "$gt" : "4000" }, "Lehrbefaehigung" : "POS" })
                 PrintHeader("Welche POS Lehrer verdienen mehr als 4000 Euro?");
@@ -139,6 +164,7 @@ namespace MongoDbDemo
             }
 
             {
+                // *********************************************************************************
                 // Welche Lehrer dürfen POS und DBI unterrichten?
                 // find({ "Gehalt" : { "$gt" : "4000" }, "Lehrbefaehigung" : "POS" })
                 PrintHeader("Welche Lehrer dürfen POS und DBI unterrichten?");
@@ -160,6 +186,7 @@ namespace MongoDbDemo
             }
 
             {
+                // *********************************************************************************
                 // Welche HIF Klassen gibt es? Filter mit dem Property Abteilung.
                 // Wir müssen im Speicher filtern, indem wir alles laden und dann mit LINQ
                 // und Where filtern. Performance???
@@ -174,7 +201,8 @@ namespace MongoDbDemo
                     .Where(k => k.Abteilung == "HIF")
                     .ToList()
                     .ForEach(k => Console.WriteLine(k));
-                // Mögliche Lösung: Mit der [BsonElement] Annotation das Property in die DB schreiben.
+                // Mögliche Verbesserung: Mit der [BsonElement] Annotation das Property Abteilung
+                // in der Klasse Klassein die DB schreiben.
             }
         }
 
@@ -185,7 +213,8 @@ namespace MongoDbDemo
 
             Randomizer.Seed = new Random(2112);
             var faecher = new string[] { "POS", "DBI", "AM", "D", "E", "BWM" };
-            var lehrer = new Faker<Lehrer>().CustomInstantiator(f =>
+            // Wir generieren einige Lehrer mit dem Faker aus dem Paket Bogus.
+            var lehrer = new Faker<Lehrer>("de").CustomInstantiator(f =>
             {
                 var zuname = f.Name.LastName();
                 var l = new Lehrer(
@@ -201,22 +230,22 @@ namespace MongoDbDemo
                 return l;
             })
             .Generate(100)
-            .GroupBy(l => l.Id)
+            .GroupBy(l => l.Id)        // Duplikate vermeiden (gleiche ID darf nicht sein)
             .Select(l => l.First())
             .ToList();
 
             db.GetCollection<Lehrer>(nameof(Lehrer)).InsertMany(lehrer);
 
             var abteilungen = new string[] { "HIF", "AIF", "BIF" };
-
-            var klassen = new Faker<Klasse>().CustomInstantiator(f =>
+            // Wir generieren einige Klassen.
+            var klassen = new Faker<Klasse>("de").CustomInstantiator(f =>
             {
                 return new Klasse(
                     id: f.Random.Int(1, 5) + f.Random.String2(1, "ABCD") + f.Random.ListItem(abteilungen),
                     kv: f.Random.ListItem(lehrer));
             })
             .Generate(100)
-            .GroupBy(k => k.Id)
+            .GroupBy(k => k.Id)       // Duplikate vermeiden (gleiche ID darf nicht sein)
             .Select(k => k.First())
             .Take(10)
             .ToList();
