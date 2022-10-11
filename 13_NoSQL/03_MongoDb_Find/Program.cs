@@ -34,10 +34,10 @@ namespace MongoDbDemo
         private static void FilterExamples(IMongoDatabase db)
         {
             {
-                // Gib die Info der Klasse 3CHIF aus.
-                // find({ "_id" : "3CHIF" })
-                PrintHeader("Gib die Info der Klasse 3CHIF aus.");
-                var filter = Builders<Klasse>.Filter.Eq(k => k.Id, "3CHIF");
+                // Gib die Info der Klasse 2BHIF aus.
+                // find({ "_id" : "2BHIF" })
+                PrintHeader("Gib die Info der Klasse 2BHIF aus.");
+                var filter = Builders<Klasse>.Filter.Eq(k => k.Id, "2BHIF");
                 var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
                 Console.Write("   Abfrage: "); Console.WriteLine(results);
@@ -46,16 +46,16 @@ namespace MongoDbDemo
                 // Variante mit AsQueryable()
                 var results2 = db.GetCollection<Klasse>(nameof(Klasse))
                     .AsQueryable()
-                    .Where(k => k.Id == "3CHIF");
+                    .Where(k => k.Id == "2BHIF");
                 Console.WriteLine(results2.FirstOrDefault());
             }
 
             {
-                // Von welchen Klassen ist STO der Klassenvorstand?
+                // Von welchen Klassen ist KOE der Klassenvorstand?
                 // Gib die Info der Klasse 3CHIF aus.
-                // find({ "Kv._id" : "STO" })
-                PrintHeader("Von welchen Klassen ist STO der Klassenvorstand?");
-                var filter = Builders<Klasse>.Filter.Eq(k => k.Kv.Id, "STO");
+                // find({ "Kv._id" : "KOE" })
+                PrintHeader("Von welchen Klassen ist KOE der Klassenvorstand?");
+                var filter = Builders<Klasse>.Filter.Eq(k => k.Kv.Id, "KOE");
                 var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
                 Console.Write("   Abfrage: "); Console.WriteLine(results);
@@ -66,7 +66,7 @@ namespace MongoDbDemo
                 // Variante mit AsQueryable()
                 var results2 = db.GetCollection<Klasse>(nameof(Klasse))
                     .AsQueryable()
-                    .Where(k => k.Kv.Id == "STO");
+                    .Where(k => k.Kv.Id == "KOE");
                 Console.WriteLine(results2.FirstOrDefault());
             }
 
