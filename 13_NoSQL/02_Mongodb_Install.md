@@ -1,22 +1,33 @@
-# Installation von MongoDb
+# Installation von MongoDb als Docker Image
 
-- Lade von [mongodb.com](https://www.mongodb.com/try/download/community) die aktuellste
-  Communitiy Version von MongoDb.
-- Installiere das Programm in *C:\MongoDB*.
-- Die Datenbank muss nicht als Netzwerkdienst installiert werden, da wir sie über eine bat
-  Datei starten.
+## Vorbereitung: Docker Desktop
+Lade von [docker.com](https://docs.docker.com/get-docker/) Docker Desktop für dein Betriebssystem.
+In [diesem Video](https://www.youtube.com/watch?v=EfZTHVe0Z_c) wird die Installation gezeigt.
+Die SQL Server Installation, die auch im Video gezeigt wird, muss natürlich nicht durchgeführt werden.
 
-### Starten der Datenbank
+## Download des Docker Images
 
-Ist MongoDB in *C:\MongoDB* installiert, führe folgende Schritte durch:
-- Lade [mongod.cfg](mongod.cfg) herunter und kopiere sie in *C:\MongoDB\bin*
-- Lade [startMongoDb.bat](startMongoDb.bat) und kopiere sie in *C:\MongoDB*
-- Erstelle in C:\MongoDB das Verzeichnis *log* und *data*
-- Starte MongoDB durch Doppelklick auf die Datei *C:\MongoDB\startMongoDb.bat*
+Führe nach erfolgter Docker Installation folgenden Befehl in der Konsole aus. Der Docker Container
+(rd. 700 MB) wird durch die Umgebungsvariablen wie folgt konfiguriert:
 
-## Verbinden mit dem MongoDB Compass
+- Port: 27017
+- Username: root
+- Passwort: 1234
 
-Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://127.0.0.1:27017` erreicht
+Stelle vorher sicher, dass Docker Desktop läuft (Dockersymbol in der Taskleiste neben der Uhr).
+```
+docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongodb mongo
+```
+
+### Verbinden mit dem MongoDB Compass
+
+Für die Verwaltung der Datenbank gibt es die Software *MongoDB Compass*. Hier können auch Abfragen
+an die Datenbank gesendet werden. Die Software kann von [mongodb.com](https://www.mongodb.com/products/compass)
+geladen werden.
+
+Zum Verbinden gib den Verbindungsstring
+
+Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://root:1234@localhost:27017` erreicht
 werden. Natürlich muss die Datenbank vorher gestartet werden.
 
 ## PlantUML und VS Code als Modellierungswerkzeug
@@ -33,7 +44,7 @@ können Klassendiagramme verwendet werden. Solche Diagramme könenn wie folgt er
    - Markdown PDF
    - Markdown Preview Enhanced
    - PlantUML
-1. Öffne die VS Code Konfiguration (*F1* - "*settings*" eingeben - "*Preferences: Open Settings (JSON)*" wählen)
+1. Öffne die VS Code Konfiguration (*F1* - "*settings*" eingeben - "*Preferences: Open User Settings (JSON)*" wählen)
    und füge folgende Zeilen hinzu:
 
 ```javascript
@@ -44,13 +55,6 @@ können Klassendiagramme verwendet werden. Solche Diagramme könenn wie folgt er
 Nun steht durch die Extension *Markdown Preview Enhanced* ein Icon bereit, welches eine Vorschau mit
 dem gerenderten Diagramm bietet:
 ![](preview_vscode.png)
-
-## Videos
-
-Die Videos sind auf Microsoft Stream mit einem Schulaccount abrufbar.
-
-- Installation: https://web.microsoftstream.com/video/66e14f96-8189-4e81-9f73-766f7fc9e877
-- Shell und Treiber: https://web.microsoftstream.com/video/010e51eb-81d9-4865-a683-ad61f5482032
 
 ## Weitere Links
 

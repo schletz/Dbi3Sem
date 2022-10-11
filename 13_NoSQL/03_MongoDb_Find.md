@@ -1,6 +1,5 @@
 # Filtern von Collections
 
-> - Video zum Kapitel: https://web.microsoftstream.com/video/16a1260e-228b-4cef-b45d-6ee1ed66583c (mit Schullogin abrufbar)
 > - Musterprogramm: Ordner [03_MongoDb_Find](03_MongoDb_Find)
 
 So wie in jeder anderen Datenbank ist in MongoDB das Filtern von Daten ein zentraler Punkt. Wir

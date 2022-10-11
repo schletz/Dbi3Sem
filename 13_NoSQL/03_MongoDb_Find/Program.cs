@@ -5,72 +5,80 @@ using Bogus;
 using Bogus.Extensions;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDbDemo.Domain;
+using MongoDB.Driver.Core.Events;
+using MongoDbDemo.Model;
 
 namespace MongoDbDemo
 {
     class Program
     {
+        static void PrintHeader(string text)
+        {
+            var color = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine(text);
+            Console.ForegroundColor = color;
+        }
+
         static void Main(string[] args)
         {
-            var client = new MongoClient("mongodb://127.0.0.1:27017");
+            var client = new MongoClient("mongodb://root:1234@localhost:27017");
             var database = client.GetDatabase("Stundenplan");
             SeedDatabase(database);
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Clear();
             FilterExamples(database);
         }
 
         private static void FilterExamples(IMongoDatabase db)
         {
             {
-                // "Rohes" Filtern mit BSON Documents.
-                var filter = Builders<BsonDocument>.Filter.Eq("_id", "3CHIF");
-                var found = db.GetCollection<BsonDocument>(nameof(Klasse)).Find(filter).ToEnumerable();
-                foreach (var k in found)
-                {
-                    Console.WriteLine($"{k["_id"]} mit KV {k["Kv"]["_id"]}." );
-                }
-            }
-            {
                 // Gib die Info der Klasse 3CHIF aus.
                 // find({ "_id" : "3CHIF" })
-                Console.WriteLine("Gib die Info der Klasse 3CHIF aus.");
+                PrintHeader("Gib die Info der Klasse 3CHIF aus.");
                 var filter = Builders<Klasse>.Filter.Eq(k => k.Id, "3CHIF");
-                var found = db.GetCollection<Klasse>(nameof(Klasse))
+                var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
-                Console.WriteLine(found);
-                Console.WriteLine(found.FirstOrDefault());
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                Console.WriteLine(results.FirstOrDefault());
 
                 // Variante mit AsQueryable()
-                db.GetCollection<Klasse>(nameof(Klasse))
+                var results2 = db.GetCollection<Klasse>(nameof(Klasse))
                     .AsQueryable()
-                    .Where(k => k.Id == "3CHIF")
-                    .ToList()
-                    .ForEach(k => Console.WriteLine(k));
+                    .Where(k => k.Id == "3CHIF");
+                Console.WriteLine(results2.FirstOrDefault());
             }
 
             {
                 // Von welchen Klassen ist STO der Klassenvorstand?
                 // Gib die Info der Klasse 3CHIF aus.
                 // find({ "Kv._id" : "STO" })
-                Console.WriteLine("Von welchen Klassen ist STO der Klassenvorstand?");
+                PrintHeader("Von welchen Klassen ist STO der Klassenvorstand?");
                 var filter = Builders<Klasse>.Filter.Eq(k => k.Kv.Id, "STO");
-                var found = db.GetCollection<Klasse>(nameof(Klasse))
+                var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .ForEach(k => Console.WriteLine(k));
+
+                // Variante mit AsQueryable()
+                var results2 = db.GetCollection<Klasse>(nameof(Klasse))
+                    .AsQueryable()
+                    .Where(k => k.Kv.Id == "STO");
+                Console.WriteLine(results2.FirstOrDefault());
             }
 
             {
                 // Welche HIF Klassen gibt es?
                 // find({ "_id" : /^\d.HIF/ })
-                Console.WriteLine("Welche HIF Klassen gibt es?");
+                PrintHeader("Welche HIF Klassen gibt es?");
                 var filter = Builders<Klasse>.Filter.Regex(k => k.Id, @"/^\d.HIF/");
-                var found = db.GetCollection<Klasse>(nameof(Klasse))
+                var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .ForEach(k => Console.WriteLine(k));
             }
@@ -78,12 +86,12 @@ namespace MongoDbDemo
             {
                 // Welche Kvs haben keine Mailadresse?
                 // find({ "Kv.Email" : null })
-                Console.WriteLine("KVs ohne Email Adresse");
+                PrintHeader("KVs ohne Email Adresse");
                 var filter = Builders<Klasse>.Filter.Eq(k => k.Kv.Email, null);
-                var found = db.GetCollection<Klasse>(nameof(Klasse))
+                var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .ForEach(k => Console.WriteLine(k));
             }
@@ -91,12 +99,12 @@ namespace MongoDbDemo
             {
                 // Welche Lehrer verdienen mehr als 4000 Euro?
                 // find({ "Gehalt" : { "$gt" : "4000" } })
-                Console.WriteLine("Lehrer, die mehr als 4000 Euro Gehalt haben.");
+                PrintHeader("Lehrer, die mehr als 4000 Euro Gehalt haben.");
                 var filter = Builders<Lehrer>.Filter.Gt(l => l.Gehalt, 4000);
-                var found = db.GetCollection<Lehrer>(nameof(Lehrer))
+                var results = db.GetCollection<Lehrer>(nameof(Lehrer))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .ForEach(l => Console.WriteLine(l));
 
@@ -111,14 +119,14 @@ namespace MongoDbDemo
             {
                 // Welche POS Lehrer verdienen mehr als 4000 Euro?
                 // find({ "Gehalt" : { "$gt" : "4000" }, "Lehrbefaehigung" : "POS" })
-                Console.WriteLine("Welche POS Lehrer verdienen mehr als 4000 Euro?");
+                PrintHeader("Welche POS Lehrer verdienen mehr als 4000 Euro?");
                 var filter = Builders<Lehrer>.Filter.And(
                     Builders<Lehrer>.Filter.Gt(l => l.Gehalt, 4000),
                     Builders<Lehrer>.Filter.AnyEq(l => l.Lehrbefaehigungen, "POS"));
-                var found = db.GetCollection<Lehrer>(nameof(Lehrer))
+                var results = db.GetCollection<Lehrer>(nameof(Lehrer))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .ForEach(l => Console.WriteLine(l));
 
@@ -133,12 +141,12 @@ namespace MongoDbDemo
             {
                 // Welche Lehrer dürfen POS und DBI unterrichten?
                 // find({ "Gehalt" : { "$gt" : "4000" }, "Lehrbefaehigung" : "POS" })
-                Console.WriteLine("Welche Lehrer dürfen POS und DBI unterrichten?");
+                PrintHeader("Welche Lehrer dürfen POS und DBI unterrichten?");
                 var filter = Builders<Lehrer>.Filter.All(l => l.Lehrbefaehigungen, new string[] { "POS", "DBI" });
-                var found = db.GetCollection<Lehrer>(nameof(Lehrer))
+                var results = db.GetCollection<Lehrer>(nameof(Lehrer))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .ForEach(l => Console.WriteLine(l));
 
@@ -149,15 +157,6 @@ namespace MongoDbDemo
                                 l.Lehrbefaehigungen.Any(le => le == "DBI"))
                     .ToList()
                     .ForEach(l => Console.WriteLine(l));
-
-                // EXCEPTION: Unsupported (Lehrer die NUR POS und DBI unterrichten)
-                //db.GetCollection<Lehrer>(nameof(Lehrer))
-                //    .AsQueryable()
-                //    // .ToList()  Wäre möglich, damit die nachfolgende Abfrage funktioniert.
-                //    //            Allerdings wird hier die ganze Collection geladen!
-                //    .Where(l => l.Lehrbefaehigungen.All(le => le == "POS" && le == "DBI"))
-                //    .ToList()
-                //    .ForEach(l => Console.WriteLine(l));
             }
 
             {
@@ -165,12 +164,12 @@ namespace MongoDbDemo
                 // Wir müssen im Speicher filtern, indem wir alles laden und dann mit LINQ
                 // und Where filtern. Performance???
                 // find({ })
-                Console.WriteLine("Welche HIF Klassen gibt es? Filter mit dem Property Abteilung.");
+                PrintHeader("Welche HIF Klassen gibt es? Filter mit dem Property Abteilung.");
                 var filter = Builders<Klasse>.Filter.Empty;
-                var found = db.GetCollection<Klasse>(nameof(Klasse))
+                var results = db.GetCollection<Klasse>(nameof(Klasse))
                     .Find(filter);
-                Console.WriteLine(found);
-                found
+                Console.Write("   Abfrage: "); Console.WriteLine(results);
+                results
                     .ToList()
                     .Where(k => k.Abteilung == "HIF")
                     .ToList()
@@ -195,15 +194,15 @@ namespace MongoDbDemo
                     zuname: zuname)
                 {
                     Email = $"{zuname}@spengergasse.at".OrDefault(f, 0.2f),
-                    Gehalt = f.Random.Decimal2(2000, 5000).OrNull(f, 0.5f)
+                    Gehalt = (f.Random.Int(200000, 500000) / 100M).OrNull(f, 0.5f)
                 };
                 // Lehrer sind in 0 - 3 Fächern aus der Liste lehrbefähigt.
                 l.Lehrbefaehigungen.AddRange(f.Random.ListItems(faecher, f.Random.Int(0, 3)));
                 return l;
             })
             .Generate(100)
-            .GroupBy(l=>l.Id)
-            .Select(l=>l.First())
+            .GroupBy(l => l.Id)
+            .Select(l => l.First())
             .ToList();
 
             db.GetCollection<Lehrer>(nameof(Lehrer)).InsertMany(lehrer);
@@ -217,8 +216,8 @@ namespace MongoDbDemo
                     kv: f.Random.ListItem(lehrer));
             })
             .Generate(100)
-            .GroupBy(k=>k.Id)
-            .Select(k=>k.First())
+            .GroupBy(k => k.Id)
+            .Select(k => k.First())
             .Take(10)
             .ToList();
 

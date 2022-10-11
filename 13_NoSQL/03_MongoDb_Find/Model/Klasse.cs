@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MongoDbDemo.Domain
+namespace MongoDbDemo.Model
 {
     class Klasse
     {

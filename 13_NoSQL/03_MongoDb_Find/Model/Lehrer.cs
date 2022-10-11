@@ -1,19 +1,18 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace MongoDbDemo.Domain
+namespace MongoDbDemo.Model
 {
     class Lehrer
     {
-        public Lehrer(string id, string vorname, string zuname)
+        public Lehrer(string id, string vorname, string zuname, string? email = null, decimal? gehalt = null)
         {
             Id = id;
             Vorname = vorname;
             Zuname = zuname;
+            Email = email;
+            Gehalt = gehalt;
         }
-
 
         [BsonId]
         public string Id { get; private set; }
