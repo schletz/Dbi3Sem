@@ -25,8 +25,6 @@ Für die Verwaltung der Datenbank gibt es die Software *MongoDB Compass*. Hier k
 an die Datenbank gesendet werden. Die Software kann von [mongodb.com](https://www.mongodb.com/products/compass)
 geladen werden.
 
-Zum Verbinden gib den Verbindungsstring
-
 Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://root:1234@localhost:27017` erreicht
 werden. Natürlich muss die Datenbank vorher gestartet werden.
 
