@@ -64,3 +64,110 @@ db.Klasse.find({ "_id" : "3CHIF" })
 ![](shell_find.png)
 
 Auf diese Art können alle angezeigten Filter des Musterprogrammes ausgeführt werden.
+
+## Übung
+
+In der Datei [weatherwarnings.json](weatherwarnings.json) befinden sich Daten von Wetterstationen
+und ausgegebene Wetterwarnungen. Sie sollen diese Information mit Hilfe einer NoSQL Datenbank
+speichern. Erstellen Sie dafür mit den folgenden Befehlen in der Konsole eine leere .NET Konsolenanwendung:
+
+```
+rd /S /Q WarningClient
+md WarningClient
+cd WarningClient
+dotnet new console
+start WarningClient.csproj
+
+```
+
+Ersetzen Sie den Inhalt der erzeugten Datei *WarningClient.csproj* durch die nachfolgende
+Version:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.*" />
+  </ItemGroup>
+</Project>
+
+```
+
+Danach erstellen Sie einen Ordner *Model* und erstellen dort 3 Klassen, die die Informationen aus dem
+betreffenden Abschnitt im JSON Dokument aufnehmen sollen:
+
+- Klasse *Station*
+- Klasse *WarnMessage*
+- Klasse *Warning*
+
+Achten Sie auf korrekte Konstruktoren für die notwendigen Felder. Ersetzen Sie nun die Datei
+*Program.cs *durch die untenstehende Version. Sie verwendet Ihre erstellten Klassen *Station*,
+*WarnMessage* und *Warning*, um die Daten aus der JSON Datei zu lesen.
+
+Implementieren Sie danach die 2 Abfragebeispiele im Programmcode.
+
+```c#
+using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using WarningClient.Model;
+
+// Wichtig: Bei Copy to Output Directory muss im Solution Explorer bei stundenplan.json
+//          die Option Copy Always gesetzt werden!
+using var filestream = new FileStream("weatherwarnings.json", FileMode.Open, FileAccess.Read);
+
+// Lesen der JSON Datei in die erzeugten Modelklassen.
+var weatherwarnings = await JsonSerializer.DeserializeAsync<WeatherwarningsJson>(
+    filestream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+if (weatherwarnings is null) { return; }
+Console.WriteLine($"{weatherwarnings.Stations.Count} Stationen gelesen.");
+Console.WriteLine($"{weatherwarnings.WarnMessages.Count} Warnmeldungen gelesen.");
+Console.WriteLine($"{weatherwarnings.Warnings.Count} Warnungen gelesen.");
+
+// Verbinden zur MongoDB und schreiben der Daten als Collection
+var client = new MongoClient("mongodb://root:1234@localhost:27017");
+var db = client.GetDatabase("Weatherwarnings");
+db.DropCollection(nameof(Station));
+db.DropCollection(nameof(WarnMessage));
+db.DropCollection(nameof(Warning));
+
+db.GetCollection<Station>(nameof(Station)).InsertMany(weatherwarnings.Stations);
+db.GetCollection<WarnMessage>(nameof(WarnMessage)).InsertMany(weatherwarnings.WarnMessages);
+db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.Warnings);
+
+// TODO: Abfragen der folgenden Informationen nach folgendem Muster:
+// Welche Stationen befinden sich auf über 500m?
+{
+    Console.WriteLine("Stationen über 500m");
+    var results = db.GetCollection<Station>(nameof(Station)).AsQueryable().Where(s => s.Height > 500).ToList();
+    foreach (var station in results)
+        Console.WriteLine($"{station.Id} - {station.Name} auf {station.Height}m");
+}
+
+// (1) Welche Warntexte haben Gefahrenstufe 3 (dangerLevel = 3)
+{
+
+}
+
+// (2) Welche Warnungen galten am 8.2.2018 (Beginndatum ist <= und Endedatum ist > als dieses Datum)?
+{
+
+}
+
+class WeatherwarningsJson
+{
+    public List<Station> Stations { get; set; } = new();
+    public List<WarnMessage> WarnMessages { get; set; } = new();
+    public List<Warning> Warnings { get; set; } = new();
+}
+```
+
