@@ -1,7 +1,5 @@
 # Filtern von Collections
 
-> - Musterprogramm: Ordner [03_MongoDb_Find](03_MongoDb_Find)
-
 So wie in jeder anderen Datenbank ist in MongoDB das Filtern von Daten ein zentraler Punkt. Wir
 haben mehrere Möglichkeiten, Daten zu filtern:
 
@@ -9,6 +7,11 @@ haben mehrere Möglichkeiten, Daten zu filtern:
 - In der Applikation mittels dem MongoDB Treiber
 
 ## Filtern im .NET MongoDB Treiber
+
+> Das Musterprogramm mit Filterbeispielen ist im Ordner [03_MongoDb_Find](03_MongoDb_Find).
+> Öffne die Datei [MongoDbDemo.csproj](03_MongoDb_Find/MongoDbDemo.csproj) in Visual Studio
+> und führe das Programm bei gestarteter MongoDB aus.
+
 
 ### Mit dem Builder
 
