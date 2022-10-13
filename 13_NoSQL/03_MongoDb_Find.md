@@ -164,9 +164,15 @@ db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.GetPropert
 
 }
 
-// (3) Geben Sie wie bei Beispiel (2) die Warnungen aus, nur zeigen Sie auch den Stationsnamen an.
+// (3) Welche Warnungen sind im März 2018 mit der Gefahrenstufe 3 gespeichert? Geben Sie das Document Warning aus.
+{
+
+}
+
+// (4) Geben Sie wie bei Beispiel (2) die Warnungen aus, nur zeigen Sie auch den Stationsnamen an.
 // Was müssen Sie tun? Ist das aus Ihrer Sicht für die Performance optimal?
 {
+    
 }
 
 ```
