@@ -124,337 +124,505 @@
   "warnings": [
     {
       "stationId": 1006,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-15",
       "end": "2018-03-18"
     },
     {
       "stationId": 1007,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-05",
       "end": "2018-01-08"
     },
     {
       "stationId": 1013,
-      "warnMessage": "Starker Regen",
+      "warnMessage": {
+        "message": "Starker Regen",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-07",
       "end": "2018-02-10"
     },
     {
       "stationId": 1013,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-01",
       "end": "2018-01-03"
     },
     {
       "stationId": 1013,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-11",
       "end": "2018-02-13"
     },
     {
       "stationId": 1006,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-02",
       "end": "2018-01-06"
     },
     {
       "stationId": 1012,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-24",
       "end": "2018-02-28"
     },
     {
       "stationId": 1018,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-06",
       "end": "2018-03-08"
     },
     {
       "stationId": 1012,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-04-02",
       "end": "2018-04-04"
     },
     {
       "stationId": 1002,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-28",
       "end": "2018-03-03"
     },
     {
       "stationId": 1016,
-      "warnMessage": "Große Kälte (Tmin < -10°C)",
+      "warnMessage": {
+        "message": "Große Kälte (Tmin < -10°C)",
+        "dangerLevel": 2
+      },
       "begin": "2018-02-12",
       "end": "2018-02-15"
     },
     {
       "stationId": 1008,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-04-07",
       "end": "2018-04-09"
     },
     {
       "stationId": 1001,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-03-24",
       "end": "2018-03-25"
     },
     {
       "stationId": 1010,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-16",
       "end": "2018-01-20"
     },
     {
       "stationId": 1011,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-03-27",
       "end": "2018-03-30"
     },
     {
       "stationId": 1014,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-23",
       "end": "2018-03-25"
     },
     {
       "stationId": 1012,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-01-30",
       "end": "2018-01-31"
     },
     {
       "stationId": 1002,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-26",
       "end": "2018-01-30"
     },
     {
       "stationId": 1017,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-02-26",
       "end": "2018-03-02"
     },
     {
       "stationId": 1014,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-02-18",
       "end": "2018-02-22"
     },
     {
       "stationId": 1011,
-      "warnMessage": "Starker Regen",
+      "warnMessage": {
+        "message": "Starker Regen",
+        "dangerLevel": 1
+      },
       "begin": "2018-04-03",
       "end": "2018-04-04"
     },
     {
       "stationId": 1001,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-18",
       "end": "2018-01-22"
     },
     {
       "stationId": 1015,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-04-04",
       "end": "2018-04-06"
     },
     {
       "stationId": 1006,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-24",
       "end": "2018-02-25"
     },
     {
       "stationId": 1003,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-12",
       "end": "2018-01-13"
     },
     {
       "stationId": 1001,
-      "warnMessage": "Große Kälte (Tmin < -10°C)",
+      "warnMessage": {
+        "message": "Große Kälte (Tmin < -10°C)",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-22",
       "end": "2018-03-25"
     },
     {
       "stationId": 1015,
-      "warnMessage": "Starker Regen",
+      "warnMessage": {
+        "message": "Starker Regen",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-09",
       "end": "2018-02-13"
     },
     {
       "stationId": 1007,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-11",
       "end": "2018-03-14"
     },
     {
       "stationId": 1005,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-01-05",
       "end": "2018-01-09"
     },
     {
       "stationId": 1003,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-04",
       "end": "2018-01-07"
     },
     {
       "stationId": 1005,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-04-05",
       "end": "2018-04-06"
     },
     {
       "stationId": 1003,
-      "warnMessage": "Starker Regen",
+      "warnMessage": {
+        "message": "Starker Regen",
+        "dangerLevel": 1
+      },
       "begin": "2018-02-05",
       "end": "2018-02-06"
     },
     {
       "stationId": 1010,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-01-24",
       "end": "2018-01-26"
     },
     {
       "stationId": 1010,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-01-31",
       "end": "2018-02-03"
     },
     {
       "stationId": 1015,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-01-22",
       "end": "2018-01-24"
     },
     {
       "stationId": 1015,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-07",
       "end": "2018-03-08"
     },
     {
       "stationId": 1006,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-04-02",
       "end": "2018-04-04"
     },
     {
       "stationId": 1002,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-21",
       "end": "2018-03-25"
     },
     {
       "stationId": 1004,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-21",
       "end": "2018-03-23"
     },
     {
       "stationId": 1004,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-28",
       "end": "2018-03-30"
     },
     {
       "stationId": 1004,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-31",
       "end": "2018-04-03"
     },
     {
       "stationId": 1018,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-01-13",
       "end": "2018-01-14"
     },
     {
       "stationId": 1002,
-      "warnMessage": "Große Kälte (Tmin < -10°C)",
+      "warnMessage": {
+        "message": "Große Kälte (Tmin < -10°C)",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-10",
       "end": "2018-03-13"
     },
     {
       "stationId": 1012,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-24",
       "end": "2018-03-28"
     },
     {
       "stationId": 1014,
-      "warnMessage": "Starker Wind",
+      "warnMessage": {
+        "message": "Starker Wind",
+        "dangerLevel": 1
+      },
       "begin": "2018-03-23",
       "end": "2018-03-24"
     },
     {
       "stationId": 1015,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-01-03",
       "end": "2018-01-05"
     },
     {
       "stationId": 1007,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-04-09",
       "end": "2018-04-12"
     },
     {
       "stationId": 1011,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-01-27",
       "end": "2018-01-28"
     },
     {
       "stationId": 1002,
-      "warnMessage": "Starker Regen",
+      "warnMessage": {
+        "message": "Starker Regen",
+        "dangerLevel": 1
+      },
       "begin": "2018-04-11",
       "end": "2018-04-12"
     },
     {
       "stationId": 1012,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-16",
       "end": "2018-03-20"
     },
     {
       "stationId": 1014,
-      "warnMessage": "Sturmböen",
+      "warnMessage": {
+        "message": "Sturmböen",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-09",
       "end": "2018-03-11"
     },
     {
       "stationId": 1005,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-28",
       "end": "2018-03-30"
     },
     {
       "stationId": 1016,
-      "warnMessage": "Große Kälte (Tmin < -10°C)",
+      "warnMessage": {
+        "message": "Große Kälte (Tmin < -10°C)",
+        "dangerLevel": 2
+      },
       "begin": "2018-03-30",
       "end": "2018-04-03"
     },
     {
       "stationId": 1003,
-      "warnMessage": "Schneesturm",
+      "warnMessage": {
+        "message": "Schneesturm",
+        "dangerLevel": 2
+      },
       "begin": "2018-02-10",
       "end": "2018-02-13"
     },
     {
       "stationId": 1018,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-02-05",
       "end": "2018-02-09"
     },
     {
       "stationId": 1010,
-      "warnMessage": "Glatteis",
+      "warnMessage": {
+        "message": "Glatteis",
+        "dangerLevel": 3
+      },
       "begin": "2018-03-01",
       "end": "2018-03-04"
     }
