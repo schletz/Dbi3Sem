@@ -113,25 +113,25 @@ Achten Sie auf korrekte Konstruktoren für die notwendigen Felder. Ersetzen Sie 
 Implementieren Sie danach die 2 Abfragebeispiele im Programmcode.
 
 ```c#
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using WarningClient.Model;
 
 // Wichtig: Bei Copy to Output Directory muss im Solution Explorer bei stundenplan.json
 //          die Option Copy Always gesetzt werden!
-using var filestream = new FileStream("weatherwarnings.json", FileMode.Open, FileAccess.Read);
+if (!File.Exists("weatherwarnings.json"))
+{
+    Console.Error.WriteLine("Datei weatherwarnings.json wurde nicht gefunden. Wurde sie mit der Option copy always ins Ausgabeverzeichnis kopiert?");
+    return;
+}
 
-// Lesen der JSON Datei in die erzeugten Modelklassen.
-var weatherwarnings = await JsonSerializer.DeserializeAsync<WeatherwarningsJson>(
-    filestream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
-if (weatherwarnings is null) { return; }
-Console.WriteLine($"{weatherwarnings.Stations.Count} Stationen gelesen.");
-Console.WriteLine($"{weatherwarnings.WarnMessages.Count} Warnmeldungen gelesen.");
-Console.WriteLine($"{weatherwarnings.Warnings.Count} Warnungen gelesen.");
+var jsonString = File.ReadAllText("weatherwarnings.json", System.Text.Encoding.UTF8);
+var weatherwarnings = JsonDocument.Parse(jsonString).RootElement;
 
 // Verbinden zur MongoDB und schreiben der Daten als Collection
 var client = new MongoClient("mongodb://root:1234@localhost:27017");
@@ -140,9 +140,10 @@ db.DropCollection(nameof(Station));
 db.DropCollection(nameof(WarnMessage));
 db.DropCollection(nameof(Warning));
 
-db.GetCollection<Station>(nameof(Station)).InsertMany(weatherwarnings.Stations);
-db.GetCollection<WarnMessage>(nameof(WarnMessage)).InsertMany(weatherwarnings.WarnMessages);
-db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.Warnings);
+var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+db.GetCollection<Station>(nameof(Station)).InsertMany(weatherwarnings.GetProperty("stations").Deserialize<Station[]>(options));
+db.GetCollection<WarnMessage>(nameof(WarnMessage)).InsertMany(weatherwarnings.GetProperty("warnMessages").Deserialize<WarnMessage[]>(options));
+db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.GetProperty("warnings").Deserialize<Warning[]>(options));
 
 // TODO: Abfragen der folgenden Informationen nach folgendem Muster:
 // Welche Stationen befinden sich auf über 500m?
@@ -166,19 +167,12 @@ db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.Warnings);
 // (3) Geben Sie wie bei Beispiel (2) die Warnungen aus, nur zeigen Sie auch den Stationsnamen an.
 // Was müssen Sie tun? Ist das aus Ihrer Sicht für die Performance optimal?
 {
-
 }
 
-class WeatherwarningsJson
-{
-    public List<Station> Stations { get; set; } = new();
-    public List<WarnMessage> WarnMessages { get; set; } = new();
-    public List<Warning> Warnings { get; set; } = new();
-}
 ```
 
 ### Kritische Reflexion
 
 Betrachten Sie das 3. Abfragebeispiel (Ausgabe der Warnungen vom 8.2.2018 samt Stationsname).
 Was können Sie am Design der Datenbank ändern, um dieses Beispiel besser (performanter) lösen
-zu können? Finden Sie das Datenbankdesign (1:1 Mapping der JSON Importdatei) für gut gewählt?
+zu können?
