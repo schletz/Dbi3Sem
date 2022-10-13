@@ -107,7 +107,7 @@ betreffenden Abschnitt im JSON Dokument aufnehmen sollen:
 - Klasse *Warning*
 
 Achten Sie auf korrekte Konstruktoren für die notwendigen Felder. Ersetzen Sie nun die Datei
-*Program.cs *durch die untenstehende Version. Sie verwendet Ihre erstellten Klassen *Station*,
+*Program.cs* durch die untenstehende Version. Sie verwendet Ihre erstellten Klassen *Station*,
 *WarnMessage* und *Warning*, um die Daten aus der JSON Datei zu lesen.
 
 Implementieren Sie danach die 2 Abfragebeispiele im Programmcode.
