@@ -179,6 +179,6 @@ db.GetCollection<Warning>(nameof(Warning)).InsertMany(weatherwarnings.GetPropert
 
 ### Kritische Reflexion
 
-Betrachten Sie das 3. Abfragebeispiel (Ausgabe der Warnungen vom 8.2.2018 samt Stationsname).
+Betrachten Sie das 4. Abfragebeispiel (Ausgabe der Warnungen vom 8.2.2018 samt Stationsname).
 Was können Sie am Design der Datenbank ändern, um dieses Beispiel besser (performanter) lösen
 zu können?
