@@ -28,6 +28,18 @@ geladen werden.
 Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://root:1234@localhost:27017` erreicht
 werden. Natürlich muss die Datenbank vorher gestartet werden.
 
+## Erstellen der Übungsdatenbank
+
+Erstelle in der Konsole ein Verzeichnis für die DBI Unterlagen (z. B. C:\\DBI). Wechsle danach in dieses
+Verzeichnis und Klone das Repository mit dem Befehl `git clone https://github.com/schletz/Dbi3Sem.git`.
+
+Öffne danach im Explorer das Repository und wechsle ins Verzeichnis *13_NoSQL\Uebungsdb Exams*.
+Öffne die Datei [ExamDbGenerator.csproj](Uebungsdb%20Exams/ExamDbGenerator.csproj)
+in Visual Studio oder Rider und starte das Programm.
+
+Alternativ kannst du auch im Verzeichnis *13_NoSQL\Uebungsdb Exams* mit dem Befehl `dotnet run`
+das Programm laufen lassen.
+
 ## PlantUML und VS Code als Modellierungswerkzeug
 
 Im Gegensatz zu relationalen Datenbanken, wo ER Diagramme als datenbankenunabhängiges Modellierungstool
