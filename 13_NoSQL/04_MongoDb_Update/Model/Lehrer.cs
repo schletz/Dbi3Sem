@@ -5,11 +5,12 @@ namespace MongoDbDemo.Model
 {
     class Lehrer
     {
-        public Lehrer(string id, string vorname, string zuname, string? email = null, decimal? gehalt = null)
+        public Lehrer(string id, string vorname, string zuname, int wochenstunden, string? email = null, decimal? gehalt = null)
         {
             Id = id;
             Vorname = vorname;
             Zuname = zuname;
+            Wochenstunden = wochenstunden;
             Email = email;
             Gehalt = gehalt;
         }
@@ -18,6 +19,7 @@ namespace MongoDbDemo.Model
         public string Id { get; private set; }
         public string Vorname { get; set; }
         public string Zuname { get; set; }
+        public int Wochenstunden { get; set; }
         public string? Email { get; set; }
         public decimal? Gehalt { get; set; }                  // NULLABLE
         public List<string> Lehrbefaehigungen { get; private set; } = new(0);

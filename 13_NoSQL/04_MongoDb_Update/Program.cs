@@ -43,74 +43,115 @@ catch (MongoAuthenticationException)
 }
 Console.Clear();
 
-// Lehrer ABB ändert die Email Adresse auf abb@spengergasse.at
-PrintHeader("Lehrer ABB ändert die Email Adresse auf abb@spengergasse.at");
-db.GetCollection<Lehrer>(nameof(Lehrer))
-    .UpdateOne(
-        Builders<Lehrer>.Filter.Eq(l => l.Id, "ABB"),
-        Builders<Lehrer>.Update.Set(l => l.Email, "abb@spengergasse.at"
-    ));
-
-// ************************************************************************
-// Lehrer LAN ändert die Email Adresse auf lan@spengergasse.at
-// Beachte: LAN ist auch Klassenvorstand und muss daher in den Klassen
+// *************************************************************************************************
+// Lehrer BRO ändert die Email Adresse auf bro@spengergasse.at
+// Shell: db.getCollection("Lehrer").updateOne({ "_id" : "BRO" },{ "$set" : { "Email" : "bro@spengergasse.at" } } )
+{
+    PrintHeader("Lehrer BRO ändert die Email Adresse auf BRO@spengergasse.at");
+    var result = db.GetCollection<Lehrer>(nameof(Lehrer))
+        .UpdateOne(
+            Builders<Lehrer>.Filter.Eq(l => l.Id, "BRO"),
+            Builders<Lehrer>.Update.Set(l => l.Email, "bro@spengergasse.at"
+        ));
+    Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
+}
+// *************************************************************************************************
+// Lehrer HEN ändert die Email Adresse auf wil@spengergasse.at
+// Beachte: HEN ist auch Klassenvorstand und muss daher in den Klassen
 //          ebenfalls geändert werden
-PrintHeader("Lehrer LAN ändert die Email Adresse auf lan@spengergasse.at");
-db.GetCollection<Lehrer>(nameof(Lehrer))
-    .UpdateOne(
-        Builders<Lehrer>.Filter.Eq(l => l.Id, "LAN"),
-        Builders<Lehrer>.Update.Set(l => l.Email, "lan@spengergasse.at"
-    ));
-db.GetCollection<Klasse>(nameof(Klasse))
-    .UpdateOne(
-        Builders<Klasse>.Filter.Eq(l => l.Kv.Id, "LAN"),
-        Builders<Klasse>.Update.Set(l => l.Kv.Email, "lan@spengergasse.at"
-    ));
-
-// Lehrer ABB bekommt eine zusätzliche Lehrbefähigung  in E
+{
+    PrintHeader("Lehrer HEN ändert die Email Adresse auf hen@spengergasse.at");
+    var result = db.GetCollection<Lehrer>(nameof(Lehrer))
+        .UpdateOne(
+            Builders<Lehrer>.Filter.Eq(l => l.Id, "HEN"),
+            Builders<Lehrer>.Update.Set(l => l.Email, "hen@spengergasse.at"
+        ));
+    Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
+}
+// Versuch mit UpdateOne. Gefährlich, da nur der erste Eintrag aktualisiert wird!
+{
+    var result = db.GetCollection<Klasse>(nameof(Klasse))
+        .UpdateOne(
+            Builders<Klasse>.Filter.Eq(l => l.Kv.Id, "HEN"),
+            Builders<Klasse>.Update.Set(l => l.Kv.Email, "hen@spengergasse.at"
+        ));
+    Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
+}
+// Wir brauchen also UpdateMany.
+{
+    var result = db.GetCollection<Klasse>(nameof(Klasse))
+        .UpdateMany(
+            Builders<Klasse>.Filter.Eq(l => l.Kv.Id, "HEN"),
+            Builders<Klasse>.Update.Set(l => l.Kv.Email, "hen@spengergasse.at"
+        ));
+    Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
+}
+// *************************************************************************************************
+// Lehrer DRE bekommt eine zusätzliche Lehrbefähigung  in E
 // Siehe auch https://mongodb.github.io/mongo-csharp-driver/2.5/apidocs/html/Methods_T_MongoDB_Driver_Builders_Update.htm
-PrintHeader("Lehrer ABB bekommt eine zusätzliche Lehrbefähigung  in E");
-db.GetCollection<Lehrer>(nameof(Lehrer))
-    .UpdateOne(
-        Builders<Lehrer>.Filter.Eq(l => l.Id, "ABB"),
-        Builders<Lehrer>.Update.AddToSet(l => l.Lehrbefaehigungen, "E")
-    );
+{
+    PrintHeader("Lehrer DRE bekommt eine zusätzliche Lehrbefähigung  in E");
+    var result = db.GetCollection<Lehrer>(nameof(Lehrer))
+        .UpdateOne(
+            Builders<Lehrer>.Filter.Eq(l => l.Id, "DRE"),
+            Builders<Lehrer>.Update.AddToSet(l => l.Lehrbefaehigungen, "E")
+        );
+    Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
+}
 
-// Einsparung: Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 € weniger
-// Gehalt. Zuerst suchen wir alle Datensätze, dann werden die entsprechenden Update
-// Anweisungen an die Datenbank gesendet.
-PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 € weniger (mit UpdateOne)");
-db.GetCollection<Lehrer>(nameof(Lehrer))
-    .AsQueryable()
-    .Where(l => l.Gehalt > 4000)
-    .ToList()
-    .ForEach(l =>
-    {
-        db.GetCollection<Lehrer>(nameof(Lehrer)).UpdateOne(
-            Builders<Lehrer>.Filter.Eq(le => le.Id, l.Id),
-            Builders<Lehrer>.Update.Set(le => le.Gehalt, l.Gehalt - 100));
-    });
+// *************************************************************************************************
+// Überstunden wegen Lehrermangels: Alle Lehrer, die in POS Lehrbefähigt sind und unter
+// 20 Wochenstunden unterrichten, bekommen 5 Stunden dazu.
+{
+    PrintHeader("Alle Lehrer, die in DBI Lehrbefähigt sind und unter 20 Wochenstunden unterrichten, bekommen 5 Stunden dazu.");
+    var result = db.GetCollection<Lehrer>(nameof(Lehrer))
+        .UpdateMany(
+            Builders<Lehrer>.Filter.And(
+                Builders<Lehrer>.Filter.AnyEq(l => l.Lehrbefaehigungen, "DBI"),
+                Builders<Lehrer>.Filter.Lt(l => l.Wochenstunden, 20)),
+            Builders<Lehrer>.Update.Inc(l => l.Wochenstunden, 5));
+    Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
+}
 
-// Die folgende Lösung verwendet Replace und ersetzt das ganze Lehrerdokument.
-PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 € weniger (mit ReplaceOne)");
-db.GetCollection<Lehrer>(nameof(Lehrer))
-    .AsQueryable()
-    .Where(l => l.Gehalt > 4000)
-    .ToList()
-    .ForEach(l =>
-    {
-        l.Gehalt = l.Gehalt - 100;
-        db.GetCollection<Lehrer>(nameof(Lehrer)).ReplaceOne(
-            Builders<Lehrer>.Filter.Eq(le => le.Id, l.Id), l);
-    });
+// *************************************************************************************************
+// Einsparung: Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 € weniger Gehalt.
+// Vorsicht bei decimal Werten. Sie werden als String gespeichert, deswegen geht diese Lösung NICHT!
+PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 EUR weniger (Versuch mit UpdateMany)");
+try
+{
+    db.GetCollection<Lehrer>(nameof(Lehrer))
+        .UpdateMany(
+            Builders<Lehrer>.Filter.Gt(l => l.Gehalt, 4000),
+            Builders<Lehrer>.Update.Inc(l => l.Gehalt, -100));
+}
+catch (MongoWriteException e)
+{
+    Console.Error.WriteLine($"UpdateMany hat nicht funktioniert: {e.InnerException?.Message}.");
+}
 
-// Die folgende Lösung verwendet Bulk Uperationen und ist somit schneller.
-// Eine Projektion projiziert jeden Datensatz auf eine Update Operation
-PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 € weniger (mit BulkWrite)");
+// Schlechte Lösung: Die folgende Lösung verwendet Replace und ersetzt das ganze Lehrerdokument.
+PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 EUR weniger (mit ReplaceOne)");
+foreach (var teacher in db.GetCollection<Lehrer>(nameof(Lehrer)).AsQueryable().Where(l => l.Gehalt > 4000))
+{
+    teacher.Gehalt -= 100;
+    db.GetCollection<Lehrer>(nameof(Lehrer)).ReplaceOne(Builders<Lehrer>.Filter.Eq(le => le.Id, teacher.Id), teacher);
+}
+
+PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 EUR weniger (mit UpdateOne)");
+// Andere Möglichkeit: Update in einer Schleife.
+foreach (var teacher in db.GetCollection<Lehrer>(nameof(Lehrer)).AsQueryable().Where(l => l.Gehalt > 4000))
+{
+    db.GetCollection<Lehrer>(nameof(Lehrer)).UpdateOne(
+        Builders<Lehrer>.Filter.Eq(le => le.Id, teacher.Id),
+        Builders<Lehrer>.Update.Set(le => le.Gehalt, teacher.Gehalt - 100));
+}
+
+// Besser: Verwenden von BulkWrite
+PrintHeader("Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen 100 EUR weniger (mit BulkWrite)");
 var requests = db.GetCollection<Lehrer>(nameof(Lehrer))
     .AsQueryable()
     .Where(l => l.Gehalt > 4000)
-    .ToList()
+    .ToList()  // <-- Wichtig, sonst gibt es eine Exception beim Bau des Eq Filters. Grund: l.Id wird "von außen" verwendet.
     .Select(l => new UpdateOneModel<Lehrer>(
         Builders<Lehrer>.Filter.Eq(le => le.Id, l.Id),
         Builders<Lehrer>.Update.Set(le => le.Gehalt, l.Gehalt - 100)));
@@ -131,11 +172,10 @@ void SeedDatabase(IMongoDatabase db)
         var l = new Lehrer(
             id: zuname.Length < 3 ? zuname.ToUpper() : zuname.Substring(0, 3).ToUpper(),
             vorname: f.Name.FirstName(),
-            zuname: zuname)
-        {
-            Email = $"{zuname}@spengergasse.at".OrDefault(f, 0.2f),
-            Gehalt = (f.Random.Int(200000, 500000) / 100M).OrNull(f, 0.5f)
-        };
+            zuname: zuname,
+            wochenstunden: f.Random.Int(10, 25),
+            email: $"{zuname}@spengergasse.at".OrDefault(f, 0.2f),
+            gehalt: (f.Random.Int(200000, 500000) / 100M).OrNull(f, 0.5f));
         // Lehrer sind in 0 - 3 Fächern aus der Liste lehrbefähigt.
         l.Lehrbefaehigungen.AddRange(f.Random.ListItems(faecher, f.Random.Int(0, 3)));
         return l;
