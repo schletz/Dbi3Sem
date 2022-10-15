@@ -6,6 +6,35 @@ haben mehrere Möglichkeiten, Daten zu filtern:
 - In der Mongo Shell
 - In der Applikation mittels dem MongoDB Treiber
 
+## Erstellen der Datenbank
+
+Klone das Repository wie auf der Startseite beschrieben auf deine Festplatte. Starte danach
+das Musterprogramm im Ordner *13_NoSQL/03_MongoDb_Find*, indem du die Datei *MongoDbDemo.csproj*
+z. B. mit Visual Studio öffnest. Starte danach das Programm.
+
+
+## Zugriff über die Shell
+
+Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:
+
+![](docker_terminal_0825.png)
+
+Gib danach die folgendne Befehle ein. Im Connectionstring wird davon ausgegangen, dass der
+User wie im Kapitel Installation beschrieben auf *root* mit dem Passwort *1234* gesetzt wurde:
+
+```
+/bin/bash
+/usr/bin/mongosh mongodb://root:1234@localhost:27017
+```
+
+Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection Klasse
+anzeigen zu können, werden folgende Befehle verwendet:
+
+```
+use Stundenplan
+db.getCollection("Klasse").find({})
+```
+
 ## Filtern im .NET MongoDB Treiber
 
 > Das Musterprogramm mit Filterbeispielen ist im Ordner [03_MongoDb_Find](03_MongoDb_Find).
@@ -16,10 +45,10 @@ haben mehrere Möglichkeiten, Daten zu filtern:
 ### Mit dem Builder
 
 Der Builder generiert einen Suchfilter mit dem entsprechenden Operator. Im folgenden Beispiel
-wird nach der Klasse 3CHIF gesucht:
+wird nach der Klasse 2BHIF gesucht:
 
 ```c#
-var filter = Builders<Klasse>.Filter.Eq(k => k.Id, "3CHIF");
+var filter = Builders<Klasse>.Filter.Eq(k => k.Id, "2BHIF");
 var found = db.GetCollection<Klasse>(nameof(Klasse))
     .Find(filter);
 Console.WriteLine(found);                    // Gibt den Suchfilter aus
@@ -52,16 +81,13 @@ Mehr Beispiele sind im Musterprogramm im Ordner *03_MongoDb_Find* in der Datei
 
 ## Filtern in der MongoDB Shell
 
-Im Musterprogramm werden die generierten Suchfilter des Treibers ausgegeben. Sie können auch
-direkt an die Datenbank gesendet werden. Dafür wird im bin Verzeichnis von MongoDB die Shell
-mit `mongo` gestartet und folgendes eingegeben:
+Im Musterprogramm werden die generierten Suchfilter des Treibers ausgegeben. Du kannst auch
+direkt diese angezeigten Filter an die Datenbank über die Shell senden:
 
-```text
-use Stundenplan
-db.Klasse.find({ "_id" : "3CHIF" })
 ```
-
-![](shell_find.png)
+use Stundenplan
+db.Klasse.find({ "_id" : "2BHIF" })
+```
 
 Auf diese Art können alle angezeigten Filter des Musterprogrammes ausgeführt werden.
 
