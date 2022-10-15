@@ -56,7 +56,7 @@ Console.Clear();
     Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
 }
 // *************************************************************************************************
-// Lehrer HEN ändert die Email Adresse auf wil@spengergasse.at
+// Lehrer HEN ändert die Email Adresse auf hen@spengergasse.at
 // Beachte: HEN ist auch Klassenvorstand und muss daher in den Klassen
 //          ebenfalls geändert werden
 {
@@ -100,7 +100,7 @@ Console.Clear();
 }
 
 // *************************************************************************************************
-// Überstunden wegen Lehrermangels: Alle Lehrer, die in POS Lehrbefähigt sind und unter
+// Überstunden wegen Lehrermangels: Alle Lehrer, die in DBI lehrbefähigt sind und unter
 // 20 Wochenstunden unterrichten, bekommen 5 Stunden dazu.
 {
     PrintHeader("Alle Lehrer, die in DBI Lehrbefähigt sind und unter 20 Wochenstunden unterrichten, bekommen 5 Stunden dazu.");
