@@ -60,7 +60,20 @@ done
 ![](ExamsDb/klassendiagramm_1008.svg)
 
 Das Klassendiagramm zeigt die Modelklassen, die für die Serialisierung der einzelnen Dokumente
-verwendet werden.
+verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
+
+- Klassen, die auch als Typ für ein *Document* verwendet werden, sind mit einem orangen *E*
+  gekennzeichnet (E für entity class).
+- *value objects* (Klassen mit einem C) werden nicht direkt als Document verwendet, sie werden
+  aber *innerhalb* eines anderen Documents als Objekttyp verwendet. Daher läuft auch ein Pfeil
+  (bedeutet Assotiation) von der entity Klasse zu dieser Klasse. Genauer handelt es sich um
+  eine *Komposition*, da das value object keine Id besitzt und daher nicht alleine existieren kann.
+  Das wird auch durch ein gefülltes Diamond Symbol angezeigt.
+- Der Name der *navigations* ist über den Pfeil der Assotiation geschrieben. So hat z. B. das
+  Property *name* in der Klasse *Student* den Typ *StudentName*. Wir könenn daher über dieses
+  Property auf die Instanz zugreifen ("navigieren").
+- *Enumerations* werden mit einem rosafarbenen *E* gekennzeichnet. Sie werden in der Datenbank
+  als String gespeichert.
 
 ## Beschreibung der Dokumente
 
@@ -70,7 +83,9 @@ verwendet werden.
   Wintersemester 2021/22 ist also *2021W*, das Sommersemester 2019/20 hat *2019S*.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **year:** Jahr, in dem das Schuljahr beginnt (2019 für 2019/20).
-- **termType:** Winter oder Summer.
+- **termType:** Winter oder Summer. Ist eine *enumeration*, die als String gespeichert wird. Das
+  ist wichtig, denn sonst würde der Zahlenwert gespeichert werden. Wird nun die enumeration im
+  Programmcode vertauscht, ändert sich die Bedeutung dieses Wertes!
 - **start:** Erster Tag des Semesters. Da es nur ein Datumswert ist, wird er als ISO String
   der Form *YYYY-MM-DD* in der Datenbank gespeichert.
 - **end:** Tag nach dem letzten Tag des Semesters. Ein Tag ist also im Semester, wenn er *kleiner*
@@ -163,7 +178,7 @@ Speichert alle Studierenden der Schule.
   Besteht aus *street*, *streetNr*, *city* und *zip* (Postleitzahl).
 - **dateOfBirth:** Das Geburtsdatum. Da es nur ein Datumswert ist, wird er als ISO String
   der Form *YYYY-MM-DD* in der Datenbank gespeichert.
-- **classHostory:** Liste von Objekten vom Typ *Class*. Gibt alle Klassen an, die der
+- **classHistory:** Liste von Objekten vom Typ *Class*. Gibt alle Klassen an, die der
   Studierende im Lauf der Jahre an der Schule besucht hat.
 
 Beachte, dass *dateOfBirth* als String gespeichert wird. Wenn wir sie als Datumswert
