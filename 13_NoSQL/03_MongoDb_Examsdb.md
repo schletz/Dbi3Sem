@@ -34,12 +34,18 @@ Rechner installiert sein muss. Du kannst mit dem Befehl `dotnet --version` prüf
 ### Alternative: Verwenden vom mongoimport in der Shell des Containers
 
 Du kannst in Docker Desktop mit *Open Terminal* beim Container *mongodb* eine Shell öffnen. Mit
-den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespielt:
+den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespielt.
+
+Installiere zuerst das Dienstprogramm *wget* im Container, indem du den folgenden Befehl
+in das Terminal kopierst (mit Enter danach bestätigen):
 
 ```
-/bin/bash
-apt-get update
-apt-get install wget
+apt-get update && apt-get install wget
+```
+
+Danach lade damit die Dumps und erstelle die Datenbank (mit Enter danach bestätigen):
+
+```
 cd /home
 for collection in terms subjects rooms classes students teachers exams
 do
@@ -47,7 +53,6 @@ do
     mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --file=$collection.json --drop
     rm $collection.json
 done
-
 ```
 
 ## Das Klassendiagramm
