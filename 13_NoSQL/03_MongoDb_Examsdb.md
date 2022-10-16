@@ -93,6 +93,8 @@ verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
   Property auf die Instanz zugreifen ("navigieren").
 - *Enumerations* werden mit einem rosafarbenen *E* gekennzeichnet. Sie werden in der Datenbank
   als String gespeichert.
+- Die schwarzen Punkte bei den Feldern bedeuten *mandatory*. Sie haben also niemals den Wert
+  *null*.
 
 ## Beschreibung der Dokumente
 
