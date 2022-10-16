@@ -69,7 +69,7 @@ verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
   (bedeutet Assotiation) von der entity Klasse zu dieser Klasse. Genauer handelt es sich um
   eine *Komposition*, da das value object keine Id besitzt und daher nicht alleine existieren kann.
   Das wird auch durch ein gefülltes Diamond Symbol angezeigt.
-- Der Name der *navigations* ist über den Pfeil der Assotiation geschrieben. So hat z. B. das
+- Der Name der *navigation Properties* ist über den Pfeil der Assotiation geschrieben. So hat z. B. das
   Property *name* in der Klasse *Student* den Typ *StudentName*. Wir könenn daher über dieses
   Property auf die Instanz zugreifen ("navigieren").
 - *Enumerations* werden mit einem rosafarbenen *E* gekennzeichnet. Sie werden in der Datenbank
@@ -119,6 +119,11 @@ Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
 - **classTeacher:** Eingebettetes Objekt des Klassenvorstandes (Studienkoordinator). Es wird nur
   der *TeacherName* mit *Shortname*, *Firstname* und *Lastname* eingebettet.
 - **roomShortname:** ID des Stammraumes. Kann null sein (bei Wanderklassen).
+
+#### Indizes
+
+- Das Feld *term.year* wird indiziert, da oft Abfragen nach Klassen in einem Schuljahr (z. B. dem
+  aktuellen Jahr) erwartet werden.
 
 Ein JSON Dump dieser Collection ist in der Datei [classes.json](ExamsDb/Dump/classes.json) abrufbar.
 
@@ -186,6 +191,11 @@ Beachte, dass *dateOfBirth* als String gespeichert wird. Wenn wir sie als Datums
 Zeitzone New York (UTC-6h) die Daten und konvertiert sie in Lokalzeit, dann ändert sich das
 Datum!
 
+#### Indizes
+
+- Das Feld *currentClass.shortname* wird indiziert, da oft Abfragen welche Studierenden gerade
+  in einer bestimmten Klasse sind, erwartet werden.
+
 Ein JSON Dump dieser Collection ist in der Datei [students.json](ExamsDb/Dump/students.json) abrufbar.
 
 ### Document Exam (Collection exams)
@@ -207,6 +217,15 @@ Speichert alle Kolloquien (Prüfungen) der Studierenden.
 - **pointsMax:** Punkte, die es maximal auf die Prüfung zu erreichen gab.
 - **points:** Punkte, die der Studierende auf die Prüfung erreicht hat.
 - **grade:** Note, die der Studierende auf die Prüfung bekommen hat.
+
+#### Indizes
+
+- Das Feld *currentClass.id* wird indiziert, da oft Abfragen nach allen Prüfungskandidat(inn)en
+  die gerade in einer bestimmten Klasse sind, erwartet werden.
+- Das Feld *student.nr* wird indiziert, da oft Abfragen nach den Prüfungen eines bestimmten
+  Studierenden erwartet werden.
+- Das Feld *teacher.shortname* wird indiziert, da oft Abfragen nach allen Prüfungskandidat(inn)en
+  eines bestimmten Lehrenden erwartet werden.
 
 Ein JSON Dump dieser Collection ist in der Datei [exams.json](ExamsDb/Dump/exams.json) abrufbar.
 
