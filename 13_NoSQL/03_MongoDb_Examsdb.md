@@ -65,6 +65,7 @@ Datenbank (mit Enter bestätigen):
 Nun kannst du die Indizes anlegen (mit Enter bestätigen):
 
 ```
+use examsDb
 db.getCollection("classes").createIndex({"term.year":1})
 db.getCollection("students").createIndex({"currentClass.shortname":1})
 db.getCollection("exams").createIndex({"currentClass._id":1})
