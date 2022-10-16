@@ -39,7 +39,7 @@ verwendet werden.
 
 ## Beschreibung der Dokumente
 
-### Document Term (Collection Terms)
+### Document Term (Collection terms)
 
 - **id:** ID für das Semester. Das Wintersemester hat ein W am Ende, das Sommersemester ein S.
   Wintersemester 2021/22 ist also *2021W*, das Sommersemester 2019/20 hat *2019S*.
@@ -57,7 +57,10 @@ Beachte, dass *start* und *end* als String gespeichert werden. Wenn wir sie als 
 Zeitzone New York (UTC-6h) die Daten und konvertiert sie in Lokalzeit, dann ändert sich das
 Datum!
 
-### Document Class (Collection Classes)
+> Internally, Date objects are stored as a signed 64-bit integer representing the number of
+> milliseconds since the Unix epoch (Jan 1, 1970). <sup>https://www.mongodb.com/docs/manual/reference/method/Date/</sup>
+
+### Document Class (Collection classes)
 
 Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
 
@@ -75,7 +78,7 @@ Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
   der *TeacherName* mit *Shortname*, *Firstname* und *Lastname* eingebettet.
 - **roomShortname:** ID des Stammraumes. Kann null sein (bei Wanderklassen).
 
-### Document Room (Collection Rooms)
+### Document Room (Collection rooms)
 
 Speichert die zur Verfügung stehenden Räume der Schule.
 
@@ -83,7 +86,7 @@ Speichert die zur Verfügung stehenden Räume der Schule.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **capacity:** Anzahl der Sitzplätze. Kann null sein.
 
-### Document Subject (Collection Subjects)
+### Document Subject (Collection subjects)
 
 Speichert die unterrichteten Gegenstände der Schule.
 
@@ -91,7 +94,7 @@ Speichert die unterrichteten Gegenstände der Schule.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **longname:** Langbezeichnung.
 
-### Document Teacher (Collection Teachers)
+### Document Teacher (Collection teachers)
 
 Speichert alle Lehrenden der Schule.
 
@@ -106,7 +109,7 @@ Speichert alle Lehrenden der Schule.
 - **canTeachSubjects:** Liste von Objekten vom Typ *Subject*. Gibt die Gegenstände an, die der
   Lehrer unterrichten kann. Die Liste kann auch leer sein (wenn es noch nicht eingegeben wurde).
 
-### Document Student (Collection Students)
+### Document Student (Collection students)
 
 Speichert alle Studierenden der Schule.
 
@@ -133,7 +136,7 @@ Beachte, dass *dateOfBirth* als String gespeichert wird. Wenn wir sie als Datums
 Zeitzone New York (UTC-6h) die Daten und konvertiert sie in Lokalzeit, dann ändert sich das
 Datum!
 
-### Document Exam (Collection Exams)
+### Document Exam (Collection exams)
 
 Speichert alle Kolloquien (Prüfungen) der Studierenden.
 

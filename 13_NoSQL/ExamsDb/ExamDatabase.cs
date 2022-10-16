@@ -16,13 +16,13 @@ namespace ExamDbGenerator
     /// </summary>
     class ExamDatabase
     {
-        public IMongoCollection<Term> Terms => Db.GetCollection<Term>("Terms");
-        public IMongoCollection<Subject> Subjects => Db.GetCollection<Subject>("Subjects");
-        public IMongoCollection<Room> Rooms => Db.GetCollection<Room>("Rooms");
-        public IMongoCollection<Class> Classes => Db.GetCollection<Class>("Classes");
-        public IMongoCollection<Student> Students => Db.GetCollection<Student>("Students");
-        public IMongoCollection<Teacher> Teachers => Db.GetCollection<Teacher>("Teachers");
-        public IMongoCollection<Exam> Exams => Db.GetCollection<Exam>("Exams");
+        public IMongoCollection<Term> Terms => Db.GetCollection<Term>("terms");
+        public IMongoCollection<Subject> Subjects => Db.GetCollection<Subject>("subjects");
+        public IMongoCollection<Room> Rooms => Db.GetCollection<Room>("rooms");
+        public IMongoCollection<Class> Classes => Db.GetCollection<Class>("classes");
+        public IMongoCollection<Student> Students => Db.GetCollection<Student>("students");
+        public IMongoCollection<Teacher> Teachers => Db.GetCollection<Teacher>("teachers");
+        public IMongoCollection<Exam> Exams => Db.GetCollection<Exam>("exams");
         public IMongoDatabase Db { get; }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace ExamDbGenerator
             var settings = MongoClientSettings.FromConnectionString(connectionString);
             settings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
             var client = new MongoClient(settings);
-            var db = client.GetDatabase("ExamsDb");
+            var db = client.GetDatabase("examsDb");
             BsonSerializer.RegisterSerializer(typeof(DateOnly), new DateOnlySerializer());
             // LowerCase property names.
             var conventions = new ConventionPack
@@ -54,13 +54,13 @@ namespace ExamDbGenerator
         /// </summary>
         public void Seed()
         {
-            Db.DropCollection("Terms");
-            Db.DropCollection("Subjects");
-            Db.DropCollection("Rooms");
-            Db.DropCollection("Classes");
-            Db.DropCollection("Students");
-            Db.DropCollection("Teachers");
-            Db.DropCollection("Exams");
+            Db.DropCollection("terms");
+            Db.DropCollection("subjects");
+            Db.DropCollection("rooms");
+            Db.DropCollection("classes");
+            Db.DropCollection("students");
+            Db.DropCollection("teachers");
+            Db.DropCollection("exams");
 
             Randomizer.Seed = new Random(1109);
             var faker = new Faker("de");

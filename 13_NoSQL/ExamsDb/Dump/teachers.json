@@ -1,0 +1,24 @@
+{"_id":"KAH","name":{"shortname":"KAH","firstname":"Sam","lastname":"Kahl"},"salary":null,"homeOfficeDays":["DI","MO"],"canTeachSubjects":[{"_id":"D","longname":"Deutsch"}]}
+{"_id":"TIL","name":{"shortname":"TIL","firstname":"Mette","lastname":"Tillack"},"salary":"3230.97","homeOfficeDays":["FR","DO"],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"}]}
+{"_id":"WÜH","name":{"shortname":"WÜH","firstname":"Asya","lastname":"Wühn"},"salary":null,"homeOfficeDays":["FR","MI"],"canTeachSubjects":[{"_id":"D","longname":"Deutsch"},{"_id":"DBI","longname":"Datenbanken und Informationssysteme"}]}
+{"_id":"RAU","name":{"shortname":"RAU","firstname":"Sandy","lastname":"Raukuc"},"salary":"3702.41","homeOfficeDays":["FR"],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"}]}
+{"_id":"HAS","name":{"shortname":"HAS","firstname":"Lian","lastname":"Haschke"},"salary":"3340.5","homeOfficeDays":["MI","MO"],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"}]}
+{"_id":"STO","name":{"shortname":"STO","firstname":"Annabell","lastname":"Stoutjesdijk"},"salary":null,"homeOfficeDays":["DI"],"canTeachSubjects":[]}
+{"_id":"SCH","name":{"shortname":"SCH","firstname":"Domenik","lastname":"Schnieder"},"salary":"4278.71","homeOfficeDays":["DI"],"canTeachSubjects":[{"_id":"D","longname":"Deutsch"},{"_id":"AM","longname":"Angewandte Mathematik"}]}
+{"_id":"DRE","name":{"shortname":"DRE","firstname":"Roman","lastname":"Dreissigacker"},"salary":"3515.52","homeOfficeDays":["DO"],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"}]}
+{"_id":"BEE","name":{"shortname":"BEE","firstname":"Zoey","lastname":"Beer"},"salary":null,"homeOfficeDays":[],"canTeachSubjects":[{"_id":"AM","longname":"Angewandte Mathematik"},{"_id":"D","longname":"Deutsch"}]}
+{"_id":"KOS","name":{"shortname":"KOS","firstname":"Samantha","lastname":"Koster"},"salary":"4323.09","homeOfficeDays":["MO"],"canTeachSubjects":[{"_id":"D","longname":"Deutsch"},{"_id":"DBI","longname":"Datenbanken und Informationssysteme"}]}
+{"_id":"SUJ","name":{"shortname":"SUJ","firstname":"Anton","lastname":"Sujew"},"salary":null,"homeOfficeDays":["DI","MI"],"canTeachSubjects":[{"_id":"D","longname":"Deutsch"},{"_id":"DBI","longname":"Datenbanken und Informationssysteme"}]}
+{"_id":"REH","name":{"shortname":"REH","firstname":"Tarik","lastname":"Rehwagen"},"salary":"3196.37","homeOfficeDays":["DI"],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"},{"_id":"AM","longname":"Angewandte Mathematik"}]}
+{"_id":"HEN","name":{"shortname":"HEN","firstname":"Lilia","lastname":"Hensel"},"salary":"4120.43","homeOfficeDays":[],"canTeachSubjects":[{"_id":"D","longname":"Deutsch"}]}
+{"_id":"KUP","name":{"shortname":"KUP","firstname":"Cecile","lastname":"Kupprion"},"salary":"4488.84","homeOfficeDays":[],"canTeachSubjects":[{"_id":"DBI","longname":"Datenbanken und Informationssysteme"},{"_id":"AM","longname":"Angewandte Mathematik"}]}
+{"_id":"HOL","name":{"shortname":"HOL","firstname":"Jeremy","lastname":"Holz"},"salary":"4166.3","homeOfficeDays":["MO","DO"],"canTeachSubjects":[]}
+{"_id":"EIN","name":{"shortname":"EIN","firstname":"Efe","lastname":"Einert"},"salary":"3484.1","homeOfficeDays":["DI"],"canTeachSubjects":[]}
+{"_id":"LEH","name":{"shortname":"LEH","firstname":"Liana","lastname":"Lehner"},"salary":null,"homeOfficeDays":[],"canTeachSubjects":[{"_id":"AM","longname":"Angewandte Mathematik"}]}
+{"_id":"BEC","name":{"shortname":"BEC","firstname":"Tabea","lastname":"Beckmann"},"salary":null,"homeOfficeDays":["DO","FR"],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"},{"_id":"AM","longname":"Angewandte Mathematik"}]}
+{"_id":"BAT","name":{"shortname":"BAT","firstname":"Lorena","lastname":"Battke"},"salary":null,"homeOfficeDays":["FR"],"canTeachSubjects":[]}
+{"_id":"EBE","name":{"shortname":"EBE","firstname":"Martin","lastname":"Eberhardt"},"salary":"3709.75","homeOfficeDays":["MI","DI"],"canTeachSubjects":[{"_id":"AM","longname":"Angewandte Mathematik"},{"_id":"DBI","longname":"Datenbanken und Informationssysteme"}]}
+{"_id":"HUT","name":{"shortname":"HUT","firstname":"Carmen","lastname":"Huth"},"salary":"3956.9","homeOfficeDays":[],"canTeachSubjects":[]}
+{"_id":"LIN","name":{"shortname":"LIN","firstname":"Viktoria","lastname":"Linnenbaum"},"salary":"4055.41","homeOfficeDays":["FR"],"canTeachSubjects":[]}
+{"_id":"GRA","name":{"shortname":"GRA","firstname":"Nancy","lastname":"Grau"},"salary":null,"homeOfficeDays":[],"canTeachSubjects":[{"_id":"POS","longname":"Programmieren und Software Engineering"}]}
+{"_id":"LUF","name":{"shortname":"LUF","firstname":"Matteo","lastname":"Lufft"},"salary":null,"homeOfficeDays":[],"canTeachSubjects":[{"_id":"AM","longname":"Angewandte Mathematik"}]}
