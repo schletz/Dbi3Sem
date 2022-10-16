@@ -25,8 +25,8 @@ Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection
 anzeigen zu können, werden folgende Befehle verwendet:
 
 ```
-use Stundenplan
-db.getCollection("Klasse").find({})
+use examsDb
+db.getCollection("rooms").find({})
 ```
 
 ## Filtern im MongoDb Compass
