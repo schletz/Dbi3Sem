@@ -1,7 +1,7 @@
 # Die Übungsdatenbank ExamsDb
 
 Für die Speicherung von Kolloquien der Ausbildungen für Berufstätige (Aufbaulehrgang und Kolleg)
-dient diese kleine NoSQL Datenbank. Die Datenbank wurde unter folgenden Gesichtspunkten erstelle:
+dient diese kleine NoSQL Datenbank. Die Datenbank wurde unter folgenden Gesichtspunkten erstellt:
 - Schuljahre (Terms) sind als Semester gespeichert.
 - Bei den Klassen wird das dazugehörige Schuljahr gespeichert. Somit kann z. B. die 3AAIF im
   Wintersemester 2021/22 und im Wintersemester 2022/23 existieren.
