@@ -85,6 +85,8 @@ Datum!
 > Internally, Date objects are stored as a signed 64-bit integer representing the number of
 > milliseconds since the Unix epoch (Jan 1, 1970). <sup>https://www.mongodb.com/docs/manual/reference/method/Date/</sup>
 
+Ein JSON Dump dieser Collection ist in der Datei [terms.json](ExamsDb/Dump/terms.json) abrufbar.
+
 ### Document Class (Collection classes)
 
 Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
@@ -103,6 +105,8 @@ Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
   der *TeacherName* mit *Shortname*, *Firstname* und *Lastname* eingebettet.
 - **roomShortname:** ID des Stammraumes. Kann null sein (bei Wanderklassen).
 
+Ein JSON Dump dieser Collection ist in der Datei [classes.json](ExamsDb/Dump/classes.json) abrufbar.
+
 ### Document Room (Collection rooms)
 
 Speichert die zur Verfügung stehenden Räume der Schule.
@@ -111,6 +115,8 @@ Speichert die zur Verfügung stehenden Räume der Schule.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **capacity:** Anzahl der Sitzplätze. Kann null sein.
 
+Ein JSON Dump dieser Collection ist in der Datei [rooms.json](ExamsDb/Dump/rooms.json) abrufbar.
+
 ### Document Subject (Collection subjects)
 
 Speichert die unterrichteten Gegenstände der Schule.
@@ -118,6 +124,8 @@ Speichert die unterrichteten Gegenstände der Schule.
 - **shortname:** ID des Gegenstandes, wie er im Stundenplan aufscheint (z. B. POS).
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **longname:** Langbezeichnung.
+
+Ein JSON Dump dieser Collection ist in der Datei [subjects.json](ExamsDb/Dump/subjects.json) abrufbar.
 
 ### Document Teacher (Collection teachers)
 
@@ -133,6 +141,8 @@ Speichert alle Lehrenden der Schule.
   Werte sind MO, DI, MI, DO oder FR.
 - **canTeachSubjects:** Liste von Objekten vom Typ *Subject*. Gibt die Gegenstände an, die der
   Lehrer unterrichten kann. Die Liste kann auch leer sein (wenn es noch nicht eingegeben wurde).
+
+Ein JSON Dump dieser Collection ist in der Datei [teachers.json](ExamsDb/Dump/teachers.json) abrufbar.
 
 ### Document Student (Collection students)
 
@@ -161,6 +171,8 @@ Beachte, dass *dateOfBirth* als String gespeichert wird. Wenn wir sie als Datums
 Zeitzone New York (UTC-6h) die Daten und konvertiert sie in Lokalzeit, dann ändert sich das
 Datum!
 
+Ein JSON Dump dieser Collection ist in der Datei [students.json](ExamsDb/Dump/students.json) abrufbar.
+
 ### Document Exam (Collection exams)
 
 Speichert alle Kolloquien (Prüfungen) der Studierenden.
@@ -180,6 +192,8 @@ Speichert alle Kolloquien (Prüfungen) der Studierenden.
 - **pointsMax:** Punkte, die es maximal auf die Prüfung zu erreichen gab.
 - **points:** Punkte, die der Studierende auf die Prüfung erreicht hat.
 - **grade:** Note, die der Studierende auf die Prüfung bekommen hat.
+
+Ein JSON Dump dieser Collection ist in der Datei [exams.json](ExamsDb/Dump/exams.json) abrufbar.
 
 ## Anhang
 
