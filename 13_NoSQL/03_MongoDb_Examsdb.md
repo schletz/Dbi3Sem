@@ -76,7 +76,7 @@ exit
 
 ## Das Klassendiagramm
 
-![](ExamsDb/klassendiagramm_1008.svg)
+![](ExamsDb/klassendiagramm_1804.svg)
 
 Das Klassendiagramm zeigt die Modelklassen, die für die Serialisierung der einzelnen Dokumente
 verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
@@ -173,9 +173,13 @@ Speichert alle Lehrenden der Schule.
 - **id:** ID des Lehrers, wie er im Stundenplan aufscheint (z. B. SZ). Ist immer der
   Wert von *Shortname* in *Name*.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
-- **name:** Objekt vom Typ *TeacherName*.  Besteht aus *shortname*, *firstname* und *lastname*.
+- **name:** Objekt vom Typ *TeacherName*. Besteht aus *shortname*, *firstname*, *lastname* und *email*.
   Die Auslagerung in ein eigenes Objekt hat den Sinn, dass z. B. bei den Prüfungen nur dieser
   Teil eingebettet werden kann.
+- **hoursPerWeek:** Gibt die maximalen Unterrichtsstunden pro Woche an, die der Lehrer
+  unterrichten kann. Das kommt bei Teilbeschäftigungen vor. null, wenn keine Einschränkung vorliegt.
+- **lessonsFrom:** Zeitpunkt, ab dem der Lehrer Unterricht halten kann. Manche Lehrer haben am
+  Tag eine Nebenbeschäftigung und können daher erst am Nachmittag. null, wenn keine Einschränkung vorliegt.
 - **homeOfficeDays:** Stringliste mit den Home Office Tagen (kein Unterricht). Mögliche
   Werte sind MO, DI, MI, DO oder FR.
 - **canTeachSubjects:** Liste von Objekten vom Typ *Subject*. Gibt die Gegenstände an, die der
@@ -343,6 +347,8 @@ entity Subject <<(E,#FF7700) Document>> {
 entity Teacher <<(E,#FF7700) Document>> {
     *id : String <<id>>
     *name : TeacherName
+    hoursPerWeek : Integer
+    lessonsFrom : TimeOnly
     salary : Decimal
     *homeOfficeDays : List<String>
     *canTeachSubjects : List<Subject>
@@ -352,6 +358,7 @@ class TeacherName <value object> {
     *shortname : String
     *firstname : String
     *lastname : String
+    *email: String
 }
 
 entity Term <<(E,#FF7700) Document>> {

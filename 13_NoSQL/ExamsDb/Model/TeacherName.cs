@@ -1,5 +1,5 @@
 ﻿namespace ExamDbGenerator.Model
 {
-    record TeacherName(string Shortname, string Firstname, string Lastname);
+    record TeacherName(string Shortname, string Firstname, string Lastname, string Email);
 
 }

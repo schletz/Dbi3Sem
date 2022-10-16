@@ -1,8 +1,10 @@
 ﻿using Bogus;
+using DnsClient;
 using ExamDbGenerator.Model;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace ExamDbGenerator
     /// </summary>
     class ExamDatabase
     {
+        private readonly MongoClient _client;
         public IMongoCollection<Term> Terms => Db.GetCollection<Term>("terms");
         public IMongoCollection<Subject> Subjects => Db.GetCollection<Subject>("subjects");
         public IMongoCollection<Room> Rooms => Db.GetCollection<Room>("rooms");
@@ -28,24 +31,39 @@ namespace ExamDbGenerator
         /// <summary>
         /// Konfiguriert die Datenbank für einen Connection string.
         /// </summary>
-        public static ExamDatabase FromConnectionString(string connectionString)
+        public static ExamDatabase FromConnectionString(string connectionString, bool logging = false)
         {
             var settings = MongoClientSettings.FromConnectionString(connectionString);
             settings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
+            if (logging)
+            {
+                settings.ClusterConfigurator = cb =>
+                {
+                    cb.Subscribe<CommandStartedEvent>(e =>
+                    {
+                        if (e.Command.TryGetValue("updates", out var updateCmd))
+                            Console.WriteLine(updateCmd);
+                        if (e.Command.TryGetValue("filter", out var filterCmd))
+                            Console.WriteLine(filterCmd);
+                    });
+                };
+            }
             var client = new MongoClient(settings);
             var db = client.GetDatabase("examsDb");
             BsonSerializer.RegisterSerializer(typeof(DateOnly), new DateOnlySerializer());
+            BsonSerializer.RegisterSerializer(typeof(TimeOnly), new TimeOnlySerializer());
             // LowerCase property names.
             var conventions = new ConventionPack
             {
                 new CamelCaseElementNameConvention()
             };
             ConventionRegistry.Register(nameof(CamelCaseElementNameConvention), conventions, _ => true);
-            return new ExamDatabase(db);
+            return new ExamDatabase(client, db);
         }
 
-        private ExamDatabase(IMongoDatabase db)
+        private ExamDatabase(MongoClient client, IMongoDatabase db)
         {
+            _client = client;
             Db = db;
         }
 
@@ -98,10 +116,14 @@ namespace ExamDbGenerator
 
             var teachers = new Faker<Teacher>("de").CustomInstantiator(f =>
             {
+                var gender = f.Person.Gender;
                 var lastname = f.Name.LastName();
                 var shortname = lastname.Substring(0, Math.Min(3, lastname.Length)).ToUpper();
                 return new Teacher(
-                    Name: new TeacherName(Shortname: shortname, Firstname: f.Name.FirstName(), Lastname: lastname),
+                    Name: new TeacherName(Shortname: shortname, Firstname: f.Name.FirstName(), Lastname: lastname, Email: $"{lastname.ToLower()}@spengergasse.at"),
+                    Gender: gender == Bogus.DataSets.Name.Gender.Female ? Gender.Female : Gender.Male,
+                    HoursPerWeek: f.Random.Int(6, 18).OrNull(f, 0.5f),
+                    LessonsFrom: new TimeOnly(f.Random.Int(12, 17), 0, 0).OrNull(f, 0.5f),
                     Salary: (f.Random.Int(300000, 450000) / 100M).OrNull(f, 0.4f))
                 {
                     HomeOfficeDays = f.Random.ListItems(new string[] { "MO", "DI", "MI", "DO", "FR" }, f.Random.Int(0, 2)),

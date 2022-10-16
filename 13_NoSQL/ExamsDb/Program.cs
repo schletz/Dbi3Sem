@@ -14,10 +14,10 @@ class Program
         Console.ForegroundColor = ConsoleColor.Black;
         Console.Clear();
 
-        var db = ExamDatabase.FromConnectionString("mongodb://root:1234@localhost:27017");
+        var examsDb = ExamDatabase.FromConnectionString("mongodb://root:1234@localhost:27017", logging: false);
         try
         {
-            db.Seed();
+            examsDb.Seed();
         }
         catch (TimeoutException)
         {
@@ -35,15 +35,16 @@ class Program
         Console.WriteLine("verbinden.");
         Console.WriteLine();
         Console.WriteLine("Übersicht der Collections:");
-        Console.WriteLine($"    {db.Classes.CountDocuments("{}")} Dokumente in der Collection Classes.");
-        Console.WriteLine($"    {db.Exams.CountDocuments("{}")} Dokumente in der Collection Exams.");
-        Console.WriteLine($"    {db.Rooms.CountDocuments("{}")} Dokumente in der Collection Rooms.");
-        Console.WriteLine($"    {db.Students.CountDocuments("{}")} Dokumente in der Collection Students.");
-        Console.WriteLine($"    {db.Subjects.CountDocuments("{}")} Dokumente in der Collection Subjects.");
-        Console.WriteLine($"    {db.Teachers.CountDocuments("{}")} Dokumente in der Collection Teachers.");
-        Console.WriteLine($"    {db.Terms.CountDocuments("{}")} Dokumente in der Collection Terms.");
+        Console.WriteLine($"    {examsDb.Classes.CountDocuments("{}")} Dokumente in der Collection Classes.");
+        Console.WriteLine($"    {examsDb.Exams.CountDocuments("{}")} Dokumente in der Collection Exams.");
+        Console.WriteLine($"    {examsDb.Rooms.CountDocuments("{}")} Dokumente in der Collection Rooms.");
+        Console.WriteLine($"    {examsDb.Students.CountDocuments("{}")} Dokumente in der Collection Students.");
+        Console.WriteLine($"    {examsDb.Subjects.CountDocuments("{}")} Dokumente in der Collection Subjects.");
+        Console.WriteLine($"    {examsDb.Teachers.CountDocuments("{}")} Dokumente in der Collection Teachers.");
+        Console.WriteLine($"    {examsDb.Terms.CountDocuments("{}")} Dokumente in der Collection Terms.");
         return 0;
     }
+
 }
 
 

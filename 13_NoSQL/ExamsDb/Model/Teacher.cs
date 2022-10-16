@@ -1,9 +1,15 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace ExamDbGenerator.Model
 {
-    record Teacher(TeacherName Name, decimal? Salary)
+        
+    record Teacher(
+        TeacherName Name,
+        [property:BsonRepresentation(BsonType.String)] Gender Gender,
+        int? HoursPerWeek = null, TimeOnly? LessonsFrom = null, decimal? Salary = null)
     {
         [BsonId]
         public string Id => Name.Shortname;
