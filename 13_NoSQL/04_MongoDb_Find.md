@@ -6,13 +6,6 @@ haben mehrere Möglichkeiten, Daten zu filtern:
 - In der Mongo Shell
 - In der Applikation mittels dem MongoDB Treiber
 
-## Erstellen der Datenbank
-
-Klone das Repository wie auf der Startseite beschrieben auf deine Festplatte. Starte danach
-das Musterprogramm im Ordner *13_NoSQL/03_MongoDb_Find*, indem du die Datei *MongoDbDemo.csproj*
-z. B. mit Visual Studio öffnest. Starte danach das Programm.
-
-
 ## Zugriff über die Shell
 
 Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:

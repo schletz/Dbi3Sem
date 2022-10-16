@@ -15,7 +15,6 @@ class Program
         Console.Clear();
 
         var db = ExamDatabase.FromConnectionString("mongodb://root:1234@localhost:27017");
-
         try
         {
             db.Seed();
@@ -43,7 +42,6 @@ class Program
         Console.WriteLine($"    {db.Subjects.CountDocuments("{}")} Dokumente in der Collection Subjects.");
         Console.WriteLine($"    {db.Teachers.CountDocuments("{}")} Dokumente in der Collection Teachers.");
         Console.WriteLine($"    {db.Terms.CountDocuments("{}")} Dokumente in der Collection Terms.");
-
         return 0;
     }
 }

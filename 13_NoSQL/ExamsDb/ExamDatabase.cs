@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using ExamDbGenerator.Model;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,12 @@ namespace ExamDbGenerator
             var client = new MongoClient(settings);
             var db = client.GetDatabase("ExamsDb");
             BsonSerializer.RegisterSerializer(typeof(DateOnly), new DateOnlySerializer());
+            // LowerCase property names.
+            var conventions = new ConventionPack
+            {
+                new CamelCaseElementNameConvention()
+            };
+            ConventionRegistry.Register(nameof(CamelCaseElementNameConvention), conventions, _ => true);
             return new ExamDatabase(db);
         }
 
@@ -58,7 +65,7 @@ namespace ExamDbGenerator
             Randomizer.Seed = new Random(1109);
             var faker = new Faker("de");
 
-            var terms = Enumerable.Range(2020, 10).SelectMany(year => new Term[]
+            var terms = Enumerable.Range(2019, 11).SelectMany(year => new Term[]
             {
                 new Term(Year: year, TermType: TermType.Winter, Start: new DateOnly(year,9,1), End: new DateOnly(year+1,2,1)),
                 new Term(Year: year, TermType: TermType.Summer, Start: new DateOnly(year+1,2,1), End: new DateOnly(year+1,7,1)),
@@ -158,7 +165,7 @@ namespace ExamDbGenerator
                 {
                     var gender = f.Person.Gender;
                     var student = new Student(
-                        name: new StudentName(Id: studentId++, Firstname: f.Name.FirstName(gender), Lastname: f.Name.LastName(gender)),
+                        name: new StudentName(Nr: studentId++, Firstname: f.Name.FirstName(gender), Lastname: f.Name.LastName(gender)),
                         gender: gender == Bogus.DataSets.Name.Gender.Female ? Gender.Female : Gender.Male,
                         address: new Address(Street: f.Address.StreetName(), StreetNr: f.Address.BuildingNumber(), City: f.Address.City(), Zip: f.Random.Int(100, 299) * 10),
                         dateOfBirth: maxBirthdate[@class.Department].AddDays(-1 * f.Random.Int(0, 5 * 365)),
@@ -185,25 +192,21 @@ namespace ExamDbGenerator
                     student.ClassHistory.Add(@class);
                 }
             }
-            foreach (var student in students)
-            {
-                if (student.CurrentClass!.Term.Year != 2022) { student.CurrentClass = null; }
-            }
-            Students.InsertMany(students);
-            Students.Indexes.CreateOne(new CreateIndexModel<Student>(Builders<Student>.IndexKeys.Ascending(c => c.CurrentClass!.Shortname)));
-
 
             var exams = new Faker<Exam>("de").CustomInstantiator(f =>
             {
-                var student = f.Random.ListItem(students.Where(s => s.ClassHistory.Any(c => c.Term.Year < 2022)).ToList());
+                // Nur Students, die letztes Jahr auch da waren, können Prüfungen haben.
+                var student = f.Random.ListItem(students.Where(s => s.ClassHistory.Count() > 1).ToList());
                 var subject = f.Random.ListItem(subjects);
-                var teacher = f.Random.ListItem(teachers.Where(t => t.CanTeachSubjects.Any(s => s.Shortname == subject.Shortname)).ToList());
-                var examClass = f.Random.ListItem(student.ClassHistory.Where(c => c.Term.Year < 2022).ToList());
+                var teacher = f.Random.ListItem(teachers.Where(t => !t.CanTeachSubjects.Any() || t.CanTeachSubjects.Any(s => s.Shortname == subject.Shortname)).ToList());
+                var examClass = f.Random.ListItem(student.ClassHistory.Where(c => c.Id != student.CurrentClass!.Id).ToList());
+                var currentClass = f.Random.ListItem(student.ClassHistory.Where(c => c.Term.Start >= examClass.Term.End).ToList());
                 var pointsmax = f.Random.Int(16, 48);
                 var points = f.Random.Int((int)(pointsmax * 0.25), pointsmax);
                 return new Exam(
                     Student: student.Name,
                     Teacher: f.Random.ListItem(teachers).Name,
+                    CurrentClass: currentClass,
                     ExamClass: examClass,
                     Subject: subject,
                     DateTime: examClass.Term.End.AddDays(f.Random.Int(0, 365)).ToDateTime(new TimeOnly(f.Random.Int(8, 20), 0, 0)),
@@ -214,6 +217,19 @@ namespace ExamDbGenerator
             .Generate((int)(students.Count * 0.5))
             .ToList();
             Exams.InsertMany(exams);
+            Exams.Indexes.CreateOne(new CreateIndexModel<Exam>(Builders<Exam>.IndexKeys.Ascending(c => c.CurrentClass.Id)));
+            Exams.Indexes.CreateOne(new CreateIndexModel<Exam>(Builders<Exam>.IndexKeys.Ascending(c => c.Student.Nr)));
+            Exams.Indexes.CreateOne(new CreateIndexModel<Exam>(Builders<Exam>.IndexKeys.Ascending(c => c.Teacher.Shortname)));
+
+            // Zum Schluss die CurrentClass des Students auf den Wert von 2022/23 setzen. Das machen
+            // wir nach der Exam Generierung, da die CurrentClass davor "aufsteigend" gesetzt wird.
+            foreach (var student in students)
+            {
+                if (student.CurrentClass!.Term.Year != 2022) { student.CurrentClass = null; }
+            }
+            Students.InsertMany(students);
+            Students.Indexes.CreateOne(new CreateIndexModel<Student>(Builders<Student>.IndexKeys.Ascending(c => c.CurrentClass!.Shortname)));
+
         }
     }
 }

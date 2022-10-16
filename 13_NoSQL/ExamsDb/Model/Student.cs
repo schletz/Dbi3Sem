@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace ExamDbGenerator.Model
 {
-    record StudentName(int Id, string Firstname, string Lastname);
     class Student
     {
         public Student(StudentName name, Gender gender, Address address, DateOnly dateOfBirth, Class? currentClass = null)
@@ -18,7 +17,7 @@ namespace ExamDbGenerator.Model
         }
 
         [BsonId]
-        public int Id => Name.Id;
+        public int Id => Name.Nr;
         public StudentName Name { get; set; }
         public Class? CurrentClass { get; set; }
         [BsonRepresentation(BsonType.String)]
