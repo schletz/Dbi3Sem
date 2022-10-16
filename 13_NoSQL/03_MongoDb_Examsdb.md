@@ -76,7 +76,7 @@ exit
 
 ## Das Klassendiagramm
 
-![](ExamsDb/klassendiagramm_1804.svg)
+![](ExamsDb/klassendiagramm_2122.svg)
 
 Das Klassendiagramm zeigt die Modelklassen, die für die Serialisierung der einzelnen Dokumente
 verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
@@ -176,6 +176,8 @@ Speichert alle Lehrenden der Schule.
 - **name:** Objekt vom Typ *TeacherName*. Besteht aus *shortname*, *firstname*, *lastname* und *email*.
   Die Auslagerung in ein eigenes Objekt hat den Sinn, dass z. B. bei den Prüfungen nur dieser
   Teil eingebettet werden kann.
+- **gender:** Geschlecht. Der enum Wert wird als String gespeichert, der den Wert 
+  *Female*, *Male* oder *Other* haben kann.
 - **hoursPerWeek:** Gibt die maximalen Unterrichtsstunden pro Woche an, die der Lehrer
   unterrichten kann. Das kommt bei Teilbeschäftigungen vor. null, wenn keine Einschränkung vorliegt.
 - **lessonsFrom:** Zeitpunkt, ab dem der Lehrer Unterricht halten kann. Manche Lehrer haben am
@@ -347,6 +349,7 @@ entity Subject <<(E,#FF7700) Document>> {
 entity Teacher <<(E,#FF7700) Document>> {
     *id : String <<id>>
     *name : TeacherName
+    *gender : Gender
     hoursPerWeek : Integer
     lessonsFrom : TimeOnly
     salary : Decimal
@@ -390,6 +393,7 @@ Student o--> Gender : > gender
 Student *--> Address : > address
 
 Teacher *--> TeacherName : > name
+Teacher o--> Gender : > gender
 Teacher --> Subject : > canTeachSubjects
 
 Term o--> TermType : > termType
