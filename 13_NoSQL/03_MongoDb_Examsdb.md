@@ -188,17 +188,14 @@ Speichert alle Kolloquien (Prüfungen) der Studierenden.
 Wenn du im Kapitel [Installation von MongoDb als Docker Image](02_Mongodb_Install.md) die Option
 *-v* beim *docker run* Befehl gewählt hast, wird das Verzeichnis */home* auf dein Hostsystem
 umgeleitet. Mit den folgenden Befehlen im Terminal des Containers kann die Datenbank als
-JSON exportiert werden:
+JSON exportiert werden (mit Enter nach dem Kopieren bestätigen):
+
 ```
 cd /home
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=terms --out=terms.json
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=subjects --out=subjects.json
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=rooms --out=rooms.json
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=classes --out=classes.json
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=students --out=students.json
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=teachers --out=teachers.json
-mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=exams --out=exams.json
-
+for collection in terms subjects rooms classes students teachers exams
+do
+    mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=$collection --out=$collection.json
+done
 ```
 
 
