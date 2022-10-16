@@ -7,7 +7,7 @@ haben mehrere Möglichkeiten, Daten zu filtern:
 - Im MongoDb Compass
 - In der Applikation mittels dem MongoDB Treiber
 
-## Zugriff über die Shell
+## Filtern in der Shell
 
 Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:
 
