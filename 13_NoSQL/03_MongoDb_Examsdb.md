@@ -55,6 +55,23 @@ do
 done
 ```
 
+Nach dem importieren verbinde dich im Terminal des Containers mit folgendem Befehl zur
+Datenbank (mit Enter bestätigen):
+
+```
+/usr/bin/mongosh mongodb://root:1234@localhost:27017
+```
+
+Nun kannst du die Indizes anlegen (mit Enter bestätigen):
+
+```
+db.getCollection("classes").createIndex({"term.year":1})
+db.getCollection("students").createIndex({"currentClass.shortname":1})
+db.getCollection("exams").createIndex({"currentClass._id":1})
+db.getCollection("exams").createIndex({"student.nr":1})
+db.getCollection("exams").createIndex({"teacher.shortname":1})
+```
+
 ## Das Klassendiagramm
 
 ![](ExamsDb/klassendiagramm_1008.svg)
