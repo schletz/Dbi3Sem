@@ -39,6 +39,7 @@ den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespi
 ```
 apt-get update
 apt-get install wget
+clear
 cd /home
 for collection in terms subjects rooms classes students teachers exams
 do
