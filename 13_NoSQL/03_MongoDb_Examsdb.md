@@ -37,11 +37,10 @@ Du kannst in Docker Desktop mit *Open Terminal* beim Container *mongodb* eine Sh
 den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespielt:
 
 ```
+/bin/bash
 apt-get update
 apt-get install wget
-
 cd /home
-
 for collection in terms subjects rooms classes students teachers exams
 do
     wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/ExamsDb/Dump/$collection.json
