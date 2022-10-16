@@ -70,6 +70,7 @@ db.getCollection("students").createIndex({"currentClass.shortname":1})
 db.getCollection("exams").createIndex({"currentClass._id":1})
 db.getCollection("exams").createIndex({"student.nr":1})
 db.getCollection("exams").createIndex({"teacher.shortname":1})
+exit
 ```
 
 ## Das Klassendiagramm
