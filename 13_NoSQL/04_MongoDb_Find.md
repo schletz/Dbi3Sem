@@ -190,7 +190,7 @@ Als Beispiel verwenden wir die Collection *classes*, um nach Klassen zu filtern:
 
 #### Der flexible where Filter: {"$where": "Expression"}
 
-Der *where* Filter kann Javascript ausdrücke verarbeiten. Dadurch können wir auch mehrere
+Der *where* Filter kann Javascript Ausdrücke verarbeiten. Dadurch können wir auch mehrere
 Felder eines Documents miteinander vergleichen.
 
 - **{"$where": "this._id == 'ZIP'"}**   
