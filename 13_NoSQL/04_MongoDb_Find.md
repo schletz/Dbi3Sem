@@ -4,6 +4,7 @@ So wie in jeder anderen Datenbank ist in MongoDB das Filtern von Daten ein zentr
 haben mehrere Möglichkeiten, Daten zu filtern:
 
 - In der Mongo Shell
+- Im MongoDb Compass
 - In der Applikation mittels dem MongoDB Treiber
 
 ## Zugriff über die Shell
@@ -27,6 +28,13 @@ anzeigen zu können, werden folgende Befehle verwendet:
 use Stundenplan
 db.getCollection("Klasse").find({})
 ```
+
+## Filtern im MongoDb Compass
+
+Nachdem du dich mit der Datenbank im MongoDb Compass verbunden hast, kann im Feld *Filter*
+ein Filterausdruck eingegeben werden. Das Ergebnis wird dann darunter angezeigt:
+
+![](compass_filter_1340.png)
 
 ## Filtern im .NET MongoDB Treiber
 
