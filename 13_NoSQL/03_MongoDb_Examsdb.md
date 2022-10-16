@@ -14,6 +14,8 @@ Voraussetzung ist ein gestarteter MongoDb Container, wie im Kapitel
 [Installation](02_Mongodb_Install.md) beschrieben. Das Programm verbindet sich mit dem User
 *root* und dem Passwort *1234*.
 
+### Verwenden des Generatorprogrammes
+
 Klone das Repository, falls das nicht schon gemacht wurde: Erstelle in der Konsole
 ein Verzeichnis für die DBI Unterlagen (z. B. C:\\DBI). Wechsle danach in dieses
 Verzeichnis und Klone das Repository mit dem Befehl `git clone https://github.com/schletz/Dbi3Sem.git`.
@@ -29,6 +31,22 @@ die [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) benöti
 Rechner installiert sein muss. Du kannst mit dem Befehl `dotnet --version` prüfen, ob du die
 .NET 6 SDK besitzt.
 
+### Alternative: Verwenden vom mongoimport in der Shell des Containers
+
+Du kannst in Docker Desktop mit *Open Terminal* beim Container *mongodb* eine Shell öffnen. Mit
+den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespielt:
+
+```
+apt-get update && apt-get install wget
+cd /home
+for collection in terms subjects rooms classes students teachers exams
+do
+    wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/ExamsDb/Dump/$collection.json
+    mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --file=$collection.json --drop
+    rm $collection.json
+done
+
+```
 
 ## Das Klassendiagramm
 
@@ -156,6 +174,27 @@ Speichert alle Kolloquien (Prüfungen) der Studierenden.
 - **points:** Punkte, die der Studierende auf die Prüfung erreicht hat.
 - **grade:** Note, die der Studierende auf die Prüfung bekommen hat.
 
+## Anhang
+
+### Nur als Info: Export der Datenbank
+
+Wenn du im Kapitel [Installation von MongoDb als Docker Image](02_Mongodb_Install.md) die Option
+*-v* beim *docker run* Befehl gewählt hast, wird das Verzeichnis */home* auf dein Hostsystem
+umgeleitet. Mit den folgenden Befehlen im Terminal des Containers kann die Datenbank als
+JSON exportiert werden:
+```
+cd /home
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=terms --out=terms.json
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=subjects --out=subjects.json
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=rooms --out=rooms.json
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=classes --out=classes.json
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=students --out=students.json
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=teachers --out=teachers.json
+mongoexport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --collection=exams --out=exams.json
+
+```
+
+
 
 ### Anhang: UML Code des Klasendiagrammes
 
@@ -278,3 +317,4 @@ Teacher --> Subject : > canTeachSubjects
 Term o--> TermType : > termType
 @enduml
 ```
+

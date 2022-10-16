@@ -20,9 +20,9 @@ Stelle vorher sicher, dass Docker Desktop läuft (Dockersymbol in der Taskleiste
 docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongodb mongo
 ```
 
-Optional: Wenn du das home Verzeichnis im Container z. B. auf C:\Temp mappen möchtest, kann ein Parameter
-*-v* für Volume angegeben werden. So können Dateien ausgetauscht werden, die z. B. bei *mongoexport*
-entstehen.
+Alternativ (also *statt* dem vorigen Befehl): Wenn du das home Verzeichnis im Container z. B. auf
+C:\Temp mappen möchtest, kann ein Parameter *-v* für Volume angegeben werden. So können Dateien
+ausgetauscht werden, die z. B. bei *mongoexport* entstehen.
 
 ```
 docker run -d -p 27017:27017 -v C:/Temp:/home -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongodb mongo
