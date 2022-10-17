@@ -157,7 +157,7 @@ Ein JSON Dump dieser Collection ist in der Datei [classes.json](ExamsDb/Dump/cla
 
 Speichert die zur Verfügung stehenden Räume der Schule.
 
-- **shortname:** ID des Raumes, wie er im Stundenplan aufscheint (z. B. C4.14).
+- **shortname:** ID des Raumes, wie sie im Stundenplan aufscheint (z. B. C4.14).
   Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **capacity:** Anzahl der Sitzplätze. Kann null sein.
 
@@ -167,7 +167,7 @@ Ein JSON Dump dieser Collection ist in der Datei [rooms.json](ExamsDb/Dump/rooms
 
 Speichert die unterrichteten Gegenstände der Schule.
 
-- **shortname:** ID des Gegenstandes, wie er im Stundenplan aufscheint (z. B. POS).
+- **shortname:** ID des Gegenstandes, wie sie im Stundenplan aufscheint (z. B. POS).
   Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **longname:** Langbezeichnung.
 
@@ -177,7 +177,7 @@ Ein JSON Dump dieser Collection ist in der Datei [subjects.json](ExamsDb/Dump/su
 
 Speichert alle Lehrenden der Schule.
 
-- **id:** ID des Lehrers, wie er im Stundenplan aufscheint (z. B. SZ). Ist immer der
+- **id:** ID des Lehrers, wie sie im Stundenplan aufscheint (z. B. SZ). Ist immer der
   Wert von *shortname* in *name*.
   Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **name:** Objekt vom Typ *TeacherName*. Besteht aus *shortname*, *firstname*, *lastname* und *email*.
