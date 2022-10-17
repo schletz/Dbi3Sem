@@ -143,7 +143,7 @@ Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
 - **educationLevel:** Semester der Ausbildung (3AAIF ist im 3. Semester, 5AAIF im 5. Semester, usw.)
 - **letter:** Klassenzug (B für 5BAIF, usw.)
 - **classTeacher:** Eingebettetes Objekt des Klassenvorstandes (Studienkoordinators). Es wird nur
-  der *TeacherName* mit *shortname*, *firstname* und *lastname* eingebettet.
+  der *TeacherName* mit *shortname*, *firstname*, *lastname* und *email* eingebettet.
 - **roomShortname:** ID des Stammraumes. Kann null sein (bei Wanderklassen).
 
 #### Indizes
@@ -238,7 +238,7 @@ Speichert alle Kolloquien (Prüfungen) der Studierenden.
   Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **student:** Objekt vom Typ *StudentName*.  Besteht aus *nr*, *firstname* und *lastname*.
   Damit nicht der ganze Student eingebettet wird, beschränken wir uns auf diese Daten.
-- **teacher:** Objekt vom Typ *TeacherName*.  Besteht aus *shortname*, *firstname* und *lastname*.
+- **teacher:** Objekt vom Typ *TeacherName*.  Besteht aus *shortname*, *firstname*, *lastname* und *email*.
   Damit nicht der ganze Teacher eingebettet wird, beschränken wir uns auf diese Daten.
 - **currentClass:** Klasse, die der Studierende besucht, als er die Prüfung abgelegt hat.
   Objekt vom Typ *Class*.
