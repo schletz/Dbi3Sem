@@ -540,6 +540,8 @@ class Program
         }
 
         // (10) Welche Prüfungen erreichten maximal 25% der Punkte (Points ist also <= PointsMax * 0.25)?
+        //      Hinweis: Versuche, ob deine Lösung durch den Builder erzeugt werden kann. Wenn nicht,
+        //      kannst du einen where Filter wie im Beispiel als String verwenden.   
         {
             PrintHeader("Prüfungen <= 25%");
             IEnumerable<Exam> result = Enumerable.Empty<Exam>(); // TODO: Schreibe das Ergebnis deiner Abfrage in result.
