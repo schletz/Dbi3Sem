@@ -35,6 +35,7 @@
           <li> <a href="13_NoSQL/04_MongoDb_Find.md">Filtern in MongoDB</a></li>
           <li> <a href="13_NoSQL/05_MongoDb_Update.md">Updates in MongoDB</a></li>
           <li> <a href="13_NoSQL/06_MongoDb_Aggregate.md">Projektion und Aggregation</a></li>
+          <li> <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/modeling-data">learn.microsoft.com: Data modeling in Azure Cosmos DB</a></li>
           <li> <a href="13_NoSQL/Projekt%20Pruefungsverwaltung">Praxisbeispiel: NoSQL Anwendung mit Repository Pattern</a></li>
           <li> 
           Übungen zum Schemaentwurf
