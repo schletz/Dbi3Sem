@@ -147,6 +147,8 @@ Entspricht in SQL der Klausel *WHERE Col &lt; Value*, *WHERE Col &lt;= Value*, *
 - **{"dateTime":{"$lt": Date("2020-02-24T09:00:00Z")}}** (exams Collection)   
   Findet alle Dokumente, wo der Wert von *dateTime* kleiner als der 24.2.2020
   um 9 Uhr UTC ist. Es muss mit der *Date* Funktion der String in einen Zeitstempel umgewandelt werden.
+  Versuche auch den Suchfilter *{"dateTime":{"$lt": Date("2020-02-24T08:30:00+01:00")}}*
+  Er gibt an, welche Prüfungen vor dem 24.2.2020 um 8:30 MEZ (UTC+1h) statt gefunden haben.
 
 #### Mehrere Filter mit AND verknüpfen: { "field1": Filter1, "field2": Filter2 }
 
