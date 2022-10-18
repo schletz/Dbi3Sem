@@ -144,6 +144,9 @@ Entspricht in SQL der Klausel *WHERE Col &lt; Value*, *WHERE Col &lt;= Value*, *
 - **{ "hoursPerWeek": { "$lte" : 16 } }**   
   Findet alle Dokumente, die unter oder gleich 16 Stunden
   im Feld *hoursPerWeek* gespeichert haben (hoursPerWeek <= 16).
+- **{"dateTime":{"$lt": Date("2020-02-24T09:00:00Z")}}** (exams Collection)   
+  Findet alle Dokumente, wo der Wert von *dateTime* kleiner als der 24.2.2020
+  um 9 Uhr UTC ist. Es muss mit der *Date* Funktion der String in einen Zeitstempel umgewandelt werden.
 
 #### Mehrere Filter mit AND verknüpfen: { "field1": Filter1, "field2": Filter2 }
 
