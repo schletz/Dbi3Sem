@@ -1,7 +1,12 @@
 # Die Übungsdatenbank ExamsDb
 
 Für die Speicherung von Kolloquien der Ausbildungen für Berufstätige (Aufbaulehrgang und Kolleg)
-dient diese kleine NoSQL Datenbank. Die Datenbank wurde unter folgenden Gesichtspunkten erstellt:
+dient diese kleine NoSQL Datenbank. Zur Info, falls jemand dieses System nicht kennt: In den
+Ausbildungen für Berufstätige gibt es keine Wiederholungsprüfungen. Ist ein Studierender in einem
+Fach negativ, kann er nach Abschluss des Semesters in diesem Fach eine Prüfung (ein "Kolloquium")
+machen. Es ist sozusagen eine Nachprüfung aber ohne fixen Termin.
+
+Die Datenbank wurde unter folgenden Gesichtspunkten erstellt:
 - Schuljahre (Terms) sind als Semester gespeichert.
 - Bei den Klassen wird das dazugehörige Schuljahr gespeichert. Somit kann z. B. die 3AAIF im
   Wintersemester 2021/22 und im Wintersemester 2022/23 existieren.
@@ -101,11 +106,11 @@ verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
 ### Document Term (Collection terms)
 
 - **id:** ID für das Semester. Das Wintersemester hat ein W am Ende, das Sommersemester ein S.
-  Wintersemester 2021/22 ist also *2021W*, das Sommersemester 2019/20 hat *2019S*.
+  Das Wintersemester 2021/22 hat also *2021W* als ID, das Sommersemester 2019/20 hat *2019S*.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **year:** Jahr, in dem das Schuljahr beginnt (2019 für 2019/20).
 - **termType:** Winter oder Summer. Ist eine *enumeration*, die als String gespeichert wird. Das
-  ist wichtig, denn sonst würde der Zahlenwert gespeichert werden. Wird nun die enumeration im
+  ist wichtig, denn sonst würde der Zahlenwert gespeichert werden. Wird nun die Enumeration im
   Programmcode vertauscht, ändert sich die Bedeutung dieses Wertes!
 - **start:** Erster Tag des Semesters. Da es nur ein Datumswert ist, wird er als ISO String
   der Form *YYYY-MM-DD* in der Datenbank gespeichert.
@@ -131,14 +136,14 @@ Speichert die Übersicht aller Klassen für die verschiedenen Schuljahre.
   3AAIF im Wintersemester 2019/20 hat also die ID *2019W_3AAIF*.
   Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
 - **shortname:** Der Name der Klasse ohne Schuljahr, wie sie im Stundenplan aufscheint.
-- **term:** Eingebettetes Semesterobjekt vom Typ *Term*. Dadurch kann *term.Year* indiziert
-  werden, um schnelle Suchen nach den Klasen eines Schuljahres zu ermöglichen.
+- **term:** Eingebettetes Semesterobjekt vom Typ *Term*. Dadurch kann *term.year* indiziert
+  werden, um schnelles Suchen nach den Klasen eines Schuljahres zu ermöglichen.
 - **department:** *AIF* für Tages-Aufbaulehrgang, *BIF* für Abend-Aufbaulehrgang, *KIF* für 
   Tages-Kolleg, *CIF* für Abend-Kolleg.
 - **educationLevel:** Semester der Ausbildung (3AAIF ist im 3. Semester, 5AAIF im 5. Semester, usw.)
 - **letter:** Klassenzug (B für 5BAIF, usw.)
-- **classTeacher:** Eingebettetes Objekt des Klassenvorstandes (Studienkoordinator). Es wird nur
-  der *TeacherName* mit *Shortname*, *Firstname* und *Lastname* eingebettet.
+- **classTeacher:** Eingebettetes Objekt des Klassenvorstandes (Studienkoordinators). Es wird nur
+  der *TeacherName* mit *shortname*, *firstname*, *lastname* und *email* eingebettet.
 - **roomShortname:** ID des Stammraumes. Kann null sein (bei Wanderklassen).
 
 #### Indizes
@@ -152,8 +157,8 @@ Ein JSON Dump dieser Collection ist in der Datei [classes.json](ExamsDb/Dump/cla
 
 Speichert die zur Verfügung stehenden Räume der Schule.
 
-- **shortname:** ID des Raumes, wie er im Stundenplan aufscheint (z. B. C4.14).
-  Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
+- **shortname:** ID des Raumes, wie sie im Stundenplan aufscheint (z. B. C4.14).
+  Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **capacity:** Anzahl der Sitzplätze. Kann null sein.
 
 Ein JSON Dump dieser Collection ist in der Datei [rooms.json](ExamsDb/Dump/rooms.json) abrufbar.
@@ -162,8 +167,8 @@ Ein JSON Dump dieser Collection ist in der Datei [rooms.json](ExamsDb/Dump/rooms
 
 Speichert die unterrichteten Gegenstände der Schule.
 
-- **shortname:** ID des Gegenstandes, wie er im Stundenplan aufscheint (z. B. POS).
-  Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
+- **shortname:** ID des Gegenstandes, wie sie im Stundenplan aufscheint (z. B. POS).
+  Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **longname:** Langbezeichnung.
 
 Ein JSON Dump dieser Collection ist in der Datei [subjects.json](ExamsDb/Dump/subjects.json) abrufbar.
@@ -172,9 +177,9 @@ Ein JSON Dump dieser Collection ist in der Datei [subjects.json](ExamsDb/Dump/su
 
 Speichert alle Lehrenden der Schule.
 
-- **id:** ID des Lehrers, wie er im Stundenplan aufscheint (z. B. SZ). Ist immer der
-  Wert von *Shortname* in *Name*.
-  Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
+- **id:** ID des Lehrers, wie sie im Stundenplan aufscheint (z. B. SZ). Ist immer der
+  Wert von *shortname* in *name*.
+  Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **name:** Objekt vom Typ *TeacherName*. Besteht aus *shortname*, *firstname*, *lastname* und *email*.
   Die Auslagerung in ein eigenes Objekt hat den Sinn, dass z. B. bei den Prüfungen nur dieser
   Teil eingebettet werden kann.
@@ -197,7 +202,7 @@ Speichert alle Studierenden der Schule.
 
 - **id:** ID des Studierenden. Wird in der Schülerverwaltung generiert und ist eine 6stellige
   ganze Zahl.
-  Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
+  Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **name:** Objekt vom Typ *StudentName*.  Besteht aus *nr*, *firstname* und *lastname*.
   Die Auslagerung in ein eigenes Objekt hat den Sinn, dass z. B. bei den Prüfungen nur dieser
   Teil eingebettet werden kann.
@@ -230,10 +235,10 @@ Ein JSON Dump dieser Collection ist in der Datei [students.json](ExamsDb/Dump/st
 Speichert alle Kolloquien (Prüfungen) der Studierenden.
 
 - **id:** Generierte ID vom Typ ObjectId (interner MongoDB ID Typ).
-  Steht in der Datenbank als Feld *_id*, da es der Primärschlüssel ist.
+  Steht in der Datenbank als Feld *_id*, da sie der Primärschlüssel ist.
 - **student:** Objekt vom Typ *StudentName*.  Besteht aus *nr*, *firstname* und *lastname*.
   Damit nicht der ganze Student eingebettet wird, beschränken wir uns auf diese Daten.
-- **teacher:** Objekt vom Typ *TeacherName*.  Besteht aus *shortname*, *firstname* und *lastname*.
+- **teacher:** Objekt vom Typ *TeacherName*.  Besteht aus *shortname*, *firstname*, *lastname* und *email*.
   Damit nicht der ganze Teacher eingebettet wird, beschränken wir uns auf diese Daten.
 - **currentClass:** Klasse, die der Studierende besucht, als er die Prüfung abgelegt hat.
   Objekt vom Typ *Class*.

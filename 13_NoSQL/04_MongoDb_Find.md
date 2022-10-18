@@ -98,8 +98,8 @@ Im MongoDB Compass geben wir einfach `{}` in die Zeile bei *Filter* ein.
 
 #### Equals Filter { "field" : "value" }
 
-Entspricht in SQL der Klausel *WHERE Col = Value'. Wenn wir ein Feld mit einem literal (fixen Wert)
-vergleichen möchten, geben wir z. B. folgende Filter in der teachers Collection an:
+Entspricht in SQL der Klausel *WHERE Col = Value*. Wenn wir ein Feld mit einem literal (fixen Wert)
+vergleichen möchten, geben wir z. B. folgende Filter an:
 
 - **{ "_id" : "RAU" }**   
   Sucht nach Dokumenten, wo das Feld *_id* den Wert *RAU* hat.
@@ -117,8 +117,7 @@ vergleichen möchten, geben wir z. B. folgende Filter in der teachers Collection
 
 #### Not Equals Filter { "field" : { "$ne" : "value" } }
 
-Entspricht in SQL der Klausel *WHERE Col <> Value*. Wir können also in der teachers Collection
-folgendes herausfiltern:
+Entspricht in SQL der Klausel *WHERE Col <> Value*. Wir können also folgendes herausfiltern:
 
 - **{ "hoursPerWeek" : {"$ne" : null } }**   
   Findet alle Dokumente, die einen Wert im Feld
@@ -148,7 +147,7 @@ Entspricht in SQL der Klausel *WHERE Col &lt; Value*, *WHERE Col &lt;= Value*, *
 
 #### Mehrere Filter mit AND verknüpfen: { "field1": Filter1, "field2": Filter2 }
 
-Entspricht in SQL der Klausel *WHERE Col1 = Value1 AND Col2 = Value2.
+Entspricht in SQL der Klausel *WHERE Col1 = Value1 AND Col2 = Value2*.
 
 - **{ "_id" : "RAU", "name.email" : "rau@spengergasse.at" }**   
   Findet alle Dokumente, wo das Feld *_id* den Wert RAU und das Feld *name.email* den Wert rau@spengergasse.at hat.
@@ -158,7 +157,7 @@ Entspricht in SQL der Klausel *WHERE Col1 = Value1 AND Col2 = Value2.
 
 #### Mehrere Filter mit OR verknüpfen: { "$or" : [{  "field1": Filter1 }, {  "field2": Filter2 }] }
 
-Entspricht in SQL der Klausel *WHERE Col1 = Value1 OR Col2 = Value2.
+Entspricht in SQL der Klausel *WHERE Col1 = Value1 OR Col2 = Value2*.
 
 
 - **{ "$or" : [{ "_id" : "RAU" }, { "name.email" : "rau@spengergasse.at" }] }**   
@@ -541,6 +540,8 @@ class Program
         }
 
         // (10) Welche Prüfungen erreichten maximal 25% der Punkte (Points ist also <= PointsMax * 0.25)?
+        //      Hinweis: Versuche, ob deine Lösung durch den Builder erzeugt werden kann. Wenn nicht,
+        //      kannst du einen where Filter wie im Beispiel als String verwenden.   
         {
             PrintHeader("Prüfungen <= 25%");
             IEnumerable<Exam> result = Enumerable.Empty<Exam>(); // TODO: Schreibe das Ergebnis deiner Abfrage in result.
