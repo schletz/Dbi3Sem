@@ -647,14 +647,12 @@ class Program
         //     canTeachSubject der Lehrenden.
         {
             var oldTeacherSubjects = examsDb.Teachers.AsQueryable().ToList()
-                .Where(t => t.CanTeachSubjects.Any(c => c.Shortname == "POS"))
                 .SelectMany(t => t.CanTeachSubjects.Select(c => new { t.Id, c.Shortname, c.Longname }))
                 .ToList();
 
             // TODO: Schreibe hier deine update Anweisung.
 
             var newTeacherSubjects = examsDb.Teachers.AsQueryable().ToList()
-                .Where(t => t.CanTeachSubjects.Any(c => c.Shortname == "POS"))
                 .SelectMany(t => t.CanTeachSubjects.Select(c => new { t.Id, c.Shortname, c.Longname }))
                 .ToList();
 
@@ -666,8 +664,6 @@ class Program
                     newTeacherSubjects.Where(t => t.Shortname == "POS").All(t => t.Longname == "Programmieren und Software Development"),
                 "POS wurde in allen Dokumenten der Collection teachers umbenannt.");
         }
-
-
 
         // *****************************************************************************************
         // (7) Die 4AAIF des heurigen Schuljahres (2022S_4AAIF) nun den Stammraum AH.06. Aktualisiere
