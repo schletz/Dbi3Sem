@@ -27,7 +27,7 @@
           <li> <a href="12_JSON/01_Intro.md">JSON Grundlagen</a></li>
           <li> <a href="12_JSON/02_Modelklassen.md">Modelklassen</a></li>
         </ul>
-        <em> NoSQL (Dokumentbasierend)</em>
+        <em> NoSQL (Dokumentbasierend mit MongoDB)</em>
         <ul>
           <li> <a href="13_NoSQL/01_Sql_vs_Nosql.md">SQL vs NoSQL</a></li>
           <li> <a href="13_NoSQL/02_Mongodb_Install.md">Installation von MongoDB und PlantUML in VS Code</a></li>

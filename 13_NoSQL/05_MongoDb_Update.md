@@ -192,7 +192,7 @@ db.getCollection("teachers").updateMany(
     [{ "$set" : { "salary" : { "$multiply" : ["$hoursPerWeek", NumberDecimal("200")] } } }])
 ```
 
-## Filtern in .NET
+## Updates mit dem .NET Treiber von MongoDB
 
 Kopiere das Programm im Ordner *13_NoSQL\ExamsDb* in einen eigenen Ordner und ersetze die Datei
 *Program.cs* durch den folgenden Inhalt. In der Konsole werden die Update Statements ausgegeben:
