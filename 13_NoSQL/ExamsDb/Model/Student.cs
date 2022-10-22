@@ -25,7 +25,7 @@ namespace ExamDbGenerator.Model
         public Address Address { get; set; }
         public DateOnly DateOfBirth { get; set; }
         [BsonElement]
-        public List<Class> ClassHistory { get; } = new();
+        public List<Class> ClassHistory { get; set; } = new();
     }
 
 

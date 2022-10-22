@@ -496,3 +496,243 @@ class Program
     }
 }
 ```
+
+## Übung
+
+Du kannst die folgende Aufgabe auf 2 Arten lösen:
+
+1. Schreiben der Update Anweisungen in der Shell von MongoDB
+2. Verwenden der Update Methode in .NET
+
+Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe im
+Programmcode lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
+*\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *UpdateExcercise*).
+Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe deine Update
+Anweisung an die Stelle von *TODO: Schreibe hier deine update Anweisung*.
+
+Die Codeanweisungen danach (und manchmal auch davor) prüfen dein Update. Stimmen die Daten
+nicht, erfolgt eine entsprechende rote Ausgabe in der Konsole.
+
+```c#
+using ExamDbGenerator;
+using MongoDB.Driver;
+using System;
+using ExamDbGenerator.Model;
+using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Bson;
+using System.Threading.Tasks;
+
+class Program
+{
+    static int Main(string[] args)
+    {
+        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.Clear();
+
+        var examsDb = ExamDatabase.FromConnectionString("mongodb://root:1234@localhost:27017", logging: true);
+        try
+        {
+            examsDb.Seed();
+        }
+        catch (TimeoutException)
+        {
+            Console.Error.WriteLine("Die Datenbank ist nicht erreichbar. Läuft der Container?");
+            return 1;
+        }
+        catch (MongoAuthenticationException)
+        {
+            Console.Error.WriteLine("Mit dem Benutzer root (Passwort 1234) konnte keine Verbindung aufgebaut werden.");
+            return 2;
+        }
+
+        // HINWEIS FÜR DEN ZUGRIFF AUF COLLECTIONS
+        // In der Klasse ExamDatabase ist ein Property für jede Collection definiert. So kann mit
+        // examsDb.Classes auf classes zugegriffen werden. Damit erspart man sich das Schreiben von examsDb.Db.GetCollection<Class>("classes").
+        //
+        // examsDb.Terms    entspricht examsDb.Db.GetCollection<Term>("terms")
+        // examsDb.Subjects entspricht examsDb.Db.GetCollection<Subject>("subjects")
+        // examsDb.Rooms    entspricht examsDb.Db.GetCollection<Room>("rooms")
+        // examsDb.Classes  entspricht examsDb.Db.GetCollection<Class>("classes")
+        // examsDb.Students entspricht examsDb.Db.GetCollection<Student>("students")
+        // examsDb.Teachers entspricht examsDb.Db.GetCollection<Teacher>("teacjers")
+        // examsDb.Exams    entspricht examsDb.Db.GetCollection<Exam>("exams")
+
+
+        // *****************************************************************************************
+        // Muster: Der Raum AH.06 hat nach einer Zählung der Sessel eine Kapazität von 24 Plätzen. Setze
+        // das Feld capacity für diesen Raum.
+        {
+            examsDb.Rooms.UpdateOne(
+                Builders<Room>.Filter.Eq(t => t.Shortname, "AH.06"),
+                Builders<Room>.Update.Set(t => t.Capacity, 24));
+            CheckAndWrite(
+                () => examsDb.Rooms.AsQueryable().First(r => r.Shortname == "AH.06").Capacity == 24,
+                "Raum AH.06 hat 24 Plätze.");
+        }
+
+        // *****************************************************************************************
+        // (1) Die Studentin mit der ID 100003 hat geheiratet und heißt nun Bayer statt Neubert.
+        //     Aktualisiere das Feld name.lastname in der students collection. Die exams Collection
+        //     ist NICHT zu aktualisieren, da sie bei der Prüfung ja noch Neubert geheißen hat.
+        {
+            // TODO: Schreibe hier deine update Anweisung.
+            CheckAndWrite(
+                () => examsDb.Students.AsQueryable().First(s => s.Id == 100003).Name.Lastname == "Bayer",
+                "Die Studentin 100003 heißt Bayer.");
+        }
+
+        // *****************************************************************************************
+        // (2) Das Semester mit der ID 2023S (Sommersemester 2023/24) endet nicht wie eingetragen am
+        //     1.7.2024 sondern am 28.06.2024. Aktualisiere das Dokument in der terms Collection. Da
+        //     das Document noch nirgends eingebettet wurde, muss es nur in der terms Collection
+        //     geändert werden.
+        {
+            // TODO: Schreibe hier deine update Anweisung.
+            CheckAndWrite(
+                () => examsDb.Terms.AsQueryable().First(t => t.Id == "2023S").End == new DateOnly(2024, 6, 28),
+                "Das Semester 2023S endet am 28.6.2024.");
+        }
+
+        // *****************************************************************************************
+        // (3) Die Räume werden mit Sesseln aufgestockt. Jeder Raum, dessen Kapazität != null ist,
+        //     soll 2 Plätze mehr im Feld capacity erhalten.
+        {
+            var oldCapacities = examsDb.Rooms.AsQueryable().Where(r => r.Capacity != null).ToDictionary(r => r.Shortname, r => r.Capacity);
+
+            // TODO: Schreibe hier deine update Anweisung.
+
+            var newCapacities = examsDb.Rooms.AsQueryable().Where(r => r.Capacity != null).ToDictionary(r => r.Shortname, r => r.Capacity);
+            CheckAndWrite(
+                () => oldCapacities.Count == newCapacities.Count && oldCapacities.All(r => newCapacities[r.Key] == r.Value + 2),
+                "Die Räume haben nun 2 Plätze mehr.");
+        }
+
+        // *****************************************************************************************
+        // (4) Die Studentin mit der ID 100019 ist ins Studentenheim gegenüber der Schule gezogen.
+        //     Die neue Adresse ist
+        //     street: Spengergasse, streetNr: 18, city: Wien, zip: 1050
+        //     Hinweis: Erstelle ein neues Address Objekt und setze es als neuen Wert fest.
+
+        {
+            // TODO: Schreibe hier deine update Anweisung.
+            CheckAndWrite(
+                () =>
+                {
+                    var address = examsDb.Students.AsQueryable().First(s => s.Id == 100019).Address;
+                    return address.City == "Wien" && address.Zip == 1050 && address.Street == "Spengergasse" && address.StreetNr == "18";
+                },
+                "Die Studentin 100019 hat die Adresse Spengergasse 18, 1050 Wien.");
+        }
+
+        // *****************************************************************************************
+        // (5) Der Lehrer TAN hat nun eine Lehrbefähigung in DBI. Trage das neue Objekt vom
+        //     Typ Subject ein. Lese vorher aus der Collection subjects das Document, bevor zu
+        //     es zuweist (also keinen "hardcoded" Wert für longname verwenden!). Nur wenn du die
+        //     Shell direkt verwendest, kann der Langname hardcoded eingefügt werden.
+        {
+            // TODO: Schreibe hier deine update Anweisung.
+            CheckAndWrite(
+                () =>
+                    examsDb.Teachers.AsQueryable().First(t => t.Id == "TAN")
+                        .CanTeachSubjects
+                        .Any(s => s.Shortname == "DBI" && s.Longname == "Datenbanken und Informationssysteme"),
+                "Lehrer TAN hat nun DBI im Array canTeachSubjects.");
+        }
+
+        // *****************************************************************************************
+        // (6) Lehrplanwechsel: POS heißt nun Programmieren und Software Development
+        //     (statt Engineering). Aktualisiere das Document in subjects und alle Einträge in
+        //     canTeachSubject der Lehrenden.
+        {
+            var oldTeacherSubjects = examsDb.Teachers.AsQueryable().ToList()
+                .Where(t => t.CanTeachSubjects.Any(c => c.Shortname == "POS"))
+                .SelectMany(t => t.CanTeachSubjects.Select(c => new { t.Id, c.Shortname, c.Longname }))
+                .ToList();
+
+            // TODO: Schreibe hier deine update Anweisung.
+
+            var newTeacherSubjects = examsDb.Teachers.AsQueryable().ToList()
+                .Where(t => t.CanTeachSubjects.Any(c => c.Shortname == "POS"))
+                .SelectMany(t => t.CanTeachSubjects.Select(c => new { t.Id, c.Shortname, c.Longname }))
+                .ToList();
+
+            CheckAndWrite(
+                () => examsDb.Subjects.AsQueryable().First(s => s.Shortname == "POS").Longname == "Programmieren und Software Development",
+                "POS wurde in der Collection subjects umbenannt.");
+            CheckAndWrite(
+                () => oldTeacherSubjects.Count == newTeacherSubjects.Count &&
+                    newTeacherSubjects.Where(t => t.Shortname == "POS").All(t => t.Longname == "Programmieren und Software Development"),
+                "POS wurde in allen Dokumenten der Collection teachers umbenannt.");
+        }
+
+
+
+        // *****************************************************************************************
+        // (7) Die 4AAIF des heurigen Schuljahres (2022S_4AAIF) nun den Stammraum AH.06. Aktualisiere
+        //     das Document in der classes Collection. Vergiss nicht, dass die Klasse auch als
+        //     currentClass in der students und exams Collection vorkommt. Diese Klassen sollen ebenfalls
+        //     aktualisiert werden.
+        {
+            // TODO: Schreibe hier deine update Anweisung.
+
+            CheckAndWrite(
+                () => examsDb.Classes.AsQueryable().First(r => r.Id == "2022S_4AAIF").RoomShortname == "AH.06",
+                "Die 2022S_4AAIF hat den Stammraum AH.06.");
+            CheckAndWrite(
+                () => !examsDb.Students.AsQueryable().Where(s => s.CurrentClass!.Id == "2022S_4AAIF").Any(s => s.CurrentClass!.RoomShortname != "AH.06"),
+                "Die 2022S_4AAIF hat den Stammraum AH.06. Das Feld currentClass in students wurde aktualisiert.");
+            CheckAndWrite(
+                () => !examsDb.Exams.AsQueryable().Where(e => e.CurrentClass.Id == "2022S_4AAIF").Any(e => e.CurrentClass!.RoomShortname != "AH.06"),
+                "Die 2022S_4AAIF hat den Stammraum AH.06. Das Feld currentClass in exams wurde aktualisiert.");
+        }
+
+        // *****************************************************************************************
+        // (8) Die Studentin mit der ID 100162 wechselt von der 8BBIF (2022S_8BBIF) in die Klasse
+        //     2022S_8ABIF. Aktualisiere das Feld currentClass, indem du die Infos der Klasse
+        //     2022S_8ABIF aus der classes Collection liest und zuweist. Füge dann einen neuen
+        //     Eintrag im Array classHistory mit dieser Klasse hinzu.
+        {
+            var oldStudent = examsDb.Students.AsQueryable().First(s => s.Id == 100162);
+
+            // TODO: Schreibe hier deine update Anweisung.
+
+            var newStudent = examsDb.Students.AsQueryable().First(s => s.Id == 100162);
+            CheckAndWrite(
+                () => newStudent.CurrentClass!.Id == "2022S_8ABIF",
+                "Die Studentin 100162 hat nun als currentClass die Klasse 2022S_8ABIF.");
+            CheckAndWrite(
+                () => newStudent.ClassHistory.Count == oldStudent.ClassHistory.Count + 1 &&
+                    newStudent.ClassHistory.Any(c => c.Id == "2022S_8ABIF"),
+                "Die Studentin 100162 hat die Klasse 2022S_8ABIF in der classHistory.");
+        }
+
+        return 0;
+    }
+
+    static void CheckAndWrite(Func<bool> predicate, string message, int weight = 1)
+    {
+        var color = Console.ForegroundColor;
+        try
+        {
+            if (predicate())
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"OK: {message}");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"Fehler: {message}");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Exception {e.Message}: {message}");
+        }
+        Console.ForegroundColor = color;
+    }
+}
+
+```
