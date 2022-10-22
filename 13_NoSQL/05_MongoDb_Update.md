@@ -53,13 +53,22 @@ db.getCollection("teachers").updateOne(
     { "$set" : { "hoursPerWeek" : 18 } })
 ```
 
-Alle Lehrenden, die hoursPerWeek < 10 haben, werden auf hoursPerWeek = 10 gesetzt. Da mehrere
+Alle Lehrenden, die *hoursPerWeek* < 10 haben, werden auf *hoursPerWeek* = 10 gesetzt. Da mehrere
 Datensätze betroffen sein könnten, verwenden wir *updateMany()*.
 
 ```
 db.getCollection("teachers").updateMany(
     { "hoursPerWeek" : { "$lt" : 10 } },
     { "$set" : { "hoursPerWeek" : 10 } })
+```
+
+Start- und Endedatum des Semesters *2023W* wird auf den 4.9.2023 bzw. auf den 5.2.2024 gesetzt. Wir
+können auch mehrere Felder mit dem *$set* Operator auf einmal setzen.
+
+```
+db.getCollection("terms").updateOne(
+    { "_id" : "2023W" },
+    { "$set" : { "start" : "2023-09-04", "end" : "2024-02-05" } })
 ```
 
 Die Klasse mit der ID *2022W_3AAIF* bekommt CAM als neuen Klassenvorstand. In einem Programm muss
@@ -296,19 +305,6 @@ class Program
             return 2;
         }
 
-        Console.WriteLine("Die Datenbank ExamsDb wurde angelegt. Du kannst dich nun im MongoDb Compass mit dem connection string");
-        Console.WriteLine("    mongodb://root:1234@localhost:27017");
-        Console.WriteLine("verbinden.");
-        Console.WriteLine();
-        Console.WriteLine("Übersicht der Collections:");
-        Console.WriteLine($"    {examsDb.Classes.CountDocuments("{}")} Dokumente in der Collection Classes.");
-        Console.WriteLine($"    {examsDb.Exams.CountDocuments("{}")} Dokumente in der Collection Exams.");
-        Console.WriteLine($"    {examsDb.Rooms.CountDocuments("{}")} Dokumente in der Collection Rooms.");
-        Console.WriteLine($"    {examsDb.Students.CountDocuments("{}")} Dokumente in der Collection Students.");
-        Console.WriteLine($"    {examsDb.Subjects.CountDocuments("{}")} Dokumente in der Collection Subjects.");
-        Console.WriteLine($"    {examsDb.Teachers.CountDocuments("{}")} Dokumente in der Collection Teachers.");
-        Console.WriteLine($"    {examsDb.Terms.CountDocuments("{}")} Dokumente in der Collection Terms.");
-
         var db = examsDb.Db;
 
         // *****************************************************************************************
@@ -340,6 +336,20 @@ class Program
         }
 
         // *****************************************************************************************
+        // Im Semester 2023W ist das Anfangsdatum (start) auf den 4.09.2023 und das Endedatum (end)
+        // auf den 5.02.2024 zu setzen. Setze beide Felder mit einer Anweisung.
+        {
+            PrintHeader("Start und Endedatum des Semesters 2023W wird auf den 4.9.2023 bzw. auf den 5.2.2024 gesetzt.");
+            var result = db.GetCollection<Term>("terms")
+                .UpdateOne(
+                    Builders<Term>.Filter.Eq(t => t.Id, "2023W"),
+                    Builders<Term>.Update.Combine(
+                        Builders<Term>.Update.Set(t => t.Start, new DateOnly(2023, 9, 4)),
+                        Builders<Term>.Update.Set(t => t.End, new DateOnly(2024, 2, 5))));
+            Console.WriteLine($"{result.MatchedCount} Datensätze in teachers gefunden.");
+        }
+
+        // *****************************************************************************************
         // Die Klasse 2022W_3AAIF bekommt einen neuen Klassenvorstand: CAM.
         // Wir müssen das name Objekt des entsprechenden Teachers Document zuweisen.
         {
@@ -353,6 +363,7 @@ class Program
                     Builders<Class>.Filter.Eq(c => c.Id, "2022W_3AAIF"),
                     Builders<Class>.Update.Set(c => c.ClassTeacher, teacherName)
                 );
+            Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
         }
 
         // *************************************************************************************************
