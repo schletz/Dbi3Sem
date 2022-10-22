@@ -189,6 +189,8 @@ Speichert alle Lehrenden der Schule.
   unterrichten kann. Das kommt bei Teilbeschäftigungen vor. null, wenn keine Einschränkung vorliegt.
 - **lessonsFrom:** Zeitpunkt, ab dem der Lehrer Unterricht halten kann. Manche Lehrer haben am
   Tag eine Nebenbeschäftigung und können daher erst am Nachmittag. null, wenn keine Einschränkung vorliegt.
+- **salary:** Gehalt. Wird intern als *NumberDecimal* gespeichert, damit 0.1 exakt gespeichert
+  werden kann. Kann null sein.
 - **homeOfficeDays:** Stringliste mit den Home Office Tagen (kein Unterricht). Mögliche
   Werte sind MO, DI, MI, DO oder FR.
 - **canTeachSubjects:** Liste von Objekten vom Typ *Subject*. Gibt die Gegenstände an, die der

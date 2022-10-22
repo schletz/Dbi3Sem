@@ -9,7 +9,9 @@ namespace ExamDbGenerator.Model
     record Teacher(
         TeacherName Name,
         [property:BsonRepresentation(BsonType.String)] Gender Gender,
-        int? HoursPerWeek = null, TimeOnly? LessonsFrom = null, decimal? Salary = null)
+        int? HoursPerWeek = null, TimeOnly? LessonsFrom = null,
+        [property:BsonRepresentation(BsonType.Decimal128)]
+        decimal? Salary = null)
     {
         [BsonId]
         public string Id => Name.Shortname;

@@ -18,7 +18,8 @@ namespace ExamDbGenerator
     /// </summary>
     class ExamDatabase
     {
-        private readonly MongoClient _client;
+        public MongoClient Client { get; }
+        public IMongoDatabase Db { get; }
         public IMongoCollection<Term> Terms => Db.GetCollection<Term>("terms");
         public IMongoCollection<Subject> Subjects => Db.GetCollection<Subject>("subjects");
         public IMongoCollection<Room> Rooms => Db.GetCollection<Room>("rooms");
@@ -26,7 +27,6 @@ namespace ExamDbGenerator
         public IMongoCollection<Student> Students => Db.GetCollection<Student>("students");
         public IMongoCollection<Teacher> Teachers => Db.GetCollection<Teacher>("teachers");
         public IMongoCollection<Exam> Exams => Db.GetCollection<Exam>("exams");
-        public IMongoDatabase Db { get; }
 
         /// <summary>
         /// Konfiguriert die Datenbank für einen Connection string.
@@ -42,7 +42,13 @@ namespace ExamDbGenerator
                     cb.Subscribe<CommandStartedEvent>(e =>
                     {
                         if (e.Command.TryGetValue("updates", out var updateCmd))
-                            Console.WriteLine(updateCmd);
+                        {
+                            int i = 0;
+                            foreach (var cmd in updateCmd.AsBsonArray)
+                            {
+                                Console.WriteLine($"Command {++i}: Filter: {updateCmd[0]["q"]}    Update: {updateCmd[0]["u"]}");
+                            }
+                        }
                         if (e.Command.TryGetValue("filter", out var filterCmd))
                             Console.WriteLine(filterCmd);
                     });
@@ -63,7 +69,7 @@ namespace ExamDbGenerator
 
         private ExamDatabase(MongoClient client, IMongoDatabase db)
         {
-            _client = client;
+            Client = client;
             Db = db;
         }
 
