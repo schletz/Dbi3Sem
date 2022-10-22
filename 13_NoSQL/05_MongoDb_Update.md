@@ -215,7 +215,8 @@ db.getCollection("teachers").updateOne(
 Dies sieht auf den ersten Blick einmal mühsam aus, da das ganze Dokument zum Server gesendet
 werden muss.
 
-**Vorteil**
+#### Vorteil
+
 In Applikationen ist es bei der Bearbeitung von Datensätzen üblich, dem Client den
 Datensatz zu senden. Danach sendet der Client die aktualisierten Felder über HTTP PUT an den
 Server zurück. Nun kann das Dokument mit einer Zeile aktualisiert werden:
@@ -228,7 +229,7 @@ examsDb.Teachers.ReplaceOne(Builders<Teacher>.Filter.Eq(t => t.Id, newTeacher.Id
 Diese Anweisung ist zudem so allgemein, dass sie in einem generischen Repository implementiert
 werden kann (suche nach dem Id Wert und ersetze das Dokument durch das neue Objekt).
 
-**Nachteil**
+#### Nachteil
 
 Sehen wir uns das folgende Sequenzdiagramm an. 2 Clients wollen den Datensatz des Lehrers *SZ*
 bearbeiten. Client 1 ändert die Mailadresse auf *new_mail@spengergasse.at*. Client 2 ändert
