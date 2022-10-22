@@ -222,7 +222,7 @@ Server zurück. Nun kann das Dokument mit einer Zeile aktualisiert werden:
 
 ```c#
 // Serialize newTeacher from HTTP Request (PUT formdata, ...)
-examsDb.Teachers.ReplaceOne(Builders<Teacher>.Filter.Eq(t => t.Id, newTeacher.Id), newTeacher);
+db.getCollection("teachers").ReplaceOne(Builders<Teacher>.Filter.Eq(t => t.Id, newTeacher.Id), newTeacher);
 ```
 
 Diese Anweisung ist zudem so allgemein, dass sie in einem generischen Repository implementiert
