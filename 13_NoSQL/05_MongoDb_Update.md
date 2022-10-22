@@ -253,7 +253,7 @@ hat und diese Inhalte später wieder an den Server schickt.
 Eine Lösung bieten auch OR Mapper in relationalen Datenbanken: Es wird ein Timestamp *lastUpdate*
 gespeichert. Dieser wird mit an den Client gesendet. Schickt nun der Client die Daten an den
 Server zurück, wird vor dem Update geprüft: Ist der übermittelte *lastUpdate* Wert gleich dem
-aktuell gespeicherten? Wenn nein kann der Fehler im Programm mit eigener Logik behandelt werden.
+aktuell gespeicherten? Wenn nein kann dieser Fall im Programm mit eigener Logik behandelt werden.
 
 ## Updates mit dem .NET Treiber von MongoDB
 
