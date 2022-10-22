@@ -234,7 +234,7 @@ Sehen wir uns das folgende Sequenzdiagramm an. 2 Clients wollen den Datensatz de
 bearbeiten. Client 1 ändert die Mailadresse auf *new_mail@spengergasse.at*. Client 2 ändert
 das Gehalt auf 2000.
 
-![](replace_one_1642.png)
+![](replace_one_1700.png)
 
 Bei der *updateOne()* Variante wird das Feld gesetzt, welches vom User geändert wurde. Die erste
 Update Anweisung von Client 2 (er drückt zuerst auf speichern) ändert nur die Mailadresse. Client 1
