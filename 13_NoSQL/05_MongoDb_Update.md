@@ -118,7 +118,9 @@ Wird er in Verbindung mit einer Filteranweisung verwendet, liefert er alle Werte
 Filter entsprechen. Die restlichen Werte im Array bleiben unverändert.
 
 ```
-db.getCollection("teachers").updateMany({ "homeOfficeDays" : "MO" }, { "$set" : { "homeOfficeDays.$" : "FR" } })
+db.getCollection("teachers").updateMany(
+    { "homeOfficeDays" : "MO" },
+    { "$set" : { "homeOfficeDays.$" : "FR" } })
 ```
 
 ### Addieren und Multiplizieren
