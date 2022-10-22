@@ -192,6 +192,69 @@ db.getCollection("teachers").updateMany(
     [{ "$set" : { "salary" : { "$multiply" : ["$hoursPerWeek", NumberDecimal("200")] } } }])
 ```
 
+## ReplaceOne
+
+Es gibt auch eine Anweisung, um ein Dokument zur Gänze durch neue Daten zu ersetzen.
+
+> ### db.getCollection(name).replaceOne(filter, new_document, options)
+
+Beispiel: 
+
+```
+db.getCollection("teachers").updateOne(
+    { "_id" : "HAR" }, 
+    { 
+        "_id" : "HAR", "name" : { "shortname" : "HAR", "firstname" : "Vito", "lastname" : "Harting", 
+        "email" : "harting@spengergasse.at" }, "gender" : "Male", "hoursPerWeek" : 14, 
+        "lessonsFrom" : "16:00", "salary" : NumberDecimal("1000"), "homeOfficeDays" : [], 
+        "canTeachSubjects" : [
+            { "_id" : "AM", "longname" : "Angewandte Mathematik" }, 
+            { "_id" : "POS", "longname" : "Programmieren und Software Engineering" }]})
+```
+
+Dies sieht auf den ersten Blick einmal mühsam aus, da das ganze Dokument zum Server gesendet
+werden muss.
+
+**Vorteil**
+In Applikationen ist es bei der Bearbeitung von Datensätzen üblich, dem Client den
+Datensatz zu senden. Danach sendet der Client die aktualisierten Felder über HTTP PUT an den
+Server zurück. Nun kann das Dokument mit einer Zeile aktualisiert werden:
+
+```c#
+// Serialize doc from HTTP Request (PUT formdata, ...) and save data to newTeacher
+examsDb.Teachers.ReplaceOne(Builders<Teacher>.Filter.Eq(t => t.Id, newTeacher.Id), newTeacher);
+```
+
+Diese Anweisung ist zudem so allgemein, dass sie in einem generischen Repository implementiert
+werden kann (suche nach dem Id Wert und ersetze das Dokument durch das neue Objekt).
+
+**Nachteil**
+
+Sehen wir uns das folgende Sequenzdiagramm an. 2 Clients wollen den Datensatz des Lehrers *SZ*
+bearbeiten. Client 1 ändert die Mailadresse auf *new_mail@spengergasse.at*. Client 2 ändert
+das Gehalt auf 2000.
+
+![](replace_one_1642.png)
+
+Bei der *updateOne()* Variante wird das Feld gesetzt, welches vom User geändert wurde. Die erste
+Update Anweisung von Client 2 (er drückt zuerst auf speichern) ändert nur die Mailadresse. Client 1
+übermittelt nun das neue Gehalt. Am Ende hat das Dokument den Wert
+*{"_id": "SZ", "salary": 2000, "mail": "new_mail@spengergasse.at"}*.
+
+Bei der *replaceOne()* Variante schreibt Schritt (6) zwar auch das neue Gehalt von 2000, nur
+übermittelt der Client auch die alten Daten. Am Ende hat das Dokument den Wert
+*{"_id": "SZ", "salary": 2000, "mail": "sz@spengergasse.at"}*. Dies bezeichnet man auch als
+"last one wins".
+
+Dieses Szenario hat nichts mit Transaktionen zu tun. Es entsteht einfach dadurch, dass der User
+bei der Bearbeitung des Datensatzes die angezeigten Daten zum Zeitpunkt t in den Textfeldern
+hat und diese Inhalte später wieder an den Server schickt.
+
+Eine Lösung bieten auch OR Mapper in relationalen Datenbanken: Es wird ein Timestamp *lastUpdate*
+gespeichert. Dieser wird mit an den Client gesendet. Schickt nun der Client die Daten an den
+Server zurück, wird vor dem Update geprüft: Ist der übermittelte *lastUpdate* Wert gleich dem
+aktuell gespeicherten? Wenn nein kann der Fehler im Programm mit eigener Logik behandelt werden.
+
 ## Updates mit dem .NET Treiber von MongoDB
 
 Kopiere das Programm im Ordner *13_NoSQL\ExamsDb* in einen eigenen Ordner und ersetze die Datei
