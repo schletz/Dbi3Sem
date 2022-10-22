@@ -156,9 +156,8 @@ Entspricht in SQL der Klausel *WHERE Col1 = Value1 AND Col2 = Value2*.
 
 - **{ "_id" : "RAU", "name.email" : "rau@spengergasse.at" }**   
   Findet alle Dokumente, wo das Feld *_id* den Wert RAU und das Feld *name.email* den Wert rau@spengergasse.at hat.
-- **{ "hoursPerWeek": { "&dollar;gt" : 16 }, "salary": { "&dollar;gt" : "3000" } }**   
-  Entspricht *hoursPerWeek > 16 AND salary > "3000"*. Das Gehalt (salary) ist ein decimal Wert
-  und wird daher als String gespeichert. Dadurch müssen wir die Anführungszeichen setzen.
+- **{ "hoursPerWeek": { "&dollar;gt" : 16 }, "salary": { "&dollar;gt" : 3000 } }**   
+  Entspricht *hoursPerWeek > 16 AND salary > 3000*.
 
 #### Mehrere Filter mit OR verknüpfen: { "$or" : [{  "field1": Filter1 }, {  "field2": Filter2 }] }
 
@@ -167,7 +166,7 @@ Entspricht in SQL der Klausel *WHERE Col1 = Value1 OR Col2 = Value2*.
 
 - **{ "$or" : [{ "_id" : "RAU" }, { "name.email" : "rau@spengergasse.at" }] }**   
   Entspricht der Abfrage *_id = "RAU" OR name.email = "rau@spengergasse.at"*.
-- **{ "&dollar;or" : [{ "salary" : { "&dollar;gt" : "4000" } }, { "hoursPerWeek" : { "$lt" : 10 } }] }**   
+- **{ "&dollar;or" : [{ "salary" : { "&dollar;gt" : 4000 } }, { "hoursPerWeek" : { "$lt" : 10 } }] }**   
   Entspricht der Abfrage *salary > 4000 OR hoursPerWeek < 10*.
 
 #### Der all Filter { "array" : { "$all" : ["value1", "value2"] } }
@@ -282,7 +281,7 @@ class Program
         }
         {
             // *************************************************************************************
-            // find({ "hoursPerWeek": { "$gt" : 16 }, "salary": { "$gt" : "3000" } })
+            // find({ "hoursPerWeek": { "$gt" : 16 }, "salary": { "$gt" : 3000 } })
             PrintHeader("Lehrer mit über 16 Stunden im Feld hoursPerWeek und einem Gehalt von über 3000 EUR.");
             var filter = Builders<Teacher>.Filter.And(
                 Builders<Teacher>.Filter.Gt(t => t.HoursPerWeek, 16),
