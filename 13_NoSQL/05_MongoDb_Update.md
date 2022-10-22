@@ -204,9 +204,8 @@ Beispiel:
 db.getCollection("teachers").updateOne(
     { "_id" : "HAR" }, 
     { 
-        "_id" : "HAR", "name" : { "shortname" : "HAR", "firstname" : "Vito", "lastname" : "Harting", 
-        "email" : "harting@spengergasse.at" }, "gender" : "Male", "hoursPerWeek" : 14, 
-        "lessonsFrom" : "16:00", "salary" : NumberDecimal("1000"), "homeOfficeDays" : [], 
+        "_id" : "HAR", "name" : { "shortname" : "HAR", "firstname" : "Vito", "lastname" : "Harting", "email" : "harting@spengergasse.at" },
+        "gender" : "Male", "hoursPerWeek" : 14, "lessonsFrom" : "16:00", "salary" : NumberDecimal("1000"), "homeOfficeDays" : [], 
         "canTeachSubjects" : [
             { "_id" : "AM", "longname" : "Angewandte Mathematik" }, 
             { "_id" : "POS", "longname" : "Programmieren und Software Engineering" }]})
