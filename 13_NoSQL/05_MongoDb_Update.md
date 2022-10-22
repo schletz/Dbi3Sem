@@ -221,7 +221,7 @@ Datensatz zu senden. Danach sendet der Client die aktualisierten Felder über HT
 Server zurück. Nun kann das Dokument mit einer Zeile aktualisiert werden:
 
 ```c#
-// Serialize doc from HTTP Request (PUT formdata, ...) and save data to newTeacher
+// Serialize newTeacher from HTTP Request (PUT formdata, ...)
 examsDb.Teachers.ReplaceOne(Builders<Teacher>.Filter.Eq(t => t.Id, newTeacher.Id), newTeacher);
 ```
 
