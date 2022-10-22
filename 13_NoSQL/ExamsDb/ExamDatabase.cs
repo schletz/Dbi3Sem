@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using DnsClient;
 using ExamDbGenerator.Model;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
@@ -41,14 +42,18 @@ namespace ExamDbGenerator
                 {
                     cb.Subscribe<CommandStartedEvent>(e =>
                     {
+                        // Bei update Statements geben wir die Anweisung aus, wie wir sie in
+                        // der Shell eingeben könnten.
                         if (e.Command.TryGetValue("updates", out var updateCmd))
                         {
-                            int i = 0;
+                            var collection = e.Command.GetValue("update");
+                            var isUpdateOne = updateCmd[0]["q"].AsBsonDocument.Contains("_id");
                             foreach (var cmd in updateCmd.AsBsonArray)
                             {
-                                Console.WriteLine($"Command {++i}: Filter: {updateCmd[0]["q"]}    Update: {updateCmd[0]["u"]}");
+                                Console.WriteLine($"db.getCollection(\"{collection}\").{(isUpdateOne ? "updateOne" : "updateMany")}({updateCmd[0]["q"]}, {updateCmd[0]["u"]})");
                             }
                         }
+                        // Bei Filter Statements geben wir den Filter aus.
                         if (e.Command.TryGetValue("filter", out var filterCmd))
                             Console.WriteLine(filterCmd);
                     });
