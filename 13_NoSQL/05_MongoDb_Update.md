@@ -167,7 +167,9 @@ Programmcode macht dies dann das *Repository Pattern*, das bescheid weiß welche
 werden müssen.
 
 ```
-db.getCollection("classes").updateMany({ "term.year" : 2022, "classTeacher.shortname" : "BRI" }, { "$set" : { "classTeacher.email" : "bri@spengergasse.at" } })
+db.getCollection("classes").updateMany(
+    { "term.year" : 2022, "classTeacher.shortname" : "BRI" },
+    { "$set" : { "classTeacher.email" : "bri@spengergasse.at" } })
 ```
 
 ### Ausblick: Pipelines
