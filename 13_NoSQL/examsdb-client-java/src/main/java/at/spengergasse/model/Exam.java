@@ -1,4 +1,5 @@
 package at.spengergasse.model;
+
 import org.bson.types.ObjectId;
 import java.time.LocalDateTime;
 import lombok.*;

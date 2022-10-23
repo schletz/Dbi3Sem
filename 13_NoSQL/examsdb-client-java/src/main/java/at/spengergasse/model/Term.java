@@ -1,4 +1,5 @@
 package at.spengergasse.model;
+
 import lombok.*;
 import org.bson.codecs.pojo.annotations.BsonId;
 
@@ -11,6 +12,7 @@ public class Term {
     private TermType termType;
     private DateOnly start;
     private DateOnly end;
+
     @BsonId
     public String getId() {
         return String.format("%s%s", String.valueOf(year), termType.toString().charAt(0));

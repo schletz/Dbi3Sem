@@ -1,11 +1,5 @@
 package at.spengergasse.infrastructure;
 
-import at.spengergasse.converters.*;
-import at.spengergasse.model.*;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import lombok.Getter;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,6 +22,21 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.InsertOneModel;
+
+import at.spengergasse.converters.DateOnlyCodec;
+import at.spengergasse.converters.GenderCodec;
+import at.spengergasse.converters.TermTypeCodec;
+import at.spengergasse.converters.TimeOnlyCodec;
+import at.spengergasse.model.Exam;
+import at.spengergasse.model.Room;
+import at.spengergasse.model.SchoolClass;
+import at.spengergasse.model.Student;
+import at.spengergasse.model.Subject;
+import at.spengergasse.model.Teacher;
+import at.spengergasse.model.Term;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import lombok.Getter;
 
 @Getter
 public class ExamDatabase {
