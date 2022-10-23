@@ -5,6 +5,7 @@ import org.bson.codecs.pojo.annotations.BsonId;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class Teacher {
     @Builder.Default
     private HashSet<String> homeOfficeDays = new HashSet<String>();
     @Builder.Default
-    private ArrayList<Subject> canTeachSubjects = new ArrayList<Subject>();
+    private List<Subject> canTeachSubjects = new ArrayList<Subject>();
     @BsonId
     public String getId() {
         return name.getShortname();
