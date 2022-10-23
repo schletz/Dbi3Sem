@@ -31,6 +31,9 @@ WHERE in einer SQL UPDATE Anweisung. Als zweiten Parameter werden die neuen Wert
 > ### db.getCollection(name).updateOne(filter, update, options)
 > ### db.getCollection(name).updateMany(filter, update, options)
 
+Wie der Name schon sagt aktualisiert *UpdateOne()* nur ein Dokument, während *UpdateMany()*
+alle Dokumente aktualisiert die dem Suchfilter entsprechen. Bei Filterungen nach der ID
+verwenden wir daher *UpdateOne()*, ansonsten *UpdateMany()*.
 Die genaue Beschreibung der Kommandos ist in der MongoDB Doku auf
 https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/ bzw.
 https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/ verfügbar.
