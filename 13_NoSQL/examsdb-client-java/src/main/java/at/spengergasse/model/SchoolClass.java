@@ -11,7 +11,7 @@ public class SchoolClass {
     private Term term;
     private String department;
     private int educationLevel;
-    private String Letter;
+    private String letter;
     private TeacherName classTeacher;
     private String roomShortname;
     @BsonId
