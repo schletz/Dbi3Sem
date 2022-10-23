@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
         var examDatabase = ExamDatabase.fromConnectionString("mongodb://root:1234@localhost:27017");
-        var db =examDatabase.getDb();
+        var db = examDatabase.getDb();
 
         var classes = db.getCollection("classes", SchoolClass.class).find().into(new ArrayList<>());
         var exams = db.getCollection("exams", Exam.class).find().into(new ArrayList<>());

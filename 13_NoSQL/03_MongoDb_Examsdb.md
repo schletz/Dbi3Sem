@@ -82,7 +82,9 @@ exit
 ## Zugriff mit Java
 
 Im Ordner *13_NoSQL/examsDbClient_Java* steht ein Javaprojekt mit allen Modelklassen und dem
-MongoDB Treiber zur Verfügung. Öffne den Ordner als Projekt in IntelliJ.
+MongoDB Treiber zur Verfügung. Öffne den Ordner als Projekt in IntelliJ. Falls Klassen nicht
+erkannt werden, gehe im Menü *File* auf *Invalidate Caches...*. In diesem Fenster wähle
+*Invalidate and Restart*, ohne einen Punkt anzukreuzen.
 
 ## Das Klassendiagramm
 
