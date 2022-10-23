@@ -19,7 +19,7 @@ Voraussetzung ist ein gestarteter MongoDb Container, wie im Kapitel
 [Installation](02_Mongodb_Install.md) beschrieben. Das Programm verbindet sich mit dem User
 *root* und dem Passwort *1234*.
 
-### Verwenden des Generatorprogrammes
+### Verwenden des .NET Generatorprogrammes
 
 Klone das Repository, falls das nicht schon gemacht wurde: Erstelle in der Konsole
 ein Verzeichnis für die DBI Unterlagen (z. B. C:\\DBI). Wechsle danach in dieses
@@ -35,6 +35,19 @@ Programm von der Kommandozeile
 die [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) benötigt, die am
 Rechner installiert sein muss. Du kannst mit dem Befehl `dotnet --version` prüfen, ob du die
 .NET 6 SDK besitzt.
+
+### Verwenden des Java Generatorprogrammes
+
+Im Ordner *13_NoSQL/examsdb-client-java* ist ein Javaprogramm, das die Datenbank ebenfalls
+erzeugt. Sie wird exakt gleich wie im .NET Programm generiert. Du kannst die Datei *pom.xml* in
+IntelliJ öffnen und das Projekt ausführen. Falls Klassen nicht
+erkannt werden, gehe im Menü *File* auf *Invalidate Caches...*. In diesem Fenster wähle
+*Invalidate and Restart*, ohne einen Punkt anzukreuzen.
+
+In Visual Studio Code kann mit der Extension
+[Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+ebenfalls der Ordner mit *File - Open Folder* geöffnet werden. Mit *CTRL+F5* wird das Programm dann
+ausgeführt.
 
 ### Alternative: Verwenden vom mongoimport in der Shell des Containers
 
@@ -78,13 +91,6 @@ db.getCollection("exams").createIndex({"student.nr":1})
 db.getCollection("exams").createIndex({"teacher.shortname":1})
 exit
 ```
-
-## Zugriff mit Java
-
-Im Ordner *13_NoSQL/examsDbClient_Java* steht ein Javaprojekt mit allen Modelklassen und dem
-MongoDB Treiber zur Verfügung. Öffne den Ordner als Projekt in IntelliJ. Falls Klassen nicht
-erkannt werden, gehe im Menü *File* auf *Invalidate Caches...*. In diesem Fenster wähle
-*Invalidate and Restart*, ohne einen Punkt anzukreuzen.
 
 ## Das Klassendiagramm
 
