@@ -21,6 +21,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.BulkWriteOptions;
+import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.InsertOneModel;
 
 import at.spengergasse.converters.DateOnlyCodec;
@@ -131,5 +132,10 @@ public class ExamDatabase {
                 }
             }
         }
+        getClasses().createIndex(Indexes.ascending("term.year"));
+        getExams().createIndex(Indexes.ascending("currentClass._id"));
+        getExams().createIndex(Indexes.ascending("student.nr"));
+        getExams().createIndex(Indexes.ascending("teacher.shortname"));
+        getStudents().createIndex(Indexes.ascending("currentClass.shortname"));
     }
 }
