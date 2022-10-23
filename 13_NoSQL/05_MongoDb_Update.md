@@ -516,16 +516,20 @@ class Program
 Du kannst die folgende Aufgabe auf 2 Arten lösen:
 
 1. Schreiben der Update Anweisungen in der Shell von MongoDB
-2. Verwenden der Update Methode in .NET
+2. Verwenden der Update Methode in .NET oder in Java
 
-Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe im
-Programmcode lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
+Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe in
+**.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *UpdateExcercise*).
 Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe deine Update
 Anweisung an die Stelle von *TODO: Schreibe hier deine update Anweisung*.
 
 Die Codeanweisungen danach (und manchmal auch davor) prüfen dein Update. Stimmen die Daten
 nicht, erfolgt eine entsprechende rote Ausgabe in der Konsole.
+
+Wenn du die Update Anweisungen in **Java** generieren möchtest, gibt es im
+Ordner *13_NoSQL/examsDbClient_Java* ein Demoprogramm mit allen Modelklassen für den Zugriff
+auf die Datenbank.
 
 ```c#
 using ExamDbGenerator;

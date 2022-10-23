@@ -1,5 +1,7 @@
 **/.vs
 **/.vscode
+**/.idea
+**/target
 **/bin
 **/obj
 *.htm*

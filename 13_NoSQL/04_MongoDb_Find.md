@@ -379,15 +379,17 @@ class Program
 Du kannst die folgende Aufgabe auf 3 Arten lösen:
 
 1. Schreiben der Filter in MongoDb Compass
-2. Verwenden des FilterBuilders in .NET
+2. Verwenden des FilterBuilders in .NET oder in Java
 3. Verwenden der Methode *AsQueryable()* (wenn möglich).
 
-Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe im
-Programmcode lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
+Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe in
+**.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
 Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe das Ergebnis
 deiner Abfrage in die Variable *result*. Die korrekte Ausgabe ist unten angeführt.
 
+Wenn du die Filter in **Java** generieren möchtest, gibt es im Ordner *13_NoSQL/examsDbClient_Java*
+ein Demoprogramm mit allen Modelklassen für den Zugriff auf die Datenbank.
 
 ```c#
 using ExamDbGenerator;

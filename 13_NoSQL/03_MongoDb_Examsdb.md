@@ -79,6 +79,11 @@ db.getCollection("exams").createIndex({"teacher.shortname":1})
 exit
 ```
 
+## Zugriff mit Java
+
+Im Ordner *13_NoSQL/examsDbClient_Java* steht ein Javaprojekt mit allen Modelklassen und dem
+MongoDB Treiber zur Verfügung. Öffne den Ordner als Projekt in IntelliJ.
+
 ## Das Klassendiagramm
 
 ![](ExamsDb/klassendiagramm_2122.svg)
