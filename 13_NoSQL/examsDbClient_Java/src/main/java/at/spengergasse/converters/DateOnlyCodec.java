@@ -1,7 +1,6 @@
 package at.spengergasse.converters;
 
 import at.spengergasse.model.DateOnly;
-import at.spengergasse.model.TimeOnly;
 import org.bson.BsonReader;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
@@ -26,4 +25,3 @@ public class DateOnlyCodec implements Codec<DateOnly> {
         return DateOnly.class;
     }
 }
-

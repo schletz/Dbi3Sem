@@ -1,6 +1,5 @@
 package at.spengergasse.converters;
 
-import at.spengergasse.model.Gender;
 import at.spengergasse.model.TermType;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;

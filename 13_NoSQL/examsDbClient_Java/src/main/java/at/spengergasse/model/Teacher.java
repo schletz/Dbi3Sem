@@ -1,11 +1,8 @@
 package at.spengergasse.model;
 import lombok.*;
-import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 import java.math.BigDecimal;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 

@@ -1,9 +1,7 @@
 package at.spengergasse.model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class DateOnly {
     private final LocalDate localDate;

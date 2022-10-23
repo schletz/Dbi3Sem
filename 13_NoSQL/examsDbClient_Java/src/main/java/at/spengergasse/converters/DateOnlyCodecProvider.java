@@ -1,6 +1,5 @@
 package at.spengergasse.converters;
 
-import at.spengergasse.converters.DateOnlyCodec;
 import at.spengergasse.model.DateOnly;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;

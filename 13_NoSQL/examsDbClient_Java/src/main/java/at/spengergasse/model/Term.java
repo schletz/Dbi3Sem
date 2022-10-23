@@ -1,10 +1,6 @@
 package at.spengergasse.model;
 import lombok.*;
-import org.bson.BsonType;
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.codecs.pojo.annotations.BsonRepresentation;
-
-import java.time.LocalDate;
 
 @Builder
 @NoArgsConstructor

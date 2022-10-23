@@ -1,6 +1,5 @@
 package at.spengergasse.model;
 import lombok.*;
-import org.bson.codecs.pojo.annotations.BsonExtraElements;
 import org.bson.codecs.pojo.annotations.BsonId;
 
 @Builder
