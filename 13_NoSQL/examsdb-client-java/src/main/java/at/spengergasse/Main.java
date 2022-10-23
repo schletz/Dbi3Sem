@@ -48,6 +48,15 @@ public class Main {
             System.out.println(String.format("%d Dokumente in teachers gelesen", teachers.size()));
             System.out.println(String.format("%d Dokumente in terms gelesen", terms.size()));
         }
+        // Für den leichteren Zugriff auf die Collections stellt die Klasse ExamDatabase
+        // folgende Methoden bereit:
+        //     MongoCollection<SchoolClass> getClasses()
+        //     MongoCollection<Exam> getExams()
+        //     MongoCollection<Room> getRooms()
+        //     MongoCollection<Student> getStudents()
+        //     MongoCollection<Subject> getSubjects()
+        //     MongoCollection<Teacher> getTeachers()
+        //     MongoCollection<Term> getTerms()
 
         {
             System.out.println("Alle Klassen im Schuljahr 2022");
