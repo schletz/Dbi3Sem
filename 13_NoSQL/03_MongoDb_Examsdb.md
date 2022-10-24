@@ -38,7 +38,7 @@ Rechner installiert sein muss. Du kannst mit dem Befehl `dotnet --version` prüf
 
 ### Verwenden des Java Generatorprogrammes
 
-Im Ordner *13_NoSQL/examsdb-client-java* ist ein Javaprogramm, das die Datenbank ebenfalls
+Im Ordner *13_NoSQL/examsdb-java* ist ein Javaprogramm, das die Datenbank ebenfalls
 erzeugt. Sie wird exakt gleich wie im .NET Programm generiert. Du kannst die Datei *pom.xml* in
 IntelliJ öffnen und das Projekt ausführen. Falls Klassen nicht
 erkannt werden, gehe im Menü *File* auf *Invalidate Caches...*. In diesem Fenster wähle

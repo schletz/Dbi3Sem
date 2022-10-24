@@ -388,7 +388,7 @@ Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Auf
 Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe das Ergebnis
 deiner Abfrage in die Variable *result*. Die korrekte Ausgabe ist unten angeführt.
 
-Wenn du die Filter in **Java** generieren möchtest, gibt es im Ordner *13_NoSQL/examsdb-client-java*
+Wenn du die Filter in **Java** generieren möchtest, gibt es im Ordner *13_NoSQL/examsdb-java*
 ein Demoprogramm mit allen Modelklassen für den Zugriff auf die Datenbank. Kopiere das Programm
 zuerst in einen eigenen Ordner (z. B. *filter-excercise*). Überprüfe die Richtigkeit,
 indem du das Ergebnis mit *forEach()* und *println()* ausgibst. Ein Beispiel dafür ist im Javaprogramm
