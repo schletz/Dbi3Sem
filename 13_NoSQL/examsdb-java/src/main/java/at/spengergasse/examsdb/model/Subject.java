@@ -1,14 +1,13 @@
-package at.spengergasse.model;
-
-import lombok.*;
+package at.spengergasse.examsdb.model;
 import org.bson.codecs.pojo.annotations.BsonId;
+import lombok.*;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Room {
+public class Subject {
     @BsonId
     private String shortname;
-    private Integer capacity;
+    private String longname;
 }

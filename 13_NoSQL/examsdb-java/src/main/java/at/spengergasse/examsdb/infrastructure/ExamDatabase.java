@@ -1,4 +1,4 @@
-package at.spengergasse.infrastructure;
+package at.spengergasse.examsdb.infrastructure;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -24,17 +24,17 @@ import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.InsertOneModel;
 
-import at.spengergasse.converters.DateOnlyCodec;
-import at.spengergasse.converters.GenderCodec;
-import at.spengergasse.converters.TermTypeCodec;
-import at.spengergasse.converters.TimeOnlyCodec;
-import at.spengergasse.model.Exam;
-import at.spengergasse.model.Room;
-import at.spengergasse.model.SchoolClass;
-import at.spengergasse.model.Student;
-import at.spengergasse.model.Subject;
-import at.spengergasse.model.Teacher;
-import at.spengergasse.model.Term;
+import at.spengergasse.examsdb.converters.DateOnlyCodec;
+import at.spengergasse.examsdb.converters.GenderCodec;
+import at.spengergasse.examsdb.converters.TermTypeCodec;
+import at.spengergasse.examsdb.converters.TimeOnlyCodec;
+import at.spengergasse.examsdb.model.Exam;
+import at.spengergasse.examsdb.model.Room;
+import at.spengergasse.examsdb.model.SchoolClass;
+import at.spengergasse.examsdb.model.Student;
+import at.spengergasse.examsdb.model.Subject;
+import at.spengergasse.examsdb.model.Teacher;
+import at.spengergasse.examsdb.model.Term;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import lombok.Getter;

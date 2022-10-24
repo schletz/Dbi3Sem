@@ -1,4 +1,4 @@
-package at.spengergasse.model;
+package at.spengergasse.examsdb.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

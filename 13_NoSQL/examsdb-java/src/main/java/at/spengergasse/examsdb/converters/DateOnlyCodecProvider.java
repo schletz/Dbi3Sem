@@ -1,17 +1,19 @@
-package at.spengergasse.converters;
+package at.spengergasse.examsdb.converters;
 
-import at.spengergasse.model.TermType;
+import at.spengergasse.examsdb.model.DateOnly;
 import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 
-public class TermTypeCodecProvider implements CodecProvider {
-    public TermTypeCodecProvider() {}
+public class DateOnlyCodecProvider implements CodecProvider {
+    public DateOnlyCodecProvider() {
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public <T> Codec<T> get(Class<T> clazz, CodecRegistry registry) {
-        if (clazz == TermType.class) {
-            return (Codec<T>) new TermTypeCodec();
+        if (clazz == DateOnly.class) {
+            return (Codec<T>) new DateOnlyCodec();
         }
         // return null when not a provider for the requested class
         return null;

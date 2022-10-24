@@ -1,4 +1,4 @@
-package at.spengergasse.model;
+package at.spengergasse.examsdb.model;
 import lombok.*;
 import org.bson.codecs.pojo.annotations.BsonId;
 

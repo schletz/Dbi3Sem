@@ -1,7 +1,7 @@
-package at.spengergasse;
+package at.spengergasse.examsdb;
 
-import at.spengergasse.infrastructure.ExamDatabase;
-import at.spengergasse.model.*;
+import at.spengergasse.examsdb.infrastructure.ExamDatabase;
+import at.spengergasse.examsdb.model.*;
 
 import java.util.ArrayList;
 

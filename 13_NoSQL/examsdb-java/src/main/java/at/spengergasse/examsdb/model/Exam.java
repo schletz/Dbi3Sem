@@ -1,4 +1,4 @@
-package at.spengergasse.model;
+package at.spengergasse.examsdb.model;
 
 import org.bson.types.ObjectId;
 import java.time.LocalDateTime;

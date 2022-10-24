@@ -1,6 +1,6 @@
-package at.spengergasse.converters;
+package at.spengergasse.examsdb.converters;
 
-import at.spengergasse.model.DateOnly;
+import at.spengergasse.examsdb.model.DateOnly;
 import org.bson.BsonReader;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
