@@ -23,10 +23,8 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.InsertOneModel;
 
-import at.spengergasse.examsdb.converters.GenderCodec;
 import at.spengergasse.examsdb.converters.LocalDateCodec;
 import at.spengergasse.examsdb.converters.LocalTimeCodec;
-import at.spengergasse.examsdb.converters.TermTypeCodec;
 import at.spengergasse.examsdb.converters.ZonedDateTimeCodec;
 import at.spengergasse.examsdb.model.Exam;
 import at.spengergasse.examsdb.model.Room;
@@ -70,7 +68,6 @@ public class ExamDatabase {
                         .build());
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
                 CodecRegistries.fromCodecs(
-                        new GenderCodec(), new TermTypeCodec(),
                         new LocalDateCodec(), new LocalTimeCodec(), new ZonedDateTimeCodec()),
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
