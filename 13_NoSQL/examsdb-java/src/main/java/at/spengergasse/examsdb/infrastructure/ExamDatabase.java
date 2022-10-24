@@ -23,10 +23,10 @@ import com.mongodb.client.model.BulkWriteOptions;
 import com.mongodb.client.model.Indexes;
 import com.mongodb.client.model.InsertOneModel;
 
-import at.spengergasse.examsdb.converters.DateOnlyCodec;
 import at.spengergasse.examsdb.converters.GenderCodec;
+import at.spengergasse.examsdb.converters.LocalDateCodec;
+import at.spengergasse.examsdb.converters.LocalTimeCodec;
 import at.spengergasse.examsdb.converters.TermTypeCodec;
-import at.spengergasse.examsdb.converters.TimeOnlyCodec;
 import at.spengergasse.examsdb.converters.ZonedDateTimeCodec;
 import at.spengergasse.examsdb.model.Exam;
 import at.spengergasse.examsdb.model.Room;
@@ -69,10 +69,10 @@ public class ExamDatabase {
                         .applyConnectionString(new ConnectionString(connectionString))
                         .build());
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
+            CodecRegistries.fromCodecs(
+                new GenderCodec(), new TermTypeCodec(),
+                new LocalDateCodec(), new LocalTimeCodec(), new ZonedDateTimeCodec()),
                 MongoClientSettings.getDefaultCodecRegistry(),
-                CodecRegistries.fromCodecs(
-                        new GenderCodec(), new TermTypeCodec(),
-                        new DateOnlyCodec(), new TimeOnlyCodec(), new ZonedDateTimeCodec()),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
         var db = client.getDatabase("examsDb").withCodecRegistry(pojoCodecRegistry);

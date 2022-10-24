@@ -70,8 +70,8 @@ public class Main {
                     .find(Filters.eq("term.year", 2022))
                     .forEach(doc -> System.out.println(String.format("%s (KV: %s %s). Beginn: %s, Ende: %s.",
                             doc.getId(), doc.getClassTeacher().getFirstname(), doc.getClassTeacher().getLastname(), 
-                            doc.getTerm().getStart().getLocalDate().format(DateTimeFormatter.ISO_DATE),
-                            doc.getTerm().getEnd().getLocalDate().format(DateTimeFormatter.ISO_DATE))));
+                            doc.getTerm().getStart().format(DateTimeFormatter.ISO_DATE),
+                            doc.getTerm().getEnd().format(DateTimeFormatter.ISO_DATE))));
         }
     }
 }

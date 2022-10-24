@@ -1,7 +1,14 @@
 package at.spengergasse.examsdb.model;
 
-import lombok.*;
+import java.time.LocalDate;
+
 import org.bson.codecs.pojo.annotations.BsonId;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @NoArgsConstructor   // For mongodb codec
@@ -11,8 +18,8 @@ import org.bson.codecs.pojo.annotations.BsonId;
 public class Term {
     private int year;
     private TermType termType;
-    private DateOnly start;
-    private DateOnly end;
+    private LocalDate start;
+    private LocalDate end;
 
     @BsonId
     public String getId() {

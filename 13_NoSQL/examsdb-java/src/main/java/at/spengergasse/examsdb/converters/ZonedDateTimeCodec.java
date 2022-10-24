@@ -10,6 +10,10 @@ import org.bson.codecs.Codec;
 import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
 
+/**
+ * MongoDB speichert Datumswerte als Millisekunden seit dem 1.1.1970 0:00 UTC. Aus diesem
+ * Zeitstempel wird ein ZonedDateTime Objekt erstellt.
+ */
 public class ZonedDateTimeCodec implements Codec<ZonedDateTime> { 
     @Override
     public ZonedDateTime decode(BsonReader reader, DecoderContext decoderContext) {

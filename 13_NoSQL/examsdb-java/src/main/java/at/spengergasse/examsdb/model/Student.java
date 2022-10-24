@@ -1,9 +1,15 @@
 package at.spengergasse.examsdb.model;
 
-import lombok.*;
+import java.time.LocalDate;
+import java.util.List;
+
 import org.bson.codecs.pojo.annotations.BsonId;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @NoArgsConstructor   // For mongodb codec
@@ -14,7 +20,7 @@ public class Student {
     private StudentName name;
     private Gender gender;
     private Address address;
-    private DateOnly dateOfBirth;
+    private LocalDate dateOfBirth;
     private SchoolClass currentClass;
     private List<SchoolClass> classHistory;
 

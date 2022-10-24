@@ -8,7 +8,11 @@ import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
 
 
-// See https://www.mongodb.com/docs/drivers/java/sync/current/fundamentals/data-formats/codecs/#std-label-codecs-custom-example
+/**
+ * Speichert die Enumeration TermType als String.
+ * Weiterführende Infos (eigener enum Provider und generischer enum Codec) auf
+ * https://devpress.csdn.net/mongodb/62f20990c6770329307f5d81.html
+ */
 public class TermTypeCodec implements Codec<TermType> {
     @Override
     public TermType decode(BsonReader reader, DecoderContext decoderContext) {
