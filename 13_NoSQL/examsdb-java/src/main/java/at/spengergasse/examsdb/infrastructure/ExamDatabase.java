@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistries;
@@ -69,9 +71,9 @@ public class ExamDatabase {
                         .applyConnectionString(new ConnectionString(connectionString))
                         .build());
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
-            CodecRegistries.fromCodecs(
-                new GenderCodec(), new TermTypeCodec(),
-                new LocalDateCodec(), new LocalTimeCodec(), new ZonedDateTimeCodec()),
+                CodecRegistries.fromCodecs(
+                        new GenderCodec(), new TermTypeCodec(),
+                        new LocalDateCodec(), new LocalTimeCodec(), new ZonedDateTimeCodec()),
                 MongoClientSettings.getDefaultCodecRegistry(),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
@@ -127,17 +129,12 @@ public class ExamDatabase {
             if (filename.isEmpty())
                 throw new FileNotFoundException(
                         String.format("File %s not found. Check your resources/dump directory.", filename));
-            var docs = new ArrayList<InsertOneModel<Document>>();
-            try (var reader = new BufferedReader(new FileReader(filename))) {
-                while (true) {
-                    var line = reader.readLine();
-                    if (line == null) {
-                        break;
-                    }
-                    docs.add(new InsertOneModel<Document>(Document.parse(line)));
-                }
+            try (var reader = new BufferedReader(new FileReader(filename, Charset.forName("UTF-8")))) {
                 db.getCollection(collection).drop();
-                db.getCollection(collection).bulkWrite(docs, new BulkWriteOptions().ordered(false));
+                db.getCollection(collection).bulkWrite(reader
+                    .lines()
+                    .map(line -> new InsertOneModel<Document>(Document.parse(line)))
+                    .collect(Collectors.toList()));
             }
         }
         getClasses().createIndex(Indexes.ascending("term.year"));
