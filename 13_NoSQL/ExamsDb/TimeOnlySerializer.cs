@@ -12,5 +12,5 @@ public class TimeOnlySerializer : IBsonSerializer<TimeOnly>
     object IBsonSerializer.Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
         => Deserialize(context, args);
     public void Serialize(BsonSerializationContext context, BsonSerializationArgs args, object value)
-        => Serialize(context, args, (DateOnly)value);
+        => Serialize(context, args, (TimeOnly)value);
 }
