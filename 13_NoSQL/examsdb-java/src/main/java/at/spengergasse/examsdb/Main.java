@@ -1,13 +1,20 @@
 package at.spengergasse.examsdb;
 
-import at.spengergasse.examsdb.infrastructure.ExamDatabase;
-import at.spengergasse.examsdb.model.*;
-
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import com.mongodb.MongoSecurityException;
 import com.mongodb.MongoTimeoutException;
 import com.mongodb.client.model.Filters;
+
+import at.spengergasse.examsdb.infrastructure.ExamDatabase;
+import at.spengergasse.examsdb.model.Exam;
+import at.spengergasse.examsdb.model.Room;
+import at.spengergasse.examsdb.model.SchoolClass;
+import at.spengergasse.examsdb.model.Student;
+import at.spengergasse.examsdb.model.Subject;
+import at.spengergasse.examsdb.model.Teacher;
+import at.spengergasse.examsdb.model.Term;
 
 public class Main {
     public static void main(String[] args) {
@@ -57,13 +64,14 @@ public class Main {
         //     MongoCollection<Subject> getSubjects()
         //     MongoCollection<Teacher> getTeachers()
         //     MongoCollection<Term> getTerms()
-
         {
             System.out.println("Alle Klassen im Schuljahr 2022");
             examDatabase.getClasses()
                     .find(Filters.eq("term.year", 2022))
-                    .forEach(doc -> System.out.println(String.format("%s (KV: %s %s)",
-                            doc.getId(), doc.getClassTeacher().getFirstname(), doc.getClassTeacher().getLastname())));
+                    .forEach(doc -> System.out.println(String.format("%s (KV: %s %s). Beginn: %s, Ende: %s.",
+                            doc.getId(), doc.getClassTeacher().getFirstname(), doc.getClassTeacher().getLastname(), 
+                            doc.getTerm().getStart().getLocalDate().format(DateTimeFormatter.ISO_DATE),
+                            doc.getTerm().getEnd().getLocalDate().format(DateTimeFormatter.ISO_DATE))));
         }
     }
 }

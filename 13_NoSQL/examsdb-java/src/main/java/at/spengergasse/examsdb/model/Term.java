@@ -4,9 +4,10 @@ import lombok.*;
 import org.bson.codecs.pojo.annotations.BsonId;
 
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@NoArgsConstructor   // For mongodb codec
+@AllArgsConstructor  // For builder
+@Getter
+@Setter
 public class Term {
     private int year;
     private TermType termType;

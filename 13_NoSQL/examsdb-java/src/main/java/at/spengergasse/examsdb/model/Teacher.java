@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@NoArgsConstructor   // For mongodb codec
+@AllArgsConstructor  // For builder
+@Getter
+@Setter
 public class Teacher {
     private TeacherName name;
     private Gender gender;
@@ -18,7 +20,7 @@ public class Teacher {
     private TimeOnly lessonsFrom;
     private BigDecimal salary;
     @Builder.Default
-    private HashSet<String> homeOfficeDays = new HashSet<String>();
+    private Set<String> homeOfficeDays = new HashSet<String>();
     @Builder.Default
     private List<Subject> canTeachSubjects = new ArrayList<Subject>();
     @BsonId

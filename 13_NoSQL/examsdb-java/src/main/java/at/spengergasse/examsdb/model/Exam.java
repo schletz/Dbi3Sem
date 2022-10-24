@@ -1,20 +1,27 @@
 package at.spengergasse.examsdb.model;
 
+import java.time.ZonedDateTime;
+
 import org.bson.types.ObjectId;
-import java.time.LocalDateTime;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@NoArgsConstructor   // For mongodb codec
+@AllArgsConstructor  // For builder
+@Getter
+@Setter
 public class Exam {
     private StudentName student;
     private TeacherName teacher;
     private SchoolClass currentClass;
     private SchoolClass examClass;
     private Subject subject;
-    private LocalDateTime dateTime;
+    private ZonedDateTime dateTime;
     private int pointsMax;
     private int points;
     private int grade;

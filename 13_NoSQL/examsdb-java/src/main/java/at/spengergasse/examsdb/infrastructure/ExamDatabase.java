@@ -2,10 +2,9 @@ package at.spengergasse.examsdb.infrastructure;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bson.Document;
@@ -28,6 +27,7 @@ import at.spengergasse.examsdb.converters.DateOnlyCodec;
 import at.spengergasse.examsdb.converters.GenderCodec;
 import at.spengergasse.examsdb.converters.TermTypeCodec;
 import at.spengergasse.examsdb.converters.TimeOnlyCodec;
+import at.spengergasse.examsdb.converters.ZonedDateTimeCodec;
 import at.spengergasse.examsdb.model.Exam;
 import at.spengergasse.examsdb.model.Room;
 import at.spengergasse.examsdb.model.SchoolClass;
@@ -48,6 +48,17 @@ public class ExamDatabase {
         return ExamDatabase.fromConnectionString(connectionString, false);
     }
 
+    /**
+     * Initialisiert den MongoClient mit den notwendigen Codecs und konfiguriert das
+     * MongoDatabase
+     * Objekt für die Verbindung.
+     * 
+     * @param connectionString Verbindungsstring mit dem Aufbau
+     *                         mongodb://user:pass@localhost:27017
+     * @param enableLogging    true, wenn der Logger alle Infos auf der Konsole
+     *                         ausgeben soll.
+     * @return
+     */
     public static ExamDatabase fromConnectionString(String connectionString, Boolean enableLogging) {
         ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME))
                 .setLevel(enableLogging ? Level.INFO : Level.ERROR);
@@ -59,8 +70,9 @@ public class ExamDatabase {
                         .build());
         CodecRegistry pojoCodecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),
-                CodecRegistries.fromCodecs(new DateOnlyCodec(), new GenderCodec(), new TermTypeCodec(),
-                        new TimeOnlyCodec()),
+                CodecRegistries.fromCodecs(
+                        new GenderCodec(), new TermTypeCodec(),
+                        new DateOnlyCodec(), new TimeOnlyCodec(), new ZonedDateTimeCodec()),
                 CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
         var db = client.getDatabase("examsDb").withCodecRegistry(pojoCodecRegistry);
@@ -102,8 +114,7 @@ public class ExamDatabase {
 
     /**
      * Liest die JSON Dumps aus dem resource/dumps Ordner und fügt sie in die
-     * Datenbank ein.
-     * Löscht vorher die Collection.
+     * Datenbank ein. Löscht vorher die Collection.
      * 
      * @throws FileNotFoundException
      * @throws IOException
@@ -112,24 +123,21 @@ public class ExamDatabase {
         var collections = new String[] { "terms", "subjects", "rooms", "classes", "students", "teachers", "exams" };
 
         for (var collection : collections) {
-            List<InsertOneModel<Document>> docs = new ArrayList<>();
-
-            var filename = "dump/" + collection + ".json";
-            try (var inputStream = getClass().getClassLoader().getResourceAsStream(filename)) {
-                if (inputStream == null) {
-                    throw new FileNotFoundException();
-                }
-                try (var reader = new BufferedReader(new InputStreamReader(inputStream))) {
-                    while (true) {
-                        var line = reader.readLine();
-                        if (line == null) {
-                            break;
-                        }
-                        docs.add(new InsertOneModel<Document>(Document.parse(line)));
+            var filename = getClass().getClassLoader().getResource("dump/" + collection + ".json").getFile();
+            if (filename.isEmpty())
+                throw new FileNotFoundException(
+                        String.format("File %s not found. Check your resources/dump directory.", filename));
+            var docs = new ArrayList<InsertOneModel<Document>>();
+            try (var reader = new BufferedReader(new FileReader(filename))) {
+                while (true) {
+                    var line = reader.readLine();
+                    if (line == null) {
+                        break;
                     }
-                    db.getCollection(collection).drop();
-                    db.getCollection(collection).bulkWrite(docs, new BulkWriteOptions().ordered(false));
+                    docs.add(new InsertOneModel<Document>(Document.parse(line)));
                 }
+                db.getCollection(collection).drop();
+                db.getCollection(collection).bulkWrite(docs, new BulkWriteOptions().ordered(false));
             }
         }
         getClasses().createIndex(Indexes.ascending("term.year"));
