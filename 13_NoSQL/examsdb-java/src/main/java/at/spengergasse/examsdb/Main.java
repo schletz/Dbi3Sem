@@ -16,6 +16,7 @@ import at.spengergasse.examsdb.model.Subject;
 import at.spengergasse.examsdb.model.Teacher;
 import at.spengergasse.examsdb.model.Term;
 
+
 public class Main {
     public static void main(String[] args) {
         var examDatabase = ExamDatabase.fromConnectionString("mongodb://root:1234@localhost:27017");
