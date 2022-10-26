@@ -1,33 +1,22 @@
 package at.spengergasse.examsdb.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.codecs.pojo.annotations.BsonId;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+public record Student(StudentName name, Gender gender, Address address, LocalDate dateOfBirth, SchoolClass currentClass,
+        List<SchoolClass> classHistory) {
+    public Student {
+    }
 
-@Builder
-@NoArgsConstructor   // For mongodb codec
-@AllArgsConstructor  // For builder
-@Getter
-@Setter
-public class Student {
-    private StudentName name;
-    private Gender gender;
-    private Address address;
-    private LocalDate dateOfBirth;
-    private SchoolClass currentClass;
-    private List<SchoolClass> classHistory;
+    public Student(StudentName name, Gender gender, Address address, LocalDate dateOfBirth, SchoolClass currentClass) {
+        this(name, gender, address, dateOfBirth, currentClass, new ArrayList<SchoolClass>());
+    }
 
     @BsonId
-    public int getId() {
-        return name.getNr();
+    public int id() {
+        return name.nr();
     }
 }
-
-

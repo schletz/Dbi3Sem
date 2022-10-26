@@ -61,6 +61,7 @@ public class ExamDatabase {
         ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME))
                 .setLevel(enableLogging ? Level.INFO : Level.ERROR);
 
+        
         var client = MongoClients.create(
                 MongoClientSettings.builder()
                         .applyToClusterSettings(builder -> builder.serverSelectionTimeout(5, TimeUnit.SECONDS))
@@ -127,9 +128,9 @@ public class ExamDatabase {
             try (var reader = new BufferedReader(new FileReader(filename, Charset.forName("UTF-8")))) {
                 db.getCollection(collection).drop();
                 db.getCollection(collection).bulkWrite(reader
-                    .lines()
-                    .map(line -> new InsertOneModel<Document>(Document.parse(line)))
-                    .collect(Collectors.toList()));
+                        .lines()
+                        .map(line -> new InsertOneModel<Document>(Document.parse(line)))
+                        .collect(Collectors.toList()));
             }
         }
         getClasses().createIndex(Indexes.ascending("term.year"));

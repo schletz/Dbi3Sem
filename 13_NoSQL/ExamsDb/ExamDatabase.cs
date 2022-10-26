@@ -66,7 +66,8 @@ namespace ExamDbGenerator
             // LowerCase property names.
             var conventions = new ConventionPack
             {
-                new CamelCaseElementNameConvention()
+                new CamelCaseElementNameConvention(),
+                new IgnoreIfNullConvention(ignoreIfNull: true)
             };
             ConventionRegistry.Register(nameof(CamelCaseElementNameConvention), conventions, _ => true);
             return new ExamDatabase(client, db);

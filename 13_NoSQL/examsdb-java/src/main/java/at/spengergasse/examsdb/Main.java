@@ -16,7 +16,6 @@ import at.spengergasse.examsdb.model.Subject;
 import at.spengergasse.examsdb.model.Teacher;
 import at.spengergasse.examsdb.model.Term;
 
-
 public class Main {
     public static void main(String[] args) {
         var examDatabase = ExamDatabase.fromConnectionString("mongodb://root:1234@localhost:27017");
@@ -40,6 +39,7 @@ public class Main {
 
         {
             var db = examDatabase.getDb();
+
             var classes = db.getCollection("classes", SchoolClass.class).find().into(new ArrayList<>());
             var exams = db.getCollection("exams", Exam.class).find().into(new ArrayList<>());
             var rooms = db.getCollection("rooms", Room.class).find().into(new ArrayList<>());
@@ -58,21 +58,23 @@ public class Main {
         }
         // Für den leichteren Zugriff auf die Collections stellt die Klasse ExamDatabase
         // folgende Methoden bereit:
-        //     MongoCollection<SchoolClass> getClasses()
-        //     MongoCollection<Exam> getExams()
-        //     MongoCollection<Room> getRooms()
-        //     MongoCollection<Student> getStudents()
-        //     MongoCollection<Subject> getSubjects()
-        //     MongoCollection<Teacher> getTeachers()
-        //     MongoCollection<Term> getTerms()
+        // MongoCollection<SchoolClass> getClasses()
+        // MongoCollection<Exam> getExams()
+        // MongoCollection<Room> getRooms()
+        // MongoCollection<Student> getStudents()
+        // MongoCollection<Subject> getSubjects()
+        // MongoCollection<Teacher> getTeachers()
+        // MongoCollection<Term> getTerms()
         {
-            System.out.println("Alle Klassen im Schuljahr 2022");
+            System.out.println("Alle Klassen der AIF im Schuljahr 2022");
             examDatabase.getClasses()
-                    .find(Filters.eq("term.year", 2022))
+                    .find(Filters.and(
+                            Filters.eq("term.year", 2022),
+                            Filters.eq("department", "AIF")))
                     .forEach(doc -> System.out.println(String.format("%s (KV: %s %s). Beginn: %s, Ende: %s.",
-                            doc.getId(), doc.getClassTeacher().getFirstname(), doc.getClassTeacher().getLastname(), 
-                            doc.getTerm().getStart().format(DateTimeFormatter.ISO_DATE),
-                            doc.getTerm().getEnd().format(DateTimeFormatter.ISO_DATE))));
+                            doc.id(), doc.classTeacher().firstname(), doc.classTeacher().lastname(),
+                            doc.term().start().format(DateTimeFormatter.ISO_DATE),
+                            doc.term().end().format(DateTimeFormatter.ISO_DATE))));
         }
     }
 }

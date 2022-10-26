@@ -111,17 +111,19 @@ vergleichen möchten, geben wir z. B. folgende Filter an:
 - **{ "homeOfficeDays": "MO" }**   
   *homeOfficeDays* ist ein Stringarray. Geben wir es als Feld an,
   werden alle Dokumente geliefert, die den angegebenen Wert (unter anderem) im Array haben.
-- **{ "salary": null }**   
-  Wir können auch nach null suchen. In Gegensatz zu SQL gibt es hier keinen
-  speziellen operator.
+- **{ "hoursPerWeek" : {"$exists" : true } }**
+  Findet alle Dokumente, die das Feld *hoursPerWeek* besitzen. In unserer Datenbank werden *null*
+  Werte nicht geschrieben, deswegen sind alle Werte, die wir bekommen, auch ungleich *null*. Das
+  muss aber nicht so sein, *$exists* liefert grundsätzlich auch Felder, die den Wert *null* haben.
 
 #### Not Equals Filter { "field" : { "$ne" : "value" } }
 
 Entspricht in SQL der Klausel *WHERE Col <> Value*. Wir können also folgendes herausfiltern:
 
 - **{ "hoursPerWeek" : {"$ne" : null } }**   
-  Findet alle Dokumente, die einen Wert im Feld
-  *hoursPerWeek* haben.
+  Findet alle Dokumente, die einen Wert im Feld *hoursPerWeek* haben. Wenn das Feld *hoursPerWeek*
+  im Dokument nicht vorkommt, wird der Datensatz auch nicht geliefert.
+
 - **{ "homeOfficeDays" : { "$ne" : "MO" } }**   
   Findet alle Dokumente, die den Wert *MO* nicht in
   der Liste der homeOfficeDays haben. Dokumente mit leerer Liste werden zurückgegeben (sie haben
@@ -279,6 +281,22 @@ class Program
                 .ToList();
             Console.WriteLine(string.Join(", ", results2.Select(r => r.Id)));
         }
+
+        {
+            // *************************************************************************************
+            // find({ "hoursPerWeek" : { "$exists" : true } })
+            PrintHeader("Lehrer, die das Feld hoursPerWeek besitzen.");
+            var filter = Builders<Teacher>.Filter.Exists(t => t.HoursPerWeek);
+            var results = db.GetCollection<Teacher>("teachers").Find(filter).ToList();
+            Console.WriteLine(string.Join(", ", results.Select(r => r.Id)));
+            // Alternativ: Variante mit AsQueryable(). Wir vergleichen auf != null, da bei nicht
+            // existierenden Feldern der default Wert gesetzt wird.
+            var results2 = db.GetCollection<Teacher>("teachers").AsQueryable()
+                .Where(t => t.HoursPerWeek != null)
+                .ToList();
+            Console.WriteLine(string.Join(", ", results2.Select(r => r.Id)));
+        }
+
         {
             // *************************************************************************************
             // find({ "hoursPerWeek": { "$gt" : 16 }, "salary": { "$gt" : 3000 } })
@@ -331,7 +349,7 @@ class Program
             Console.WriteLine(string.Join(", ", results.Select(r => r.Id)));
             // Alternativ: Variante mit AsQueryable()
             var results2 = db.GetCollection<Teacher>("teachers").AsQueryable()
-                .Where(t => 
+                .Where(t =>
                     t.CanTeachSubjects.Any(s => s.Shortname == "POS") &&
                     t.CanTeachSubjects.Any(s => s.Shortname == "DBI"))
                 .ToList();
@@ -341,7 +359,7 @@ class Program
             // *************************************************************************************
             // find({ "_id" : /3.AIF/ })
             PrintHeader("Alle 3. Semester AIF Klassen in der Collection classes.");
-            var filter = Builders<Class>.Filter.Regex(c=>c.Id, @"3.AIF");
+            var filter = Builders<Class>.Filter.Regex(c => c.Id, @"3.AIF");
             var results = db.GetCollection<Class>("classes").Find(filter).ToList();
             Console.WriteLine(string.Join(", ", results.Select(r => r.Id)));
         }

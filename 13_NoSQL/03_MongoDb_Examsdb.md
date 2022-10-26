@@ -114,6 +114,9 @@ verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
 - Die schwarzen Punkte bei den Feldern bedeuten *mandatory*. Sie haben also niemals den Wert
   *null*.
 
+> Felder, die den Wert *null* haben, werden nicht in die Datenbank geschrieben. Sie kommen also
+> im Dokument nicht als Feld vor. Das ist bei Filtern zu beachten (verwende *$exists* oder *{$ne: null}*).
+
 ## Beschreibung der Dokumente
 
 ### Document Term (Collection terms)

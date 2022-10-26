@@ -2,29 +2,18 @@ package at.spengergasse.examsdb.model;
 
 import java.time.ZonedDateTime;
 
+import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+public record Exam(@BsonId ObjectId id, StudentName student, TeacherName teacher,
+        SchoolClass currentClass, SchoolClass examClass, Subject subject, ZonedDateTime dateTime,
+        int pointsMax, int points, int grade) {
+    public Exam {
+    }
 
-@Builder
-@NoArgsConstructor   // For mongodb codec
-@AllArgsConstructor  // For builder
-@Getter
-@Setter
-public class Exam {
-    private StudentName student;
-    private TeacherName teacher;
-    private SchoolClass currentClass;
-    private SchoolClass examClass;
-    private Subject subject;
-    private ZonedDateTime dateTime;
-    private int pointsMax;
-    private int points;
-    private int grade;
-    @Builder.Default
-    private ObjectId Id = new ObjectId();
+    public Exam(StudentName student, TeacherName teacher,
+            SchoolClass currentClass, SchoolClass examClass, Subject subject, ZonedDateTime dateTime,
+            int pointsMax, int points, int grade) {
+        this(new ObjectId(), student, teacher, currentClass, examClass, subject, dateTime, pointsMax, points, grade);
+    }
 }
