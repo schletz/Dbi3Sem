@@ -5,12 +5,13 @@ using System.Collections.Generic;
 
 namespace ExamDbGenerator.Model
 {
-        
+
     record Teacher(
         TeacherName Name,
-        [property:BsonRepresentation(BsonType.String)] Gender Gender,
+        [property: BsonRepresentation(BsonType.String)] Gender Gender,
         int? HoursPerWeek = null, TimeOnly? LessonsFrom = null,
-        [property:BsonRepresentation(BsonType.Decimal128)]
+        // Bei LINQ Berechnungen wie Average, ... würden wir ohne AllowTruncation eine Exception bekommen.
+        [property:BsonRepresentation(BsonType.Decimal128, AllowTruncation = true)]
         decimal? Salary = null)
     {
         [BsonId]
