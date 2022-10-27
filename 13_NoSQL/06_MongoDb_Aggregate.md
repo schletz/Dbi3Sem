@@ -335,7 +335,8 @@ db.getCollection("exams").aggregate([
 
 In Java können wir natürlich auch eine Aggregation Pipeline aufbauen. Der Treiber
 *mongodb-driver-sync* arbeitet sehr nahe an der erzeugten Pipeline. Wir geben hier eine Liste
-vom Typ *Document* zurück, da das Ergebnis kein Objekt vom Typ *Exam* ist.
+vom Typ *Document* zurück, da das Ergebnis kein Objekt vom Typ *Exam* ist. Deswegen verwenden
+wir in der Funktion *getCollection()* auch *Document.class* als Typ.
 
 ```java
 import org.bson.Document;
