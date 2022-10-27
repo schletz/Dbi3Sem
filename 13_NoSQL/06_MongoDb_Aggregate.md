@@ -113,7 +113,7 @@ db.getCollection("exams").aggregate([
 Im Programm MongoDB Compass gibt es die Möglichkeit, die Pipeline Schritt für Schritt aufzubauen.
 Es werden dann die Zwischenergebnisse angezeigt:
 
-![](aggregation_compass_1208.svg)
+![](aggregation_compass_1208.png)
 
 ## Aggregieren nach mehreren Feldern
 
