@@ -279,7 +279,7 @@ db.getCollection("exams").aggregate([
 ])
 ```
 
-## *aggregate()* mit dem .NET Treiber erzeugen lassen
+## *aggregate()* samt Pipeline mit dem .NET Treiber erzeugen lassen
 
 Wer mit LINQ schon gearbeitet hat, kennt schon die Entsprechungen der hier gezeigten Operationen:
 *Where()* für die Filterung, *GroupBy()* für die Gruppierung, *Select()* für die Projektion und
@@ -289,7 +289,8 @@ Im nachfolgenden Beispiel werden alle Studierenden zurückgegeben, die mehr als 
 in einem Fach bekommen haben:
 
 ```c#
-var negativeGrades = db.GetCollection<Exam>("exams").AsQueryable()
+var negativeGrades = db.GetCollection<Exam>("exams")
+    .AsQueryable()     // IMongoQueryable Interface für LINQ zurückgeben
     .Where(e => e.Grade == 5)
     // Gruppierung nach mehreren Spalten: Wir erzeugen in C# einen anonymen Typ.
     .GroupBy(e => new { StudentNr = e.Student.Nr, Subject = e.Subject.Shortname })
@@ -307,6 +308,8 @@ var negativeGrades = db.GetCollection<Exam>("exams").AsQueryable()
     .ToList();
 ```
 
+Es gibt natürlich auch wie in den vorigen Beispielen eine Variante, die die entsprechenden Builder
+verwendet. Die Variante mit *AsQueryable()* ist aber wesentlich komfortabler und typsicher.
 Dieser Ausdruck erzeugt automatisch die Pipeline:
 
 ```javascript
@@ -328,6 +331,57 @@ db.getCollection("exams").aggregate([
 ]
 ```
 
-Weitere Infos stehen in der MongoDB Dokumentation im Kapitel Aggregation:
+## Die Pipeline mit dem Java Treiber erzeugen lassen
+
+In Java können wir natürlich auch eine Aggregation Pipeline aufbauen. Der Treiber
+*mongodb-driver-sync* arbeitet sehr nahe an der erzeugten Pipeline. Wir geben hier eine Liste
+vom Typ *Document* zurück, da das Ergebnis kein Objekt vom Typ *Exam* ist.
+
+```java
+import org.bson.Document;
+
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Sorts;
+// ...
+var results = db.getCollection("exams", Document.class).aggregate(
+    Arrays.asList(
+        Aggregates.match(Filters.eq("grade", 5)),
+        Aggregates.group(
+            Projections.fields(
+                Filters.eq("subject", "$subject._id"),
+                Filters.eq("studentNr", "$student.nr")),
+            Accumulators.sum("count", 1)),
+        Aggregates.project(
+            Projections.fields(
+                Projections.excludeId(),
+                Projections.computed("studentNr", "$_id.studentNr"),
+                Projections.computed("subject", "$_id.subject"),
+                Projections.computed("count", "$count"))),
+        Aggregates.match(Filters.gt("count", 1)),
+        Aggregates.sort(Sorts.orderBy(Sorts.ascending("studentNr"), Sorts.descending("subject")))
+    )
+)
+.into(new ArrayList<>());
+results.forEach(doc -> System.out.println(doc));    
+```
+Die Ausgabe liefert natürlich die gleichen Daten wie unsere mit .NET erzeugte Pipeline:
+
+```
+Document{{studentNr=100011, subject=POS, count=2}}
+Document{{studentNr=100129, subject=AM, count=2}}
+Document{{studentNr=100150, subject=POS, count=2}}
+Document{{studentNr=100424, subject=POS, count=2}}
+Document{{studentNr=100484, subject=DBI, count=2}}
+Document{{studentNr=100673, subject=POS, count=2}}
+```
+
+Es gibt auch einen Java Treiber für MongoDB, der Streams unterstützt. Auf 
+https://www.mongodb.com/docs/drivers/reactive-streams/
+befindet sich die Dokumentation.
+
+Weitere allgemeine Infos zum großen Thema Aggregation stehen in der MongoDB Dokumentation bereit:
 https://docs.mongodb.com/manual/aggregation/
 
