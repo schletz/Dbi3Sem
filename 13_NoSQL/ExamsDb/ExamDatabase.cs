@@ -53,6 +53,13 @@ namespace ExamDbGenerator
                                 Console.WriteLine($"db.getCollection(\"{collection}\").{(isUpdateOne ? "updateOne" : "updateMany")}({updateCmd[0]["q"]}, {updateCmd[0]["u"]})");
                             }
                         }
+                        // Bei aggregate Statements geben wir die Anweisung aus, wie wir sie in
+                        // der Shell eingeben könnten.
+                        if (e.Command.TryGetValue("aggregate", out var aggregateCmd))
+                        {
+                            var collection = aggregateCmd.AsString;
+                            Console.WriteLine($"db.getCollection(\"{collection}\").aggregate({e.Command["pipeline"]})");
+                        }
                         // Bei Filter Statements geben wir den Filter aus.
                         if (e.Command.TryGetValue("filter", out var filterCmd))
                             Console.WriteLine(filterCmd);
