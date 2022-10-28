@@ -206,6 +206,11 @@ Felder eines Documents miteinander vergleichen.
   Wer verdient über 500 Euro pro geleisteter Wochenstunde? Wir können die aus JavaScript bekannten
   und bzw. oder Operatoren verwenden.
 
+Aus Performancegründen sollten jedoch die oben beschriebenen Operatoren verwendet werden
+<sup>https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/#example-2--alternative-to--where</sup>.
+Falls eine JavaScript Funktion verwendet werden muss, ist der Operator *$function* zu bevorzugen. Er
+ist im Kapitel [Aggregations](06_MongoDb_Aggregate.md) beschrieben.
+
 ### Filtern mit dem MongoDB Treiber
 
 Das nachfolgende Programm zeigt, wie diese Filterausdrücke in .NET erzeugt werden können. Es

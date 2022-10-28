@@ -23,6 +23,8 @@ db.getCollection("rooms").find({})
 
 ## Pipelines und die Funktion *aggregate()*
 
+### Erstes Beispiel: die Gruppierung
+
 In der SQL Ausbildung kommt man recht schnell zu dem Punkt, wo wir Daten *gruppieren* und
 *projizieren* möchten. Das folgende Kommando würde die Anzahl der positiven Prüfungsnoten
 (Note < 5) ermitteln:
@@ -108,14 +110,17 @@ db.getCollection("exams").aggregate([
 ]
 ```
 
-### Aufbau der Pipeline im MongoDB Compass
+> Hinweis: Kommt ein Feld, nach dem gruppiert wird, in einem Document nicht vor, wird
+> eine Gruppe mit dem ID Wert *null* erzeugt.
+
+#### Aufbau der Pipeline im MongoDB Compass
 
 Im Programm MongoDB Compass gibt es die Möglichkeit, die Pipeline Schritt für Schritt aufzubauen.
 Es werden dann die Zwischenergebnisse angezeigt:
 
 ![](aggregation_compass_1208.png)
 
-## Aggregieren nach mehreren Feldern
+### Gruppierung nach mehreren Feldern
 
 In SQL ist es möglich, auch mehrere Spalten für die Gruppierung zu verwenden. Eine Gruppe wird dann
 gebildet, wenn die Werte aller Spalten ident sind. Dadurch können wir die Anzahl der Prüfungen
@@ -169,7 +174,7 @@ db.getCollection("exams").aggregate([
 ]
 ```
 
-## Filtern nach der Gruppierung (HAVING in SQL)
+### Filtern nach der Gruppierung (HAVING in SQL)
 
 In SQL wird zwischen der Filterung *vor* der Gruppierung mit *WHERE* und der Filterung *nach*
 der Gruppierung mit *HAVING* unterschieden. Wollen wir alle Studierenden, die pro Fach mehr als
@@ -201,7 +206,7 @@ db.getCollection("exams").aggregate([
 ]
 ```
 
-## Sortieren: Die Stage *$sort*
+### Sortieren: Die Stage *$sort*
 
 In SQL gibt es mit *ORDER BY* die Möglichkeit, das Ergebnis zu sortieren. Wir können aufsteigende
 Sortierung (das ist der Standard) und mit *DESC* eine absteigende Sortierung angeben:
@@ -238,21 +243,243 @@ db.getCollection("exams").aggregate([
 ]
 ```
 
-## *aggregate()* ohne Gruppierung
+### Felder hinzufügen: die Stage *$addFields*
 
-Es macht auch Sinn, die Funktion *aggregate()* ohne Gruppierung zu verwenden. Das Konzept der
-Pipelines erlaubt auch andere Anwendungen:
+In der Stage *$project* können wir sozusagen "von 0 weg" angeben, welche Felder wir in der Ausgabe
+haben möchten. Oft möchte man aber alle Felder des Originaldokumentes übernehmen und eigene Felder
+hinzufügen. Die Stage *$addFields* macht das möglich:
 
-### Sortierung
+```javascript
+db.getCollection("rooms").aggregate([
+    {
+        "$addFields": {
+            "building": { "$substr": ["$_id", 0, 1] }
+        }
+    }
+])
+```
 
-Wenn wir alle Werte einer Collection sortiert ausgeben möchten, wird ebenfalls die Funktion
-*aggregate()* verwendet. Wir müssen also nicht immer Gruppieren:
+```javascript
+[
+  { _id: 'A2.14', capacity: 20, building: 'A' },
+  { _id: 'C5.12', building: 'C' },
+  { _id: 'A2.01', building: 'A' },
+  // ...
+]
+```
+
+### Arrays auflösen: die Stage *$unwind*
+
+Wir möchten nun die Anzahl der Lehrenden zählen, die an einem Wochentag ihren Home Office Tag haben.
+Das ist allerdings nicht direkt mit *$group* möglich, denn das Feld *homeOfficeDays* ist ein Array.
+Daher gibt es eine spezielle Stage: *$unwuind*. Sie reduziert Arrays, indem für jedes Arrayelement
+der Datensatz einfach wiederholt geschrieben wird. Grafisch sieht das so aus:
+
+![](unwind_1240.png)
+
+Der Lehrer *ABC* ist nun 2x vorhanden. Der Lehrer *DEF* fällt weg, da er keine Home Office Tage
+im Array hat. Mit dieser Technik können wir nun leicht die Anzahl der Lehrenden pro Tag zählen:
+
+```javascript
+db.getCollection("teachers").aggregate([
+    { "$unwind": "$homeOfficeDays" },
+    { "$group": { "_id": "$homeOfficeDays", "count": { "$sum": 1 } } }
+])
+```
+
+```javascript
+[ { _id: 'MO', count: 5 }, { _id: 'DI', count: 1 }, { _id: 'FR', count: 7 }, { _id: 'MI', count: 7 }, { _id: 'DO', count: 5 } ]
+```
+
+
+### "Joins" mit $lookup
+
+Eine Operation, die in SQL die Basis fast aller Abfragen darstellt, ist bis jetzt noch nicht
+vorgekommen: der JOIN. Da wir in der NoSQL Datenbank die Daten nicht normalisiert speichern,
+ist der Bedarf natürlich nur sehr gering (zumindest sollte er das sein). Wir können aber
+den JOIN zum Simulieren von Unterabfragen brauchen. Es sollen alle Prüfungen (Collection exams)
+ausgegeben werden., die die minimale Punkteanzahl hatten. Klassische Lösungen mit Limit funktionieren
+her nicht, da mehrere Exam Dokumente diese Punktezahl aufweisen.
+
+Die minimale Punkteanzahl lässt sich mit einer Gruppierung leicht ermitteln:
+
+```javascript
+db.getCollection("exams").aggregate([{ "$group": { "_id": null, "minPoints": { "$min": "$points" } } } ] )
+```
+
+Da wir nach der ID *null* gruppieren, wird die ganze Collection zum Ermitteln des Minimums
+verwendet. Allerdings können wir - wie in SQL - nicht mehr auf das originale Exam Dokument zugreifen.
+In SQL würden wir das Problem so lösen:
+
+```sql
+SELECT *
+FROM Exams e
+WHERE e.Points = (SELECT MIN(e2.Points) FROM Exams e2)
+```
+
+Unsere Lösung in MongoDB arbeitet sozusagen "umgekehrt". Es wird zuerst ermittelt, welcher Wert
+das Minimum in der Collection ist. Danach gehen wir nochmals in die Collection *exams* und schreiben
+alle Dokumente, für die der Ausdruck *minPoints = points* zutrifft, in ein eigenes Feld mit dem
+Namen *exams*. Dieser Schritt erweitert sozusagen das Ergebnis um ein weiteres Feld, wo sich 
+die gefundenen Datensätze als Array befinden. Die konkreten Schritte sind:
+
+- Ermittle mit einer *$group* Stage die minimalen Punkte der Collection exams.
+- Mit der $lookup Stage können wir einen Join nochmals in die *exams* Collection machen. Als
+  Joinoperation geben wir *minPoints = points* an.
+- Das Ergebnis ist ein Array, nämlich alle gefundenen Dokumente in der Zielcollection. Diese werden
+  im Feld *exams* gespeichert.
+- Mit *unwind* lösen wir das Array auf.
+- Mit *$replaceRoot* geben wir nur die Prüfungen ohne die Gruppierungsfelder (*_id* und *_minPoints*)
+  zurück.
+
 
 ```javascript
 db.getCollection("exams").aggregate([
-  { "$sort" : { "student.nr" : 1, "subject._id" : -1 } }
+    { "$group": { "_id": null, "minPoints": { "$min": "$points" } } },
+    { "$lookup": { "from": "exams", "localField": "minPoints", "foreignField": "points", "as": "exams" } },
+    { "$unwind": "$exams"},
+    { "$replaceRoot": { "newRoot": "$exams" } }
 ])
 ```
+
+Es werden 2 Dokumente zurückgegeben, da es 2 Prüfungen mit 4 Punkten gibt.
+
+```javascript
+[
+  {
+    _id: ObjectId("635b9b0d7a7c8b8b6a743617"),
+    student: { nr: 100662, firstname: 'Amina', lastname: 'Effler' },
+    teacher: {/* ... */},
+    currentClass: {/* ... */},
+    examClass: {/* ... */},
+    subject: { _id: 'D', longname: 'Deutsch' },
+    dateTime: ISODate("2023-02-21T11:00:00.000Z"),
+    pointsMax: 16,
+    points: 4,
+    grade: 5
+  },
+  {
+    _id: ObjectId("635b9b0d7a7c8b8b6a74361f"),
+    student: { nr: 100375, firstname: 'Giada', lastname: 'Schorr' },
+    teacher: {/* ... */},
+    currentClass: {/* ... */},
+    examClass: {/* ... */},
+    subject: { _id: 'AM', longname: 'Angewandte Mathematik' },
+    dateTime: ISODate("2022-02-17T11:00:00.000Z"),
+    pointsMax: 17,
+    points: 4,
+    grade: 5
+  }
+]
+```
+
+*$lookup* kann auch Pipelines für komplexere Vergleiche nutzen. So können wir z. B. alle Prüfungen
+suchen, die bis 1 Woche vor der letzten Prüfung abgelegt wurden. Details sind auf
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/
+in der Dokumentation verfügbar.
+
+Ein anderer Ansatz ohne die Verwendung von *$lookup* wäre der Folgende:
+
+- Gruppiere nach den Punkten. Es wird also eine Gruppe für alle Exams mit 4, 5, 6, ... Punkten
+  erstellt.
+- In der Gruppierung speichere mit *$push* die Dokumente der Gruppe. Sie sind unter *$ROOT* verfügbar.
+- Sortiere nach der Gruppierungs ID aufsteigend.
+- Nimm den ersten Datensatz, das ist die Gruppe mit den niedrigsten Punkten. Danach wird das Array
+  wieder mit *$unwind* aufgelöst.
+
+```javascript
+db.getCollection("exams").aggregate([
+    { "$group": { "_id": "$points", "exams": { "$push": "$$ROOT" } } },
+    { "$sort": { "_id": 1 } },
+    { "$limit": 1 },
+    { "$unwind": "$exams"},
+    { "$replaceRoot": { "newRoot": "$exams" } }
+])
+```
+
+### Verwenden von JavaScript Funktionen
+
+Wir möchten nun das Alter von Studierenden am Stichtag 1.9.2022 berechnen und die 3 Jüngsten ausgeben.
+In Javascript gibt die Funktion *Date.parse(string)* die Anzahl der Millisekunden seit dem
+1.1.1970 0h UTC zurück<sup>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse</sup>.
+
+1 Tag hat 86400 Sekunden, also 86400000 Millisekunden. 1 Jahr hat im Mittel 365.25 Tage (alle 4 Jahre
+ist ein Schaltjahr). Daher kann der folgende Ausdruck das Alter in Jahren mit Kommastellen berechnen:
+
+```javascript
+(Date.parse('2022-09-01') - Date.parse(dateOfBirth)) / 86_400_000 / 365.25
+```
+
+Nun verwenden wir diese Logik im Operator *$function*, damit wir ein Feld *age* zum Dokument des
+Students hinzufügen können. Der Parameter *args* bestimmt, welche Felder der Funktion übergeben werden.
+Mit Dollar ($) können wir wie gewohnt auf Felder der Pipeline zugreifen.
+Hinweis: Arrow Functions können nicht verwendet werden.
+
+```javascript
+db.getCollection("students").aggregate([
+    {
+        "$project": {
+            "name": "$name",
+            "age": {
+                "$function":
+                {
+                    "body": "function(dateOfBirth) { return (Date.parse('2022-09-01') - Date.parse(dateOfBirth)) / 86_400_000 / 365.25}",
+                    "args": ["$dateOfBirth"],
+                    "lang": "js"
+                }
+            }
+        }
+    },
+    { "$sort": {"age": 1} },
+    { "$limit": 3 },
+])
+```
+
+Die Ausgabe beinhaltet nun das berechnete Alter mit Kommastellen:
+
+```javascript
+[
+  {
+    _id: 100541,
+    name: { nr: 100541, firstname: 'Yaren', lastname: 'Voelkel' },
+    age: 17.06776180698152
+  },
+  {
+    _id: 100112,
+    name: { nr: 100112, firstname: 'Edgar', lastname: 'Dietzsch' },
+    age: 17.086926762491444
+  },
+  {
+    _id: 100109,
+    name: { nr: 100109, firstname: 'Juan', lastname: 'Vogt' },
+    age: 17.10609171800137
+  }
+]
+```
+
+Das gleiche Ergebnis können wir aber auch ohne Verwendung einer JavaScript Funktion 
+mit den Operatoren *$divide*, *$dateDiff* und *$toDate* erreichen:
+ 
+```javascript
+db.getCollection("students").aggregate([
+    {
+        "$project": {
+            "name": "$name",
+            "age":
+                { "$divide": [{ "$dateDiff": { "startDate": { "$toDate": "$dateOfBirth" }, "endDate": { "$toDate": "2022-09-01" }, "unit": "day" } }, 365.25] }
+
+        }
+    },
+    { "$sort": { "age": 1 } },
+    { "$limit": 3 },
+])
+```
+
+Das sieht zwar mühsamer aus, ist aber für die Verarbeitung besser:
+
+> Executing JavaScript inside an aggregation expression may decrease performance. Only use the 
+> $function operator if the provided pipeline operators cannot fulfill your application's needs.
+> <sup>https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/</sup>
 
 ### Filterung + Sortierung
 
@@ -279,7 +506,14 @@ db.getCollection("exams").aggregate([
 ])
 ```
 
+Die vorigen Beispiele zeigen einen Ausschnitt der zur Verfügung stehenden Stages. Alle
+Möglichkeiten sind in der MongoDB Dokumentation auf
+https://www.mongodb.com/docs/manual/meta/aggregation-quick-reference/
+beschrieben.
+
 ## *aggregate()* samt Pipeline mit dem .NET Treiber erzeugen lassen
+
+### Aufbau mit *AsQueryable()*
 
 Wer mit LINQ schon gearbeitet hat, kennt schon die Entsprechungen der hier gezeigten Operationen:
 *Where()* für die Filterung, *GroupBy()* für die Gruppierung, *Select()* für die Projektion und
@@ -308,8 +542,6 @@ var negativeGrades = db.GetCollection<Exam>("exams")
     .ToList();
 ```
 
-Es gibt natürlich auch wie in den vorigen Beispielen eine Variante, die die entsprechenden Builder
-verwendet. Die Variante mit *AsQueryable()* ist aber wesentlich komfortabler und typsicher.
 Dieser Ausdruck erzeugt automatisch die Pipeline:
 
 ```javascript
@@ -329,6 +561,102 @@ db.getCollection("exams").aggregate([
   { StudentNr: 100484, Subject: 'DBI', Count: 2 },
   { StudentNr: 100673, Subject: 'POS', Count: 2 }
 ]
+```
+
+### Aufbau ohne *AsQueryable()*
+
+In .NET kann die Pipeline für komplexere Abfragen auch händisch aufgebaut werden. Die folgende
+Abfrage berechnet das Alter am 1.9.2022 und gibt alle männlichen Studierenden aus, die zu diesem
+Datum noch nicht 18 Jahre alt sind.
+
+```c#
+var result = db.GetCollection<Student>("students").Aggregate()
+    // Filtern nach gender = "Male". Der Verbatim String (@") erlaubt das Escapen der Anführungs-
+    // zeichen mit "". Das macht Visual Studio automatisch, wenn ein String in @"" kopiert wird.
+    // Da bei Match aus einem Student wieder ein Student wird, verwenden wir den Typ Student
+    // als output type.
+    .AppendStage(PipelineStageDefinitionBuilder.Match<Student>(@"{""gender"": ""Male""}"))
+    // Für die Stage $addFields gibt es keinen PipelineStageDefinitionBuilder. Daher
+    // definieren wir sie bei AppendStage als String völlig "frei".
+    // Da wir Felder hinzufügen, geben wir keinen Student mehr zurück sondern ein
+    // allgemeines BsonDocument.
+    // Für die Berechnung des Alters verwenden wir den Ausdruck
+    //     dateDiff(toDate(dateOfBirth), toDate("2022-09-01"), "day") / 365.25
+    // in der Operatorschreibweise (Operatoren $divide, $dateDiff, §toDate) um das Alter in Tagen
+    // zu berechnen und es durch 365.25 zu dividieren (wir wollen ein genaueres Alter zurückliefern)
+    .AppendStage<BsonDocument>(@"
+        {
+            ""$addFields"": {
+                ""age"": {
+                    ""$divide"": [
+                        {
+                            ""$dateDiff"": {
+                                ""startDate"": {
+                                    ""$toDate"": ""$dateOfBirth""
+                                },
+                                ""endDate"": {
+                                    ""$toDate"": ""2022-09-01""
+                                },
+                                ""unit"": ""day""
+                            }
+                        },
+                        365.25
+                    ]
+                }
+            }
+        }
+    ")
+    // Die $match Stage filtert nach allen Dokumenten mit age < 18.
+    .AppendStage(PipelineStageDefinitionBuilder.Match<BsonDocument>(@"{""age"": {""$lt"": 18}}"))
+    // Nun kommt die Projektion. Wir genem nur den Namen, die ID und das Alter zurück.
+    .AppendStage(PipelineStageDefinitionBuilder.Project<BsonDocument>(@"
+        {
+            ""id"": ""$_id"",
+            ""firstname"": ""$name.firstname"",
+            ""lastname"": ""$name.lastname"",
+            ""age"": ""$age""
+        }
+    "))
+    // Nun wird mit der $sort Stage sortiert.
+    .AppendStage(PipelineStageDefinitionBuilder.Sort<BsonDocument>(@"{""lastname"" : 1, ""firstname"": 1}"))
+    .ToList()
+    // Nach dem Ausführen erstellen wir ein .NET Objekt aus dem BsonDocument. Mit dem
+    // Indexer können wir auf die Elemente zugreifen. Mit As... konvertieren wir in
+    // den entsprechenden .NET Datentyp.
+    .Select(r => new
+    {
+        Id = r["_id"].AsInt32,
+        Firstname = r["firstname"].AsString,
+        Lastname = r["lastname"].AsString,
+        Age = Math.Round(r["age"].AsDouble, 2)
+    })
+    .ToList();
+Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+```
+
+Das Ergebnis ist wie folgt:
+
+```javascript
+[{"Id":100306,"Firstname":"Jeremie","Lastname":"Berends","Age":17.77},
+{"Id":100117,"Firstname":"Sam","Lastname":"Bouschen","Age":17.4},
+{"Id":100530,"Firstname":"Tobias","Lastname":"Bräutigam","Age":17.2},
+{"Id":100112,"Firstname":"Edgar","Lastname":"Dietzsch","Age":17.09},
+{"Id":100341,"Firstname":"Niels","Lastname":"Dörre","Age":17.75},
+{"Id":100127,"Firstname":"Mohammad","Lastname":"Friedrich","Age":17.48},
+{"Id":100338,"Firstname":"John","Lastname":"Grasse","Age":17.52},
+{"Id":100737,"Firstname":"Sven","Lastname":"Hadwich","Age":17.4},
+{"Id":100520,"Firstname":"Julius","Lastname":"Hohenberger","Age":17.11},
+{"Id":100093,"Firstname":"Oke","Lastname":"Jasper","Age":17.43},
+{"Id":100510,"Firstname":"Finn","Lastname":"Konig","Age":17.73},
+{"Id":100116,"Firstname":"Domenic","Lastname":"Marquart","Age":17.68},
+{"Id":100707,"Firstname":"Marcel","Lastname":"Marxen","Age":17.66},
+{"Id":100294,"Firstname":"Xaver","Lastname":"Olbrich","Age":17.2},
+{"Id":100132,"Firstname":"Mirac","Lastname":"Schuhaj","Age":17.79},
+{"Id":100307,"Firstname":"Devin","Lastname":"Schwanitz","Age":17.13},
+{"Id":100327,"Firstname":"Jakob","Lastname":"Schütz","Age":17.21},
+{"Id":100106,"Firstname":"Jarno","Lastname":"Stolle","Age":17.85},
+{"Id":100531,"Firstname":"David","Lastname":"Strunz","Age":17.57},
+{"Id":100109,"Firstname":"Juan","Lastname":"Vogt","Age":17.11}]
 ```
 
 ## Die Pipeline mit dem Java Treiber erzeugen lassen
@@ -368,7 +696,8 @@ var results = db.getCollection("exams", Document.class).aggregate(
 .into(new ArrayList<>());
 results.forEach(doc -> System.out.println(doc));    
 ```
-Die Ausgabe liefert natürlich die gleichen Daten wie unsere mit .NET erzeugte Pipeline:
+Die Ausgabe liefert natürlich die gleichen Daten wie unsere mit .NET erzeugte mit *AsQueryable*
+erzeugte Pipeline:
 
 ```
 Document{{studentNr=100011, subject=POS, count=2}}
@@ -385,4 +714,3 @@ befindet sich die Dokumentation.
 
 Weitere allgemeine Infos zum großen Thema Aggregation stehen in der MongoDB Dokumentation bereit:
 https://docs.mongodb.com/manual/aggregation/
-
