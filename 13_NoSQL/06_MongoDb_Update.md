@@ -189,7 +189,7 @@ ein Array verwendet wird.
 ```
 db.getCollection("teachers").updateMany(
     { "salary" : { "$gt" : NumberDecimal("4000") } },
-    [{ "$set" : { "salary" : { "$multiply" : ["$hoursPerWeek", NumberDecimal("200")] } } }])
+    [{ "$addFields" : { "salary" : { "$multiply" : ["$hoursPerWeek", NumberDecimal("200")] } } }])
 ```
 
 ## ReplaceOne
