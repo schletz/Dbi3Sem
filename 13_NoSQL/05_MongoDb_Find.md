@@ -3,14 +3,13 @@
 So wie in jeder anderen Datenbank ist in MongoDB das Filtern von Daten ein zentraler Punkt. Wir
 haben mehrere Möglichkeiten, Daten zu filtern:
 
-- Mit der Shell in Studio 3T
-- In einer Applikation mittels dem MongoDB Treiber
+- Mit der Shell in Studio 3T (oder der Mongo Shell).
+- In einer Applikation mittels dem MongoDB Treiber.
 
 ## Filtern mit der Shell in Studio 3T
 
 Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die ersten
-Filterbefehle eingeben. Die nachfolgenden Beispiele verwenden - wenn nicht anders angegeben - die
-Collection *teachers*.
+Filterbefehle eingeben.
 
 ![](studio3t_shell_2023.png)
 
@@ -23,6 +22,8 @@ dann schreibe folgenden Ausdruck:
 ```javascript
 db.getCollection("teachers").find({})
 ```
+
+Die nachfolgenden Beispiele verwenden - wenn nicht anders angegeben - die Collection *teachers*.
 
 #### Der leere Filter: {}
 
