@@ -41,8 +41,8 @@ User wie in *docker run* beschrieben auf *root* mit dem Passwort *1234* gesetzt 
 /usr/bin/mongosh mongodb://root:1234@localhost:27017
 ```
 
-Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection Klasse
-anzeigen zu können, werden folgende Befehle verwendet:
+Nun kann in der Shell direkt gearbeitet werden. Um eine Datenbank *firstTestDb* anzulegen und
+ein Dokument einzufügen, werden folgende Befehle abgesetzt:
 
 ```
 use firstTestDb;
