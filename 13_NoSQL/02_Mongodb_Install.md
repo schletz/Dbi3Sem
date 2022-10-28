@@ -28,14 +28,28 @@ ausgetauscht werden, die z. B. bei *mongoexport* entstehen.
 docker run -d -p 27017:27017 -v C:/Temp:/home -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongodb mongo
 ```
 
-### Verbinden mit dem MongoDB Compass
+### Absetzen von Befehlen in der Shell
 
-Für die Verwaltung der Datenbank gibt es die Software *MongoDB Compass*. Hier können auch Abfragen
-an die Datenbank gesendet werden. Die Software kann von [mongodb.com](https://www.mongodb.com/products/compass)
-geladen werden.
+Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:
 
-Im MongoDB Compass kann die Datenbank mit dem Verbindungsstring `mongodb://root:1234@localhost:27017` erreicht
-werden. Natürlich muss die Datenbank vorher gestartet werden.
+![](docker_terminal_0825.png)
+
+Gib danach die folgenden Befehle ein. Im Connection String wird davon ausgegangen, dass der
+User wie in *docker run* beschrieben auf *root* mit dem Passwort *1234* gesetzt wurde:
+
+```
+/usr/bin/mongosh mongodb://root:1234@localhost:27017
+```
+
+Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection Klasse
+anzeigen zu können, werden folgende Befehle verwendet:
+
+```
+use firstTestDb;
+db.getCollection("persons").insertOne({"firstname": "Vorname", "lastname": "Nachname"});
+db.getCollection("persons").find({});
+```
+
 
 ## PlantUML und VS Code als Modellierungswerkzeug
 

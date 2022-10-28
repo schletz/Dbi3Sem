@@ -1,25 +1,11 @@
 # Update von Dokumenten
 
-## Absetzen von Anfragen in der Shell
+## Absetzen von Befehlen in der Shell von Studio 3T
 
-Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:
+Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die unten
+beschriebenen Befehle absetzen.
 
-![](docker_terminal_0825.png)
-
-Gib danach die folgendne Befehle ein. Im Connectionstring wird davon ausgegangen, dass der
-User wie im Kapitel Installation beschrieben auf *root* mit dem Passwort *1234* gesetzt wurde:
-
-```
-/usr/bin/mongosh mongodb://root:1234@localhost:27017
-```
-
-Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection Klasse
-anzeigen zu können, werden folgende Befehle verwendet:
-
-```
-use examsDb
-db.getCollection("rooms").find({})
-```
+![](studio3t_shell_2023.png)
 
 ## Das updateOne und updateMany Kommando
 

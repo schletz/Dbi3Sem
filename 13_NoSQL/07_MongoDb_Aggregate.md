@@ -1,25 +1,19 @@
 # Aggregation und Pipelines
 
-## Absetzen von Anfragen in der Shell
+## Absetzen von Befehlen in der Shell von Studio 3T
 
-Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:
+Die unten beschriebenen Funktionen können wir 1:1 in der Shell von Studio 3T einfügen:
 
-![](docker_terminal_0825.png)
+![](studio3t_pipeline_2107.png)
 
-Gib danach die folgendne Befehle ein. Im Connectionstring wird davon ausgegangen, dass der
-User wie im Kapitel Installation beschrieben auf *root* mit dem Passwort *1234* gesetzt wurde:
+Für Pipelines gibt es aber noch ein besonderes Fenster, das mit dem Button *Aggregate*
+geöffnet werden kann. Dort kannst du GUI unterstützt Pipelines aufbauen. Es ist auch möglich,
+einen *aggregate()* Aufruf aus der Shell zu kopieren und dort einzufügen.
 
-```
-/usr/bin/mongosh mongodb://root:1234@localhost:27017
-```
+![](studio3t_pipeline_2107.png)
 
-Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection Klasse
-anzeigen zu können, werden folgende Befehle verwendet:
-
-```
-use examsDb
-db.getCollection("rooms").find({})
-```
+Mit Hilfe des Tabs *Query Code* kann die Pipeline für die MongoDB Clients in Python, Node.js, C#,
+Java, ... kopiert werden.
 
 ## Pipelines und die Funktion *aggregate()*
 
@@ -206,7 +200,7 @@ db.getCollection("exams").aggregate([
 ]
 ```
 
-### Sortieren: Die Stage *$sort*
+### Sortieren: die Stage *$sort*
 
 In SQL gibt es mit *ORDER BY* die Möglichkeit, das Ergebnis zu sortieren. Wir können aufsteigende
 Sortierung (das ist der Standard) und mit *DESC* eine absteigende Sortierung angeben:
@@ -241,6 +235,20 @@ db.getCollection("exams").aggregate([
   { studentNr: 100553, subject: 'D', count: 2 },  
   // ...
 ]
+```
+
+
+### Eine Anzahl an Datensätzen zurückgeben: die Stage *$limit*
+
+Wir können auch nur eine gewisse Anzahl an Dokumenten zurückgeben lassen. Die Stage *$limit*
+kann die Anzahl festlegen:
+
+```javascript
+db.getCollection("exams").aggregate([
+  { "$match" : { "grade" : 5 } },
+  { "$sort" : { "student.nr" : 1, "subject._id" : -1 } }, 
+  { "$limit" : 3 }
+])
 ```
 
 ### Felder hinzufügen: die Stage *$addFields*
@@ -292,7 +300,7 @@ db.getCollection("teachers").aggregate([
 ```
 
 
-### "Joins" mit $lookup
+### Joins - es gibt sie doch: die Stage *$lookup*
 
 Eine Operation, die in SQL die Basis fast aller Abfragen darstellt, ist bis jetzt noch nicht
 vorgekommen: der JOIN. Da wir in der NoSQL Datenbank die Daten nicht normalisiert speichern,
@@ -397,7 +405,7 @@ db.getCollection("exams").aggregate([
 ])
 ```
 
-### Verwenden von JavaScript Funktionen
+### Verwenden von JavaScript Funktionen: der Operator *$function*
 
 Wir möchten nun das Alter von Studierenden am Stichtag 1.9.2022 berechnen und die 3 Jüngsten ausgeben.
 In Javascript gibt die Funktion *Date.parse(string)* die Anzahl der Millisekunden seit dem
@@ -480,31 +488,6 @@ Das sieht zwar mühsamer aus, ist aber für die Verarbeitung besser:
 > Executing JavaScript inside an aggregation expression may decrease performance. Only use the 
 > $function operator if the provided pipeline operators cannot fulfill your application's needs.
 > <sup>https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/</sup>
-
-### Filterung + Sortierung
-
-Durch das Konzept der Pipeline ist die Kombination Filtern und Sortieren auch einfach mit
-*aggregate()* gelöst:
-
-```javascript
-db.getCollection("exams").aggregate([
-  { "$match" : { "grade" : 5 } },
-  { "$sort" :  { "student.nr" : 1, "subject._id" : -1 } }
-])
-```
-
-### Limit
-
-Wir können auch nur eine gewisse Anzahl an Dokumenten zurückgeben lassen. Die Stage *$limit*
-kann die Anzahl festlegen:
-
-```javascript
-db.getCollection("exams").aggregate([
-  { "$match" : { "grade" : 5 } },
-  { "$sort" : { "student.nr" : 1, "subject._id" : -1 } }, 
-  { "$limit" : 3 }
-])
-```
 
 Die vorigen Beispiele zeigen einen Ausschnitt der zur Verfügung stehenden Stages. Alle
 Möglichkeiten sind in der MongoDB Dokumentation auf

@@ -3,98 +3,31 @@
 So wie in jeder anderen Datenbank ist in MongoDB das Filtern von Daten ein zentraler Punkt. Wir
 haben mehrere Möglichkeiten, Daten zu filtern:
 
-- In der Mongo Shell
-- Im MongoDb Compass
-- In der Applikation mittels dem MongoDB Treiber
+- Mit der Shell in Studio 3T
+- In einer Applikation mittels dem MongoDB Treiber
 
-## Absetzen von Anfragen
+## Filtern mit der Shell in Studio 3T
 
-### Filtern in der Shell
+Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die ersten
+Filterbefehle eingeben. Die nachfolgenden Beispiele verwenden - wenn nicht anders angegeben - die
+Collection *teachers*.
 
-Mit Docker Desktop kannst du mit der Option *Open in terminal* eine Shell öffnen:
+![](studio3t_shell_2023.png)
 
-![](docker_terminal_0825.png)
+## Die verschiedenen Filter
 
-Gib danach die folgendne Befehle ein. Im Connectionstring wird davon ausgegangen, dass der
-User wie im Kapitel Installation beschrieben auf *root* mit dem Passwort *1234* gesetzt wurde:
+Die nachfolgenden Filter werden der Funktion *db.getCollection(collectionname).find()* als
+Parameter übergeben. Möchtest du z. B. einen leeren Filter in der Shell von Studio 3T absetzen,
+dann schreibe folgenden Ausdruck:
 
+```javascript
+db.getCollection("teachers").find({})
 ```
-/usr/bin/mongosh mongodb://root:1234@localhost:27017
-```
-
-Nun kann in der Shell direkt gearbeitet werden. Um alle Dokumente der Collection Klasse
-anzeigen zu können, werden folgende Befehle verwendet:
-
-```
-use examsDb
-db.getCollection("rooms").find({})
-```
-
-### Filtern im MongoDb Compass
-
-Nachdem du dich mit der Datenbank im MongoDb Compass verbunden hast, kann im Feld *Filter*
-ein Filterausdruck eingegeben werden. Das Ergebnis wird dann darunter angezeigt:
-
-![](compass_filter_1340.png)
-
-### Filtern im .NET MongoDB Treiber
-
-#### Mit dem Builder
-
-Der Builder generiert einen Suchfilter mit dem entsprechenden Operator. Im folgenden Beispiel
-wird nach dem Raum mit dem Shortname A2.14 gesucht:
-
-```c#
-var filter = Builders<Room>.Filter.Eq(r => r.Shortname, "A2.14");
-var results = db.GetCollection<Room>("rooms")
-    .Find(filter);
-Console.WriteLine(results);                     // Gibt den Suchfilter aus
-foreach (var result in results.ToList())
-{
-    Console.WriteLine($"{result.Shortname} hat eine Kapazität von {result.Capacity} Pl#tzen.");
-}
-
-```
-
-*Eq* ist der Operator (Equals). Er bekommt 2 Parameter: Das Feld, nach dem wir filtern möchten als
-Lambda Expression. Der 2. Parameter ist der Wert, der gesucht werden soll. Die nachfolgende *Find()*
-Methode bekommt diesen Suchfilter. Es wird allerdings noch nichts abgefragt. Erst mit *ToList()*
-bzw. *FirstOrDefault()* werden die Daten in den Speicher geladen und können verwendet werden.
-
-#### Mit AsQueryable()
-
-Wer schon mit LINQ gearbeitet hat, findet folgenden Zugang vertrauter:
-
-```c#
-var results = db.GetCollection<Room>("rooms")
-    .AsQueryable()
-    .Where(r => r.Shortname == "A2.14")
-    .ToList();
-foreach (var result in results)
-{
-    Console.WriteLine($"{result.Shortname} hat eine Kapazität von {result.Capacity} Pl#tzen.");
-}
-```
-
-Die Methode *AsQueryable()* liefert den Typ *IMongoQueryable* zurück, welcher die LINQ Methoden
-in MongoDB Ausdrücke umwandelt. Dadurch können die gewohnten Funktionen wie *Where()*, *Select()*,
-*GroupBy()*, ... verwendet werden.
-
-## Filter in MongoDB
-
-Die nachfolgenden Beispiele verwenden - wenn nicht anders angegeben - die Collection *teachers*.
 
 #### Der leere Filter: {}
 
 Möchten wir alle Dokumente einer Collection bekommen, verwenden wir den leeren Filter `{}`.
 So liefern die folgenden Anweisungen in der Mongo Shell alle Documents der Collection *teachers*:
-
-```
-use examsDb
-db.getCollection("teachers").find({})
-```
-
-Im MongoDB Compass geben wir einfach `{}` in die Zeile bei *Filter* ein.
 
 #### Equals Filter { "field" : "value" }
 
@@ -115,6 +48,12 @@ vergleichen möchten, geben wir z. B. folgende Filter an:
   Findet alle Dokumente, die das Feld *hoursPerWeek* besitzen. In unserer Datenbank werden *null*
   Werte nicht geschrieben, deswegen sind alle Werte, die wir bekommen, auch ungleich *null*. Das
   muss aber nicht so sein, *$exists* liefert grundsätzlich auch Felder, die den Wert *null* haben.
+
+In der Shell werden diese Filter der *find* Funktion übergeben. Beispiel:
+
+```javascript
+db.getCollection("teachers").find({ "_id" : "RAU" })
+```
 
 #### Not Equals Filter { "field" : { "$ne" : "value" } }
 
@@ -211,15 +150,58 @@ Aus Performancegründen sollten jedoch die oben beschriebenen Operatoren verwend
 Falls eine JavaScript Funktion verwendet werden muss, ist der Operator *$function* zu bevorzugen. Er
 ist im Kapitel [Aggregations](06_MongoDb_Aggregate.md) beschrieben.
 
-### Filtern mit dem MongoDB Treiber
+## Filtern mit dem .NET MongoDB Treiber
 
-Das nachfolgende Programm zeigt, wie diese Filterausdrücke in .NET erzeugt werden können. Es
+Das nachfolgende Musterprogramm zeigt, wie diese Filterausdrücke in .NET erzeugt werden können. Es
 stehen 2 Varianten zur Verfügung:
 
 - Der Filter Builder. Hier können die Filterausdrücke aufgebaut werden. Der Builder orientiert sich
   sehr nahe an der Syntax der Filter.
 - Mit *AsQueryable()*. Hier kann LINQ zur Filterung verwendet werden. Es kann allerdings nicht
   jeder Filterausdruck so generiert werden. Manchmal muss der Builder verwendet werden.
+
+#### Mit dem Builder
+
+Der Builder generiert einen Suchfilter mit dem entsprechenden Operator. Im folgenden Beispiel
+wird nach dem Raum mit dem Shortname A2.14 gesucht:
+
+```c#
+var results = db.GetCollection<Room>("rooms")
+    .Find(Builders<Room>.Filter.Eq(r => r.Capacity, 29))
+    .ToList();
+
+foreach (var result in results.ToList())
+{
+    Console.WriteLine($"{result.Shortname} hat eine Kapazität von {result.Capacity} Plätzen.");
+}
+
+```
+
+*Eq* ist der Operator (Equals). Er bekommt 2 Parameter: Das Feld, nach dem wir filtern möchten als
+Lambda Expression. Der 2. Parameter ist der Wert, der gesucht werden soll. Die nachfolgende *Find()*
+Methode bekommt diesen Suchfilter. Es wird allerdings noch nichts abgefragt. Erst mit *ToList()*
+bzw. *FirstOrDefault()* werden die Daten in den Speicher geladen und können verwendet werden.
+
+#### Mit AsQueryable()
+
+Wer schon mit LINQ gearbeitet hat, findet folgenden Zugang vertrauter:
+
+```c#
+var results = db.GetCollection<Room>("rooms")
+    .AsQueryable()
+    .Where(r => r.Capacity == 29)
+    .ToList();
+foreach (var result in results)
+{
+    Console.WriteLine($"{result.Shortname} hat eine Kapazität von {result.Capacity} Plätzen.");
+}
+```
+
+Die Methode *AsQueryable()* liefert den Typ *IMongoQueryable* zurück, welcher die LINQ Methoden
+in MongoDB Ausdrücke umwandelt. Dadurch können die gewohnten Funktionen wie *Where()*, *Select()*,
+*GroupBy()*, ... verwendet werden.
+
+#### Demoprogramm
 
 Kopiere das Generatorprogramm im Ordner *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner
 (z. B. *FilterDemos*). Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt.
@@ -401,8 +383,8 @@ class Program
 
 Du kannst die folgende Aufgabe auf 3 Arten lösen:
 
-1. Schreiben der Filter in MongoDb Compass
-2. Verwenden des FilterBuilders in .NET oder in Java
+1. Schreiben der Filter in der Shell von Studio 3T.
+2. Verwenden des FilterBuilders in .NET oder in Java.
 3. Verwenden der Methode *AsQueryable()* (wenn möglich).
 
 Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe in

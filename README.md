@@ -32,9 +32,10 @@
           <li> <a href="13_NoSQL/01_Sql_vs_Nosql.md">SQL vs NoSQL</a></li>
           <li> <a href="13_NoSQL/02_Mongodb_Install.md">Installation von MongoDB und PlantUML in VS Code</a></li>
           <li> <a href="13_NoSQL/03_MongoDb_Examsdb.md">Unsere Musterdatenbank: Die ExamsDb</a></li>
-          <li> <a href="13_NoSQL/04_MongoDb_Find.md">Filtern in MongoDB</a></li>
-          <li> <a href="13_NoSQL/05_MongoDb_Update.md">Updates in MongoDB</a></li>
-          <li> <a href="13_NoSQL/06_MongoDb_Aggregate.md">Aggregation und Pipelines</a></li>
+          <li> <a href="13_NoSQL/04_Studio3T.md">Studio 3T als GUI</a></li>
+          <li> <a href="13_NoSQL/05_MongoDb_Find.md">Filtern in MongoDB</a></li>
+          <li> <a href="13_NoSQL/06_MongoDb_Update.md">Updates in MongoDB</a></li>
+          <li> <a href="13_NoSQL/07_MongoDb_Aggregate.md">Aggregation und Pipelines</a></li>
           <li> <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/modeling-data">learn.microsoft.com: Data modeling in Azure Cosmos DB</a></li>
           <li> <a href="13_NoSQL/Projekt%20Pruefungsverwaltung">Praxisbeispiel: NoSQL Anwendung mit Repository Pattern</a></li>
           <li> 
