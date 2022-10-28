@@ -5,7 +5,7 @@
 Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die unten
 beschriebenen Befehle absetzen.
 
-![](studio3t_shell_2023.png)
+![](studio3t_shell_2122.png)
 
 ## Das updateOne und updateMany Kommando
 

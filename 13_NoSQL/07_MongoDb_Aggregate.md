@@ -4,7 +4,7 @@
 
 Die unten beschriebenen Funktionen können wir 1:1 in der Shell von Studio 3T einfügen:
 
-![](studio3t_pipeline_2107.png)
+![](studio3t_shell_2122.png)
 
 Für Pipelines gibt es aber noch ein besonderes Fenster, das mit dem Button *Aggregate*
 geöffnet werden kann. Dort kannst du GUI unterstützt Pipelines aufbauen. Es ist auch möglich,

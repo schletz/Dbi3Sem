@@ -11,7 +11,7 @@ haben mehrere Möglichkeiten, Daten zu filtern:
 Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die ersten
 Filterbefehle eingeben.
 
-![](studio3t_shell_2023.png)
+![](studio3t_shell_2122.png)
 
 ## Die verschiedenen Filter
 

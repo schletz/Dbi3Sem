@@ -26,4 +26,4 @@ db.getCollection("exams").find({"student.nr": 100001})
 
 Die Ergebnisse werden als Tabellendarstellung angezeigt. Wir können auch die JSON View aktivieren.
 
-![](studio3t_shell_2023.png)
+![](studio3t_shell_2122.png)
