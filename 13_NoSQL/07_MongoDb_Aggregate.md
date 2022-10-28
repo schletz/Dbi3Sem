@@ -466,7 +466,8 @@ Die Ausgabe beinhaltet nun das berechnete Alter mit Kommastellen:
 ```
 
 Das gleiche Ergebnis können wir aber auch ohne Verwendung einer JavaScript Funktion 
-mit den Operatoren *$divide*, *$dateDiff* und *$toDate* erreichen:
+mit den Operatoren *$divide*, *$dateDiff* und *$toDate* erreichen. *ISODate()* erzeugt
+aus einem String einen Datumswert.
  
 ```javascript
 db.getCollection("students").aggregate([
@@ -474,7 +475,7 @@ db.getCollection("students").aggregate([
         "$project": {
             "name": "$name",
             "age":
-                { "$divide": [{ "$dateDiff": { "startDate": { "$toDate": "$dateOfBirth" }, "endDate": { "$toDate": "2022-09-01" }, "unit": "day" } }, 365.25] }
+                { "$divide": [{ "$dateDiff": { "startDate": { "$toDate": "$dateOfBirth" }, "endDate": ISODate("2022-09-01"), "unit": "day" } }, 365.25] }
 
         }
     },
@@ -802,7 +803,7 @@ Hinweis: Berechne zuerst den Prozentwert und füge das Feld über die Pipeline h
 **(9)** Wie viele Prüfungen hatte jeder Lehrende in der Abteilung KIF (*examClass.department*) in der Collection
 *exams* im Jahr 2021 (*dateTime* ist im Jahr 2021)? Sortiere nach dem Shortname des Lehrers.
 Hinweis: Verwende für die Filterung der Prüfungen des Jahres 2021 die Vergleiche
-*dateTime >= Date.parse("2021-01-01")* und *dateTime < Date.parse("2022-01-01")*.
+*dateTime >= ISODate("2021-01-01")* und *dateTime < ISODate("2022-01-01")*.
 
 ```javascript
 [{"TeacherShortname":"DAU","Count":1},{"TeacherShortname":"ERH","Count":1},{"TeacherShortname":"GIL","Count":1},
