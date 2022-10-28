@@ -12,7 +12,7 @@ Nach der Installation können wir uns mit der Datenbank verbinden:
 
 ![](studio3t_connect_2024.png)
 
-Der Connection String zur Datenbank, wie wir im Kapitel [Installation](02_Mongodb_Install.md)
+Der Connection String zur Datenbank, die wir im Kapitel [Installation](02_Mongodb_Install.md)
 angelegt haben, lautet 
 
 > **mongodb://root:1234@localhost:27017**
