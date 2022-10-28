@@ -501,7 +501,7 @@ class Program
 
 Du kannst die folgende Aufgabe auf 2 Arten lösen:
 
-1. Schreiben der Update Anweisungen in der Shell von MongoDB
+1. Schreiben der Update Anweisungen in der Shell von Studio 3T.
 2. Verwenden der Update Methode in .NET oder in Java
 
 Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe in
