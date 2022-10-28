@@ -10,7 +10,7 @@ Für Pipelines gibt es aber noch ein besonderes Fenster, das mit dem Button *Agg
 geöffnet werden kann. Dort kannst du GUI unterstützt Pipelines aufbauen. Es ist auch möglich,
 einen *aggregate()* Aufruf aus der Shell zu kopieren und dort einzufügen.
 
-![](studio3t_pipeline_2107.png)
+![](studio3t_pipeline_2127.png)
 
 Mit Hilfe des Tabs *Query Code* kann die Pipeline für die MongoDB Clients in Python, Node.js, C#,
 Java, ... kopiert werden.
