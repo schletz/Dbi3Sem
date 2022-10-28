@@ -791,7 +791,7 @@ zu erreichende Punktezahl für die Prüfung an.
 
 **(8)** Wie viel Prozent werden im Durchschnitt auf die Prüfungen pro Fach in der Collection *exams*
 erreicht? Der Wert berechnet sich mit 100 x *points* / *pointsMax*.
-Hinweis: Berechne zuerst den Prozentwert und füge das Feld über die Pipeline hinzu.
+Hinweis: Berechne zuerst den Prozentwert für jedes Exam Dokument und füge das Feld über die Pipeline hinzu.
 
 ```javascript
 [{"Subject":"AM","Percent":62.71131017824474},
