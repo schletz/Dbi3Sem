@@ -79,11 +79,13 @@ Wir erkennen folgende Dinge:
      ist mit einem Dollar ($) gekennzeichnet.
   2. Danach geben wir die Aggregierungen an. Der Aufbau ist *{"name": "operation"}*. Der hier
      definierte Name ist frei wählbar, wir können in den nachfolgenden Schritten darauf zugreifen.
-     In unserem Beispiel nennen wir das erzeugte Feld *count*. Der Ausdruck *{ "$sum" : 1 }*
+     In unserem Beispiel nennen wir das erzeugte Feld *examCount*. Der Ausdruck *{ "$sum" : 1 }*
      sieht etwas komisch aus, hat aber Logik. Es wird für jedes Dokument der Wert 1 aufsummiert.
      Somit erhalten wir die Anzahl.
 - **(3) Projektion:** Mit *"$project"* definieren wir, welche Werte wir zurückgeben wollen.
-  Wir können auf die vorher ermittelten Werte mit dem Dollar ($) Zeichen zugreifen (*$_id*, *$count*).
+  Wir können auf die vorher ermittelten Werte mit dem Dollar ($) Zeichen zugreifen (*$_id*, *$examCount*).
+  In der Projektion können wir auch Felder umbenennen, so wie wir es mit *"Count" : "$examCount"*
+  machen.
 
 
 Möchten wir die ID Spalte (also die Spalte, nach der wir gruppiert haben) nicht ausgeben,
@@ -392,7 +394,7 @@ Ein anderer Ansatz ohne die Verwendung von *$lookup* wäre der Folgende:
 
 - Gruppiere nach den Punkten. Es wird also eine Gruppe für alle Exams mit 4, 5, 6, ... Punkten
   erstellt.
-- In der Gruppierung speichere mit *$push* die Dokumente der Gruppe. Sie sind unter *$ROOT* verfügbar.
+- In der Gruppierung speichere mit *$push* die Dokumente der Gruppe. Sie sind unter *$$ROOT* verfügbar.
 - Sortiere nach der Gruppierungs ID aufsteigend.
 - Nimm den ersten Datensatz, das ist die Gruppe mit den niedrigsten Punkten. Danach wird das Array
   wieder mit *$unwind* aufgelöst.
