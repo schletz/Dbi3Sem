@@ -1,6 +1,6 @@
 # Update von Dokumenten
 
-[_TOC_]
+[[TOC]]
 
 ## Absetzen von Befehlen in der Shell von Studio 3T
 
