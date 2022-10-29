@@ -235,8 +235,8 @@ db.getCollection("rooms").updateMany(
     { "upsert": true })
 ```
 
-Es werden alle Räume, die kein Feld *capacity* haben, aktualisiert. Es wird ein Feld *capacity*
-mit dem Wert 22 hinzugefügt. Da der Filter ein Ergebnis liefert (also entsprechende Daten gefunden
+Es werden alle Räume, die kein Feld *capacity* haben aktualisiert, indem ein Feld *capacity*
+mit dem Wert 22 hinzugefügt wird. Da der Filter ein Ergebnis liefert (also entsprechende Daten gefunden
 werden), wird *kein Insert* sondern ein Update der bestehenden Daten durchgeführt. Das ist auch
 erwartbar. Nun führen wir das Statement *erneut* aus:
 

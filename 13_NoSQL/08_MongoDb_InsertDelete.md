@@ -160,7 +160,7 @@ nachgebaut werden:
 
 var db = examsDb.Db;
 db.GetCollection<Room>("rooms").DeleteOne(Builders<Room>.Filter.Eq(r => r.Shortname, "C5.03"));
-db.GetCollection<Room>("rooms").DeleteMany(Builders<Room>.Filter.Not(Builders<Room>.Filter.Exists(r => r.Capacity)));
+db.GetCollection<Room>("rooms").DeleteMany(Builders<Room>.Filter.Exists(r => r.Capacity, exists: false));
 ```
 
 ### Löschen mit dem Java Treiber
@@ -171,5 +171,5 @@ Auch mit dem Java Treiber ist das obere Beispiel leicht umzusetzen:
 // import com.mongodb.client.model.Filters;
 
 db.getCollection("rooms", Room.class).deleteOne(Filters.eq("_id", "C5.03"));
-db.getCollection("rooms", Room.class).deleteMany(Filters.not(Filters.exists("capacity")));
+db.getCollection("rooms", Room.class).deleteMany(Filters.exists("capacity", false));
 ```
