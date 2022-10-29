@@ -1,5 +1,9 @@
 # Aggregation und Pipelines
 
+> Hinweis: Erzeuge die Datenbank wie im Kapitel [Übungsdatenbank ExamsDb](03_MongoDb_Examsdb.md)
+> beschrieben neu, damit vorige Updates, etc. wieder zurückgesetzt werden. Sonst stimmt die
+> Ausgabe nicht mit deiner Datenbank überein.
+
 ## Absetzen von Befehlen in der Shell von Studio 3T
 
 Die unten beschriebenen Funktionen können wir 1:1 in der Shell von Studio 3T einfügen:
@@ -717,7 +721,8 @@ Du kannst die folgenden Abfragebeispiele auf 3 Arten lösen:
 - Mit dem Java Treiber.
 
 Die korrekte Ausgabe ist unter jedem Beispiel. Die Sortierung muss - wenn es nicht extra
-angegeben ist - nicht der Ausgabe entsprechen. 
+angegeben ist - nicht der Ausgabe entsprechen. Die großgeschriebenen Properties kommen von
+der Ausgabe des .NET Treibers. Bei der Shell und in Java werden sie natürlich klein geschrieben.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *AggregateExcercise*).
