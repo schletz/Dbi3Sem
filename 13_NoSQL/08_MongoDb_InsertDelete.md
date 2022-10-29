@@ -156,6 +156,8 @@ Das obere Beispiel kann mit dem .NET Treiber von MongoDB und dem Filter Builder 
 nachgebaut werden:
 
 ```c#
+// using MongoDB.Driver;
+
 var db = examsDb.Db;
 db.GetCollection<Room>("rooms").DeleteOne(Builders<Room>.Filter.Eq(r => r.Shortname, "C5.03"));
 db.GetCollection<Room>("rooms").DeleteMany(Builders<Room>.Filter.Not(Builders<Room>.Filter.Exists(r => r.Capacity)));
