@@ -187,3 +187,26 @@ db.GetCollection<Class>("classes").Indexes.CreateOne(
         new CreateIndexOptions() { Unique = true}));
 ```
 
+## Anlegen eines Index mit dem Java Treiber
+
+```java
+// import com.mongodb.client.model.IndexOptions;
+// import com.mongodb.client.model.Indexes;
+
+// Alle Indizes der Collection bis auf den _id Index löschen.
+db.getCollection("classes", SchoolClass.class).dropIndexes();
+
+// Legt einen Index für das Feld term.year in der Collection classes an.
+db.getCollection("classes", SchoolClass.class).createIndex(
+    Indexes.ascending("term.year"));
+
+// Legt einen compound index mit den Feldern term.year und department an. 
+// Die Reihenfolge ist hier wichtig!    
+db.getCollection("classes", SchoolClass.class).createIndex(
+    Indexes.compoundIndex(Indexes.ascending("term.year"), Indexes.ascending("department")));
+
+// Einen unique Index anlegen.
+db.getCollection("classes", SchoolClass.class).createIndex(
+    Indexes.compoundIndex(Indexes.ascending("term.year"), Indexes.ascending("shortname")),
+    new IndexOptions().unique(true));
+```
