@@ -7,19 +7,19 @@ beschriebenen Befehle absetzen.
 
 ![](studio3t_shell_2122.png)
 
-## Das updateOne und updateMany Kommando
+## Die updateOne und updateMany Funktion (mongoshell)
 
-Das *updateOne* und *updateMany* Kommando hat den gleichen Aufbau. Der erste Parameter ist ein Filter,
+Die *updateOne* und *updateMany* Funktion hat den gleichen Aufbau. Der erste Parameter ist ein Filter,
 der angibt, welche Dokumente aktualisiert werden sollen. Das ist vergleichbar mit dem
 WHERE in einer SQL UPDATE Anweisung. Als zweiten Parameter werden die neuen Werte übergeben.
 
 
-> ### db.getCollection(name).updateOne(filter, update, options)
-> ### db.getCollection(name).updateMany(filter, update, options)
+> ### db.getCollection(name).updateOne(filter, update, [options])
+> ### db.getCollection(name).updateMany(filter, update, [options])
 
-Wie der Name schon sagt aktualisiert *UpdateOne()* nur ein Dokument, während *UpdateMany()*
+Wie der Name schon sagt aktualisiert *updateOne()* nur ein Dokument, während *updateMany()*
 alle Dokumente aktualisiert die dem Suchfilter entsprechen. Bei Filterungen nach der ID
-verwenden wir daher *UpdateOne()*, ansonsten *UpdateMany()*.
+verwenden wir daher *updateOne()*, ansonsten *updateMany()*.
 Die genaue Beschreibung der Kommandos ist in der MongoDB Doku auf
 https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/ bzw.
 https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/ verfügbar.
