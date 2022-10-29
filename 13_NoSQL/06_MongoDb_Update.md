@@ -1,7 +1,5 @@
 # Update von Dokumenten
 
-[[_TOC_]]
-
 ## Absetzen von Befehlen in der Shell von Studio 3T
 
 Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die unten
