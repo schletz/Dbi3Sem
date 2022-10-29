@@ -1,5 +1,7 @@
 # Update von Dokumenten
 
+[TOC]
+
 ## Absetzen von Befehlen in der Shell von Studio 3T
 
 Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die unten
@@ -36,7 +38,7 @@ Das Feld hoursPerWeek von Lehrer HAR wird auf 18 Stunden gesetzt. Wir suchen zue
 Lehrer mit der ID *HAR* und setzen dann mit dem *$set* Operator den Wert auf 18. Da wir nach
 dem Key filtern, genügt ein *updateOne()*, da ohnehin nur 1 Datensatz gefunden werden kann.
 
-```
+```javascript
 db.getCollection("teachers").updateOne(
     { "_id" : "HAR" },
     { "$set" : { "hoursPerWeek" : 18 } })
@@ -45,7 +47,7 @@ db.getCollection("teachers").updateOne(
 Alle Lehrenden, die *hoursPerWeek* < 10 haben, werden auf *hoursPerWeek* = 10 gesetzt. Da mehrere
 Datensätze betroffen sein könnten, verwenden wir *updateMany()*.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     { "hoursPerWeek" : { "$lt" : 10 } },
     { "$set" : { "hoursPerWeek" : 10 } })
@@ -54,7 +56,7 @@ db.getCollection("teachers").updateMany(
 Start- und Endedatum des Semesters *2023W* wird auf den 4.9.2023 bzw. auf den 5.2.2024 gesetzt. Wir
 können auch mehrere Felder mit dem *$set* Operator auf einmal setzen.
 
-```
+```javascript
 db.getCollection("terms").updateOne(
     { "_id" : "2023W" },
     { "$set" : { "start" : "2023-09-04", "end" : "2024-02-05" } })
@@ -64,17 +66,23 @@ Die Klasse mit der ID *2022W_3AAIF* bekommt CAM als neuen Klassenvorstand. In ei
 mit dem Suchfilter `{ "_id" : "CAM" }` der Datensatz des Lehrers *CAM* gelesen werden. Dann können
 wir *nur die Infos des Objektes name* auslesen und diese dem Feld *classTeacher* zuweisen:
 
-```
+```javascript
 db.getCollection("classes").updateOne(
     { "_id" : "2022W_3AAIF" },
     { "$set" : { "classTeacher" : { "shortname" : "CAM", "firstname" : "Stefanie", "lastname" : "Camara", "email" : "camara@spengergasse.at" } } })
 ```
 
+### Was bedeutet *$set*?
+
+Der *$set* Operator in Updates (update operator) ersetzt den Wert eines Feldes mit dem neuen Wert.
+Falls das Feld nicht existiert, wird es eingefügt. Felder, die nicht durch *$set* gesetzt werden,
+behalten einfach ihren Wert.
+
 ### Updates, die Arrays in Dokumenten ändern
 
 Lehrer ROS bekommt den DI als Home Office Tag. Der *$push* Operator fügt Werte zu einem Array hinzu:
 
-```
+```javascript
 db.getCollection("teachers").updateOne(
     { "_id" : "ROS" },
     { "$push" : { "homeOfficeDays" : "DI" } })
@@ -84,7 +92,7 @@ Lehrerin SAC bekommt den DI als Home Office Tag. Das Problem: Sie hat bereits de
 *homeOfficeDays*. Mit *$push* würden wir also einen doppelten Eintrag produzieren. Der
 Operator *$addToSet* prüft, ob der Wert nicht schon im Array vorhanden ist:
 
-```
+```javascript
 db.getCollection("teachers").updateOne(
     { "_id" : "SAC" },
     { "$addToSet" : { "homeOfficeDays" : "DI" } })
@@ -94,7 +102,7 @@ Lehrerin ZIP bekommt MI und FR als Home Office Tag. Den Operator *$addToSet* kö
 *$each* verbinden. So wird MI und FR zum Array hinzugefügt, wenn diese Werte nicht schon
 vorhanden sind:
 
-```
+```javascript
 db.getCollection("teachers").updateOne(
     { "_id" : "ZIP" }
     { "$addToSet" : { "homeOfficeDays" : { "$each" : ["MI", "FR"] } } })
@@ -104,7 +112,7 @@ Der FR wird im Array homeOfficeDays aller Lehrenden gelöscht. Dafür gibt es de
 Operator, um Elemente aus einem Array zu entfernen. Der Suchfilter ist leer, somit werden
 alle Dokumente bearbeitet.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     { },
     { "$pull" : { "homeOfficeDays" : "FR" } })
@@ -115,7 +123,7 @@ Der MO wird im Array *homeOfficeDays* aller Lehrenden auf FR geändert. Dafür v
 Wird er in Verbindung mit einer Filteranweisung verwendet, liefert er alle Werte im Array, die dem
 Filter entsprechen. Die restlichen Werte im Array bleiben unverändert.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     { "homeOfficeDays" : "MO" },
     { "$set" : { "homeOfficeDays.$" : "FR" } })
@@ -128,7 +136,7 @@ bekommen 5 Stunden dazu. In SQL würden wir *SET hoursPerWeek = hoursPerWeek + 5
 MongoDB gibt es einen eigenen *$inc* Operator. Hinweis: Dekrement (verringern) ist ein *$inc* mit
 negativem Vorzeichen.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     { "canTeachSubjects._id" : "DBI", "hoursPerWeek" : { "$lt" : 20 } },
     { "$inc" : { "hoursPerWeek" : 5 } })
@@ -137,7 +145,7 @@ db.getCollection("teachers").updateMany(
 Einsparung bei Lehrern: Alle Lehrenden, die mehr als 4000 Euro verdienen, bekommen nur mehr 90% ihres
 Gehalts. Hier verwenden wir den *$mul* Operator, um ein Feld mit 0.9 zu multiplizieren.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     { "salary" : { "$gt" : 4000 } },
     { "$mul" : { "salary" : 0.9 } })
@@ -147,7 +155,8 @@ db.getCollection("teachers").updateMany(
 ### Update Anomalie
 
 Lehrerin BRI bekommt die Mailadresse bri@spengergasse.at. Dies ist eine einfache *$set* Operation
-```
+
+```javascript
 db.getCollection("teachers").updateOne(
     { "_id" : "BRI" },
     { "$set" : { "name.email" : "bri@spengergasse.at" } })
@@ -164,7 +173,7 @@ vorab überlegt werden, ob Aktualisierungen in den eingebetteten Dokumenten vorg
 Programmcode macht dies dann das *Repository Pattern*, das bescheid weiß welche Dokumente mit aktualisiert
 werden müssen.
 
-```
+```javascript
 db.getCollection("classes").updateMany(
     { "term.year" : 2022, "classTeacher.shortname" : "BRI" },
     { "$set" : { "classTeacher.email" : "bri@spengergasse.at" } })
@@ -177,7 +186,7 @@ wir einfach *hoursPerWeek* mit dem *$mul* Operator mit 200 multiplizieren, bedeu
 der neue Wert von *hoursPerWeek* der alte Wert von *hoursPerWeek* x 200 ist. *$mul* ist also
 wie in Java oder C# der Operator `*=`.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     {"hoursPerWeek": {"$ne": null}, "salary": { "$gt": 3000 } },
     { "$mul": { "hoursPerWeek": 200 } })
@@ -186,11 +195,78 @@ db.getCollection("teachers").updateMany(
 Die Lösung bietet eine sogenannte Pipeline. Sie ist daran erkennbar dass im Update Parameter
 ein Array verwendet wird.
 
-```
+```javascript
 db.getCollection("teachers").updateMany(
     { "salary" : { "$gt" : NumberDecimal("4000") } },
     [{ "$addFields" : { "salary" : { "$multiply" : ["$hoursPerWeek", NumberDecimal("200")] } } }])
 ```
+
+## Der *upsert* Parameter
+
+Wir möchten nun einen Raum aktualisieren, den es in der Datenbank nicht gibt. Die Datenbank
+akzeptiert den folgenden Befehl, liefert aber als Information in *matchedCount* den Wert 0.
+Daher hat diese Anweisung keine Auswirkung auf die Collection.
+
+```javascript
+db.getCollection("rooms").updateOne({ "_id": "C4.06" }, { "$set": { "capacity": 22 } })
+db.getCollection("rooms").find({ "_id": "C4.06" })
+```
+
+Setzen wir diese Anweisung nun mit der aktivierten *upsert* Option ab, wird der Datensatz neu
+angelegt, falls er noch nicht existiert. Wenn der Datensatz existiert, wird ein normales Update
+durchgeführt.
+
+```javascript
+db.getCollection("rooms").updateOne(
+    { "_id": "C4.06" }, { "$set": { "capacity": 22 } }, 
+    { "upsert": true })
+db.getCollection("rooms").find({ "_id": "C4.06" })
+```
+
+```javascript
+[{ "_id" : "C4.06", "capacity" : 22.0 }]
+```
+
+### Upserts können gefährlich sein
+
+Wir führen nun den folgenden Code in unserer Datenbank aus:
+
+```javascript
+db.getCollection("rooms").updateMany(
+    { "capacity": {"$exists": false }}, { "$set": { "capacity": 22 } }, 
+    { "upsert": true })
+```
+
+Es werden alle Räume, die kein Feld *capacity* haben, aktualisiert. Es wird ein Feld *capacity*
+mit dem Wert 22 hinzugefügt. Da der Filter ein Ergebnis liefert (also entsprechende Daten gefunden
+werden), wird *kein Insert* sondern ein Update der bestehenden Daten durchgeführt. Das ist auch
+erwartbar. Nun führen wir das Statement *erneut* aus:
+
+```javascript
+db.getCollection("rooms").updateMany(
+    { "capacity": {"$exists": false }}, { "$set": { "capacity": 22 } }, 
+    { "upsert": true })
+db.getCollection("rooms").find({ "capacity": 22})
+```
+
+```javascript
+[
+  { _id: 'C5.12', capacity: 22 },  { _id: 'A2.01', capacity: 22 },  { _id: 'AH.06', capacity: 22 },  { _id: 'C3.12', capacity: 22 },
+  { _id: 'A4.09', capacity: 22 },  { _id: 'A5.07', capacity: 22 },  { _id: 'A2.04', capacity: 22 },
+  { _id: ObjectId("635ce9d681ef6f5c67ee5f1b"), capacity: 22 }
+]
+```
+
+Beachte das letzte Dokument. Da es keine Räume ohne dem Feld *capacity* mehr gab, lieferte der
+Filter 0 Ergebnisse. Daher wurde ein *Insert* durchgeführt. Wenn kein Wert für *_id* angegeben
+wird, generiert die Datenbank eine *ObjectId*. Dies sehen wir im letzten Dokument, das sicher
+nicht so in der Collection stehen sollte.
+
+Es sollte daher bei *upsert* sichergestellt sein, dass alle Felder vorhanden sind damit ein
+Dokument vernünftig angelegt werden kann.
+
+> Verwende die Option *upsert* nur mit Bedacht und in Situationen, wo alle Felder für das
+> sinnvolle Anlegen eines Dokumentes übergeben werden.
 
 ## ReplaceOne
 
@@ -200,7 +276,7 @@ Es gibt auch eine Anweisung, um ein Dokument zur Gänze durch neue Daten zu erse
 
 Beispiel: 
 
-```
+```javascript
 db.getCollection("teachers").updateOne(
     { "_id" : "HAR" }, 
     { 

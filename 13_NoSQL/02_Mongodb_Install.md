@@ -50,6 +50,8 @@ db.getCollection("persons").insertOne({"firstname": "Vorname", "lastname": "Nach
 db.getCollection("persons").find({});
 ```
 
+> **Wichtig:** Namen sind case-sensitive. Wird die Anweisung *use firsttestdb* statt *firstTestDb*
+> verwendet, legt MongoDB eine zweite Datenbank an oder liefert keine Ergebnisse bei Filterabfragen!
 
 ## PlantUML und VS Code als Modellierungswerkzeug
 
