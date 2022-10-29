@@ -253,7 +253,12 @@ db.getCollection("exams").aggregate([
   { "$sort" : { "student.nr" : 1, "subject._id" : -1 } }, 
   { "$limit" : 3 }
 ])
+
 ```
+
+> Hinweis: Wenn *$limit* ohne *$sort* verwendet wird, können sich die gelieferten Datensätze je nach
+> interner Speicherorganisation unterscheiden. Man darf sich also nicht auf eine "interne Sortierung"
+> verlassen.
 
 ### Felder hinzufügen: die Stage *$addFields*
 
