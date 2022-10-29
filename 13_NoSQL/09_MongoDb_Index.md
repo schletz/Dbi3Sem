@@ -1,5 +1,9 @@
 # Indizes
 
+Die hier besprochenen Inhalte gelten auch für relationale Datenbanken, da die Technik der
+Indizierung das selbe Grundprinzip hat. Wenn du schon über den Index in relationalen
+Datenbanken bescheid weißt, kann das Wissen hier 1:1 angewandt werden.
+
 ## Anzeigen des Ausführungsplans (explain query)
 
 In Studio 3T (oder dem MongoDB Compass) haben wir die Möglichkeit, den *Ausführungsplan* für eine
@@ -20,7 +24,7 @@ db.getCollection("classes").find({ "term.year": 2022})
 Der Ausführungsplan zeigt, was die Datenbank machen muss:
 
 - Einen *Collection Scan* (COLLSCAN). Das bedeutet, die Datenbank durchsucht die ganze Collection.
-  Die Zahl über dem Pfeil zur nächsten Stufe (176) gibt ab, wie viele Dokumente ausgelesen wurden.
+  Die Zahl über dem Pfeil zur nächsten Stufe (176) gibt an, wie viele Dokumente ausgelesen wurden.
 - Der nächste Schritt ist der *Filter*. Aus den 176 Dokumenten werden 44 Dokumente ausgefiltert.
 
 Es ist zu erwarten, dass sehr oft die Klassen eines Schuljahres für Listen, Dropdown Menüs, etc.
@@ -43,7 +47,7 @@ sortiert (descending) sein. Bei einem Index, der nur aus 1 Feld besteht, ist die
 > the index key does not matter because MongoDB can traverse the index in either direction.
 > <sup>https://www.mongodb.com/docs/manual/indexes/#std-label-index-types</sup>
 
-Suchen wir erneut nach dne Klassen des Jahres 2022. Der Ausführungsplan hat sich nun verändert:
+Suchen wir erneut nach den Klassen des Jahres 2022. Der Ausführungsplan hat sich nun verändert:
 
 ![](index_singlefield_plan_1204.png)
 
