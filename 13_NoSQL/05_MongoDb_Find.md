@@ -164,7 +164,7 @@ stehen 2 Varianten zur Verfügung:
 #### Mit dem Builder
 
 Der Builder generiert einen Suchfilter mit dem entsprechenden Operator. Im folgenden Beispiel
-wird nach dem Raum mit dem Shortname A2.14 gesucht:
+wird nach Räumen mit der Kapazität von 29 Plätzen gesucht:
 
 ```c#
 var results = db.GetCollection<Room>("rooms")
@@ -388,8 +388,10 @@ Du kannst die folgende Aufgabe auf 3 Arten lösen:
 2. Verwenden des FilterBuilders in .NET oder in Java.
 3. Verwenden der Methode *AsQueryable()* (wenn möglich).
 
-Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe in
-**.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
+Die korrekten Ergebnisse sind unter den Beispielen. Aus Platzgründen sind nur die IDs abgebildet,
+bei den Abfragen wird natürlich das ganze Dokument zurückgegeben.
+
+Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
 Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe das Ergebnis
 deiner Abfrage in die Variable *result*. Die korrekte Ausgabe ist unten angeführt.
@@ -399,6 +401,101 @@ ein Demoprogramm mit allen Modelklassen für den Zugriff auf die Datenbank. Kopi
 zuerst in einen eigenen Ordner (z. B. *filter-excercise*). Überprüfe die Richtigkeit,
 indem du das Ergebnis mit *forEach()* und *println()* ausgibst. Ein Beispiel dafür ist im Javaprogramm
 enthalten.
+
+**(1)** Welche Klassen gibt es in der Classes Collection im Schuljahr 2021 (Year ist 2021)
+der Abteilung CIF?
+
+```
+2021S_4ACIF, 2021S_4BCIF, 2021S_6ACIF, 2021S_6BCIF, 2021S_8ACIF, 2021S_8BCIF, 2021W_3ACIF, 
+2021W_3BCIF, 2021W_5ACIF, 2021W_5BCIF, 2021W_7ACIF, 2021W_7BCIF
+```
+
+**(2)** Welche Räume haben eine Kapazität von 30 oder mehr Plätzen (Capacity)?
+
+```
+AH.14, B2.10
+```
+
+**(3)** Gib alle Klassen ab dem 5. Semester der KIF Abteilung im Jahr 2022 aus (EducationLevel >= 5).
+
+```
+2022S_6AKIF, 2022S_6BKIF, 2022W_5AKIF, 2022W_5BKIF
+```
+
+**(4)** Welche Studierenden sind vor dem 1.1.1991 geboren?
+
+```
+100072, 100075, 100266, 100271, 100274, 100281, 100459, 100470, 100476
+```
+
+**(5)** Welche Klassen des Wintersemesters 2022 haben keinen Stammraum (RoomShortname ist null)?
+
+```
+2022W_3AAIF, 2022W_3ACIF, 2022W_3BKIF, 2022W_5ABIF, 2022W_7ABIF
+```
+
+**(6)** Welche negativen Prüfungen gab es zwischen 1.1.2022 und 27.1.2022?
+Erstelle mit new DateTime(Year, Month, Day) einen Datums/Zeitwert. Beachte, dass das Endedatum als "kleiner" Filter und mit 28.1.2022
+gesetzt werden muss. Die erstellten DateTime Werte haben nämlich als Zeitwert 0:00, sonst werden die Prüfungen am letzten
+Tag nicht gelistet!
+
+```
+634c4dacdd058d6535c4e340: Exam von Lillian Schirrmeister am 09/01/2022 17:00:00 in D bei ERH mit Note 5
+634c4dacdd058d6535c4e39b: Exam von Silas Schlicht am 26/01/2022 14:00:00 in D bei SCH mit Note 5
+634c4dacdd058d6535c4e3df: Exam von Corinna Menne am 21/01/2022 14:00:00 in AM bei KUR mit Note 5
+634c4dacdd058d6535c4e405: Exam von Marian Krämer am 03/01/2022 08:00:00 in AM bei MÖR mit Note 5
+634c4dacdd058d6535c4e452: Exam von Leonidas Strieder am 16/01/2022 12:00:00 in DBI bei KUR mit Note 5
+634c4dacdd058d6535c4e491: Exam von Sönke Sonn am 06/01/2022 09:00:00 in D bei ERH mit Note 5
+```
+
+**(7)** Welche Lehrer dürfen das Fach POS unterrichten (haben also POS in der Liste CanTeachSubjects)?
+
+```
+CAM, DAU, HAR, KNE, KUR, NOR, SCH, THR
+```
+
+**(8)** Welche Studierende haben im Schuljahr 2021/22 (Year ist 2021) die 3BKIF besucht?
+
+```
+100421, 100422, 100423, 100424, 100425, 100426, 100427, 100428, 100429, 100430, 100431, 100432, 
+100433, 100434, 100435, 100436, 100437, 100438, 100439, 100440, 100441, 100442, 100443, 100444, 
+100445, 100446, 100447
+```
+
+**(9)** Welche Studierende haben im Schuljahr 2021/22 (Year ist 2021) die 3BKIF,
+aber 2022/23 nicht die 5BKIF besucht?
+
+```
+100427, 100429, 100430, 100431, 100438, 100443
+```
+
+**(10)** Welche Prüfungen erreichten maximal 25% der Punkte (Points ist also <= PointsMax * 0.25)?
+Hinweis: Versuche, ob deine Lösung durch den Builder erzeugt werden kann. Wenn nicht,
+kannst du einen where Filter wie im Beispiel als String verwenden.  
+
+```
+634c4dacdd058d6535c4e323: Die Prüfung von Efe Sander in D hat nur 6 von 27 Punkte.
+634c4dacdd058d6535c4e336: Die Prüfung von Melanie Balnuweit in POS hat nur 8 von 33 Punkte.
+634c4dacdd058d6535c4e33b: Die Prüfung von Ina Sander in POS hat nur 11 von 44 Punkte.
+634c4dacdd058d6535c4e347: Die Prüfung von Melek Fassbender in AM hat nur 8 von 35 Punkte.
+634c4dacdd058d6535c4e34a: Die Prüfung von Eliah Schnürer in DBI hat nur 6 von 24 Punkte.
+634c4dacdd058d6535c4e376: Die Prüfung von Justine Tsamonikian in D hat nur 5 von 20 Punkte.
+634c4dacdd058d6535c4e396: Die Prüfung von Mariella Marchewski in D hat nur 5 von 22 Punkte.
+634c4dacdd058d6535c4e39a: Die Prüfung von Corinna Menne in POS hat nur 7 von 31 Punkte.
+634c4dacdd058d6535c4e39f: Die Prüfung von Viktoria Marschek in DBI hat nur 9 von 39 Punkte.
+634c4dacdd058d6535c4e3ae: Die Prüfung von Lutz Frank in D hat nur 8 von 32 Punkte.
+634c4dacdd058d6535c4e3b8: Die Prüfung von Ramon Pingpank in AM hat nur 5 von 21 Punkte.
+634c4dacdd058d6535c4e3ba: Die Prüfung von Julius Lesch in DBI hat nur 8 von 35 Punkte.
+634c4dacdd058d6535c4e3bf: Die Prüfung von Patrice Vogelgsang in AM hat nur 10 von 40 Punkte.
+634c4dacdd058d6535c4e3dc: Die Prüfung von Amina Effler in D hat nur 4 von 16 Punkte.
+634c4dacdd058d6535c4e3e4: Die Prüfung von Giada Schorr in AM hat nur 4 von 17 Punkte.
+634c4dacdd058d6535c4e3f2: Die Prüfung von Josua Klein in POS hat nur 10 von 41 Punkte.
+634c4dacdd058d6535c4e41b: Die Prüfung von Lennart Kupprion in DBI hat nur 6 von 26 Punkte.
+634c4dacdd058d6535c4e41c: Die Prüfung von Liv Maczey in DBI hat nur 5 von 21 Punkte.
+634c4dacdd058d6535c4e42d: Die Prüfung von Ahmet Krug in D hat nur 10 von 43 Punkte.
+634c4dacdd058d6535c4e472: Die Prüfung von Oskar Huth in DBI hat nur 12 von 48 Punkte.
+```
+
 
 ```c#
 using ExamDbGenerator;

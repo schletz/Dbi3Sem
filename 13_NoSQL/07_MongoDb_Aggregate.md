@@ -23,7 +23,7 @@ In der SQL Ausbildung kommt man recht schnell zu dem Punkt, wo wir Daten *gruppi
 *projizieren* möchten. Das folgende Kommando würde die Anzahl der positiven Prüfungsnoten
 (Note < 5) ermitteln:
 
-![](aggregation_sql_statement1016.svg)
+![](aggregation_sql_statement1016.png)
 
 Wir können das *SELECT* Statement in folgende Teile aufteilen:
 
@@ -62,7 +62,7 @@ Die Datenbank antwortet mit der Anzahl der Werte pro *grade*:
 Auch wenn die *aggregate()* Funktion scheinbar ganz anders als das SQL Statement aufgebaut ist,
 gibt es doch Gemeinsamkeiten:
 
-![](aggregation_aggregate_function_1035.svg)
+![](aggregation_aggregate_function_1035.png)
 
 Wir erkennen folgende Dinge:
 
@@ -132,7 +132,7 @@ Dollar ($) auf das Feld im Dokument:
 *{ "subject" : "$subject._id", "studentNr" : "$student.nr" }*
 
 Das ganze Kommando sieht dann so aus. Da die Felder der Gruppierung automatisch als *_id* ausgeben
-werden, schreiben wir sie nicht in die *$projekt* Operation.
+werden, schreiben wir sie nicht in die *$project* Operation.
 
 ```javascript
 db.getCollection("exams").aggregate([
