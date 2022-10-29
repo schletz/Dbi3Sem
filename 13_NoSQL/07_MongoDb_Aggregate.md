@@ -1,6 +1,6 @@
 # Aggregation und Pipelines
 
-> Hinweis: Erzeuge die Datenbank wie im Kapitel [Übungsdatenbank ExamsDb](03_MongoDb_Examsdb.md)
+> Hinweis: Erzeuge die Datenbank wie im Kapitel [Übungsdatenbank ExamsDb](03_MongoDb_Examsdb.md#erstellen-der-datenbank)
 > beschrieben neu, damit vorige Updates, etc. wieder zurückgesetzt werden. Sonst stimmt die
 > Ausgabe nicht mit deiner Datenbank überein.
 
