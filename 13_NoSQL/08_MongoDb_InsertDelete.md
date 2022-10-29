@@ -54,6 +54,9 @@ db.getCollection("rooms").insertMany([
 ])
 ```
 
+Schlägt das Einfügen eines Dokumentes fehl (weil z. B. die ID schon existiert), so wird keines
+der übergebenen Elemente eingefügt.
+
 Der folgende Code würde - wenn *NumberInt()* nicht verwendet wird - eine *InvalidCastException* werfen,
 da wir uns darauf verlassen dass die Werte als *Int32* gespeichert sind:
 
@@ -70,9 +73,6 @@ var result = db.GetCollection<Room>("rooms").Aggregate()
     })
     .ToList();
 ```
-
-Schlägt das Einfügen eines Dokumentes fehl (weil z. B. die ID schon existiert), so wird keines
-der übergebenen Elemente eingefügt.
 
 Das Gehalt des Lehrers (Feld *salary*) ist ein Wert vom Typ *Decimal128*. Wir verwenden daher
 die Funktion *NumberDecimal()* und übergeben den Wert als String, um Rundungsfehler bei
