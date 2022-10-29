@@ -68,10 +68,70 @@ var result = db.GetCollection<Room>("rooms").Aggregate()
     .ToList();
 ```
 
-
-
 Schlägt das Einfügen eines Dokumentes fehl (weil z. B. die ID schon existiert), so wird keines
 der übergebenen Elemente eingefügt.
+
+Das Gehalt des Lehrers (Feld *salary*) ist ein Wert vom Typ *Decimal128*. Wir verwenden daher
+die Funktion *NumberDecimal()* und übergeben den Wert als String, um Rundungsfehler bei
+Double Werten zu vermeiden.
+
+```javascript
+db.getCollection("teachers").insertOne({
+    "_id": "EIF",
+    "name": {
+        "shortname": "EIF",
+        "firstname": "Stefan",
+        "lastname":  "Eifrig",
+        "email":     "eifrig@spengergasse.at"
+    },
+    "gender":           "Male",
+    "hoursPerWeek":     NumberInt(15),
+    "salary":           NumberDecimal("4100.14"),
+    "homeOfficeDays":   ["MO"],
+    "canTeachSubjects": [
+        {
+            "_id":      "DBI",
+            "longname": "Datenbanken und Informationssysteme"
+        }
+    ]
+})
+```
+
+### Einfügen mit dem .NET Treiber
+
+Da wir die Dokumente alle als *Modelklassen* in C# definiert haben, ist das Einfügen neuer
+Daten sehr einfach. Wir erstellen einfach eine neue Instanz und fügen diese mit *InsertOne()* ein.
+
+```c#
+db.GetCollection<Room>("rooms").InsertOne(new Room(Shortname: "C5.06", Capacity: 24));
+```
+
+Bei mehreren Dokumenten können wir ein Array oder Listen (genauer: Parameter, die *IEnumerable<T>*
+implementieren) einfügen:
+
+```c#
+db.GetCollection<Room>("rooms").InsertMany(new Room[]
+{
+    new Room(Shortname: "C5.06", Capacity: 28),
+    new Room(Shortname: "C5.07")
+});
+```
+
+### Einfügen mit dem Java Treiber
+
+Auch in Java haben wir alle Dokumente als *Modelklassen* definiert. Daher ist auch hier das
+Einfügen neuer Daten sehr einfach:
+
+```java
+db.getCollection("rooms", Room.class).insertOne(new Room("C5.06", 24));
+```
+
+```java
+db.getCollection("rooms", Room.class).insertMany(List.of(
+    new Room("C5.06", 24),
+    new Room("C5.07")
+));
+```
 
 ## Die deleteOne und deleteMany Funktion (mongoshell)
 
@@ -87,7 +147,7 @@ db.getCollection("rooms").deleteOne({ "_id": "C5.03" })
 db.getCollection("rooms").deleteMany({ "capacity": { "$exists": false } })
 ```
 
-## Löschen mit dem .NET Treiber
+### Löschen mit dem .NET Treiber
 
 Das obere Beispiel kann mit dem .NET Treiber von MongoDB und dem Filter Builder leicht
 nachgebaut werden:
@@ -98,3 +158,11 @@ db.GetCollection<Room>("rooms").DeleteOne(Builders<Room>.Filter.Eq(r => r.Shortn
 db.GetCollection<Room>("rooms").DeleteMany(Builders<Room>.Filter.Not(Builders<Room>.Filter.Exists(r => r.Capacity)));
 ```
 
+### Löschen mit dem Java Treiber
+
+Auch mit dem Java Treiber ist das obere Beispiel leicht umzusetzen:
+
+```java
+db.getCollection("rooms", Room.class).deleteOne(Filters.eq("_id", "C5.03"));
+db.getCollection("rooms", Room.class).deleteMany(Filters.not(Filters.exists("capacity")));
+```
