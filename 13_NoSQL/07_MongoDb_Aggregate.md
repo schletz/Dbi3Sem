@@ -62,7 +62,7 @@ Die Datenbank antwortet mit der Anzahl der Werte pro *grade*:
 Auch wenn die *aggregate()* Funktion scheinbar ganz anders als das SQL Statement aufgebaut ist,
 gibt es doch Gemeinsamkeiten:
 
-![](aggregation_aggregate_function_1035.png)
+![](aggregation_aggregate_function_0728.png)
 
 Wir erkennen folgende Dinge:
 
@@ -92,15 +92,17 @@ können wir die Ausgabe bei *project* auf 0 setzen.
 ```javascript
 db.getCollection("exams").aggregate([
   { "$match" :   { "grade" : { "$lt" : 5 } } },  
-  { "$group" :   { "_id" : "$grade", "count" : { "$sum" : 1 } } },
-  { "$project" : { "Grade" : "$_id", "Count" : "$count", "_id" : 0 } }
+  { "$group" :   { "_id" : "$grade", "examCount" : { "$sum" : 1 } } },
+  { "$project" : { "Grade" : "$_id", "Count" : "$examCount", "_id" : 0 } }
 ])
+```
 
+```javascript
 [
-  { Grade: 4, Count: 66 },
-  { Grade: 2, Count: 52 },
   { Grade: 1, Count: 72 },
+  { Grade: 2, Count: 52 },
   { Grade: 3, Count: 61 }
+  { Grade: 4, Count: 66 },
 ]
 ```
 
@@ -136,8 +138,8 @@ werden, schreiben wir sie nicht in die *$project* Operation.
 
 ```javascript
 db.getCollection("exams").aggregate([
-  { "$group" :   { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "count" : { "$sum" : 1 } } },
-  { "$project" : { "count" : "$count" } }
+  { "$group" :   { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "examCount" : { "$sum" : 1 } } },
+  { "$project" : { "count" : "$examCount" } }
 ])
 
 [
@@ -155,8 +157,8 @@ Das Feld *_id* geben wir dann nicht mehr aus, d. h. wir setzen es in der Projekt
 
 ```javascript
 db.getCollection("exams").aggregate([
-  { "$group" :   { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "count" : { "$sum" : 1 } } },
-  { "$project" : { "studentNr" : "$_id.studentNr", "subject" : "$_id.subject", "count" : "$count", "_id" : 0 } }
+  { "$group" :   { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "examCount" : { "$sum" : 1 } } },
+  { "$project" : { "studentNr" : "$_id.studentNr", "subject" : "$_id.subject", "count" : "$examCount", "_id" : 0 } }
 ])
 
 [
@@ -187,9 +189,9 @@ der Gruppierung eine Filteropation ("Stage" in der Pipeline) mit *$match*. Beach
 
 ```javascript
 db.getCollection("exams").aggregate([
-  { "$group" :   { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "count" : { "$sum" : 1 } } },
-  { "$match" :   { "count" : { "$gt" : 1 } } },
-  { "$project" : { "studentNr" : "$_id.studentNr", "subject" : "$_id.subject", "count" : "$count", "_id" : 0 } }
+  { "$group" :   { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "examCount" : { "$sum" : 1 } } },
+  { "$match" :   { "examCount" : { "$gt" : 1 } } },
+  { "$project" : { "studentNr" : "$_id.studentNr", "subject" : "$_id.subject", "count" : "$examCount", "_id" : 0 } }
 ])
 
 [
@@ -219,9 +221,9 @@ als Key und geben 1 für aufsteigend und -1 für absteigende Sortierung an.
 
 ```javascript
 db.getCollection("exams").aggregate([
-  { "$group" : { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "count" : { "$sum" : 1 } } }, 
-  { "$match" : { "count" : { "$gt" : 1 } } },
-  { "$project" : { "studentNr" : "$_id.studentNr", "subject" : "$_id.subject", "count" : "$count", "_id" : 0 } }, 
+  { "$group" : { "_id" : { "subject" : "$subject._id", "studentNr" : "$student.nr" }, "examCount" : { "$sum" : 1 } } }, 
+  { "$match" : { "examCount" : { "$gt" : 1 } } },
+  { "$project" : { "studentNr" : "$_id.studentNr", "subject" : "$_id.subject", "count" : "$examCount", "_id" : 0 } }, 
   { "$sort" : { "subject" : 1, "count" : -1 } }
 ])
 
