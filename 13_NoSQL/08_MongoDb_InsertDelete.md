@@ -166,6 +166,8 @@ db.GetCollection<Room>("rooms").DeleteMany(Builders<Room>.Filter.Not(Builders<Ro
 Auch mit dem Java Treiber ist das obere Beispiel leicht umzusetzen:
 
 ```java
+// import com.mongodb.client.model.Filters;
+
 db.getCollection("rooms", Room.class).deleteOne(Filters.eq("_id", "C5.03"));
 db.getCollection("rooms", Room.class).deleteMany(Filters.not(Filters.exists("capacity")));
 ```
