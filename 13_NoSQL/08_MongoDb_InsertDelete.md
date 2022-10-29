@@ -10,18 +10,12 @@ beschriebenen Befehle absetzen.
 ## Die insertOne und insertMany Funktion (mongoshell)
 
 Die *insertOne* und *insertMany* Funktion hat den gleichen Aufbau. Sie bekommt die Daten, die
-sie einfügen soll, als Parameter. Bei insertOne ist dies ein Objekt, bei insertMany ein Array.
+sie einfügen soll, als Parameter. Bei *insertOne* ist dies ein Objekt, bei *insertMany* ein Array.
 
 > ### db.getCollection(name).insertOne(document, [options])
 > ### db.getCollection(name).insertMany(documents, [options])
 
-Wie der Name schon sagt aktualisiert *UpdateOne()* nur ein Dokument, während *UpdateMany()*
-alle Dokumente aktualisiert die dem Suchfilter entsprechen. Bei Filterungen nach der ID
-verwenden wir daher *UpdateOne()*, ansonsten *UpdateMany()*.
-Die genaue Beschreibung der Kommandos ist in der MongoDB Doku auf
-https://www.mongodb.com/docs/manual/reference/method/db.collection.updateOne/ bzw.
-https://www.mongodb.com/docs/manual/reference/method/db.collection.updateMany/ verfügbar.
-
+Wird bei *insertMany()* kein Array übergeben, führt dies zu einem Fehler.
 
 ### Generierung der ID
 
@@ -48,8 +42,16 @@ eine Mischung der Datentypen sollte aber vermieden werden.
 ```javascript
 db.getCollection("rooms").insertOne({"_id": "C5.06", "capacity": NumberInt(24)});
 ```
+Bei *insertMany()* muss ein Array übergeben werden.
 
-Der folgende Code würde - wenn *NumberInt()* nicht verwendet wird - eine InvalidCastException werfen,
+```javascript
+db.getCollection("rooms").insertMany([
+    { "_id": "C5.06", "capacity": NumberInt(24) },
+    { "_id": "C5.07" }
+])
+```
+
+Der folgende Code würde - wenn *NumberInt()* nicht verwendet wird - eine *InvalidCastException* werfen,
 da wir uns darauf verlassen dass die Werte als *Int32* gespeichert sind:
 
 ```c#
@@ -66,14 +68,7 @@ var result = db.GetCollection<Room>("rooms").Aggregate()
     .ToList();
 ```
 
-Bei *insertMany()* muss ein Array übergeben werden.
 
-```javascript
-db.getCollection("rooms").insertMany([
-    { "_id": "C5.06", "capacity": NumberInt(24) },
-    { "_id": "C5.07" }
-])
-```
 
 Schlägt das Einfügen eines Dokumentes fehl (weil z. B. die ID schon existiert), so wird keines
 der übergebenen Elemente eingefügt.
@@ -84,7 +79,7 @@ der übergebenen Elemente eingefügt.
 > ### db.getCollection(name).deleteMany(filter, [options])
 
 Wie der Name schon sagt löscht *deleteOne()* nur ein Dokument, nämlich das erste Dokument das dem
-Filter entspricht). *deleteMany()* löscht alle Dokumente die dem Suchfilter entsprechen.
+Filter entspricht). *deleteMany()* löscht alle Dokumente, die dem Suchfilter entsprechen.
 Bei Filterungen nach der ID verwenden wir daher *deleteOne()*, ansonsten *deleteMany()*.
 
 ```javascript
