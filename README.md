@@ -37,6 +37,7 @@
           <li> <a href="13_NoSQL/06_MongoDb_Update.md">Updates in MongoDB</a></li>
           <li> <a href="13_NoSQL/07_MongoDb_Aggregate.md">Aggregation und Pipelines</a></li>
           <li> <a href="13_NoSQL/08_MongoDb_InsertDelete.md">Insert und Delete</a></li>
+          <li> <a href="13_NoSQL/09_MongoDb_Index.md">Index</a></li>
           <li> <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/modeling-data">learn.microsoft.com: Data modeling in Azure Cosmos DB</a></li>
           <li> <a href="13_NoSQL/Projekt%20Pruefungsverwaltung">Praxisbeispiel: NoSQL Anwendung mit Repository Pattern</a></li>
           <li> 
