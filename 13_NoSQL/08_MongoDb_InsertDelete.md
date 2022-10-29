@@ -1,5 +1,8 @@
 # Insert und Update
 
+> Hinweis: Erzeuge die Datenbank wie im Kapitel [Übungsdatenbank ExamsDb](03_MongoDb_Examsdb.md#erstellen-der-datenbank)
+> beschrieben neu, damit vorige Inserts, Updates, etc. wieder zurückgesetzt werden. 
+
 ## Absetzen von Befehlen in der Shell von Studio 3T
 
 Nachdem du dich mit der Datenbank *examsDb* in Studio 3T verbunden hast, kannst du die unten
