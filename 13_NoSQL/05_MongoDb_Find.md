@@ -118,11 +118,26 @@ Prüft, ob alle *übergebenen Werte* im gespeicherten Array vorkommen.
 - **{ "homeOfficeDays" : { "$all" : ["MO", "FR"] } }**   
   Liefert alle Documents, wo das Array *homeOfficeDays* die Werte *MO* und *FR* besitzt.
   *{"MO", "DI"}* wird also *nicht* geliefert. *{"MO", "DI", "FR"}* wird zurückgeliefert.
-
 - **{ "canTeachSubjects._id" : { "$all" : ["POS", "DBI"] } }**   
   Betrachtet für den Vergleich das Feld *_id* der Objekte im Array *canTeachSubects*. Es
   werden alle Documents geliefert, die sowohl POS als auch DBI als Wert *_id* im Array
   *canTeachSubjects* haben.
+
+#### Filtern nach der Größe des Arrays
+
+Oft wollen wir wissen, ob ein Array im Dokument eine gewisse Größe hat oder überhaupt Werte
+besitzt.
+
+- **{ "homeOfficeDays.1": { "$exists": true } }**
+  Liefert alle Dokumente, wo das Array *homeOfficeDays* 2 oder mehr Werte hat.
+  Dieser Filter sieht sehr seltsam aus, denn er funktioniert mit einem Trick. *homeOfficeDays.1*
+  gibt den Index 1 des Arrays *homeOfficeDays* zurück, also *homeOfficeDays[1]*. Wie in Java oder C#
+  startet der Index bei 0. Somit sagt der Filter aus: Wo existiert ein zweiter Eintrag im Array?
+  Das können nur Arrays sein, die 2 oder mehr Werte haben.
+- **{ "homeOfficeDays.0": { "$exists": true } }**  
+  Analog zum vorigen Beispiel liefert dieser Filter alle Dokumente, wo das Array *homeOfficeDays*
+  mindestens einen Wert besitzt. Wird der Wert von *$exists* auf *false* gesetzt, werden alle
+  Dokumente geliefert, die keinen Eintrag im Array *homeOfficeDays* haben.
 
 #### Filter mit regulären Ausdrücken { "field" : /RegExp/ }
 
