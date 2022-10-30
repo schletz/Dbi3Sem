@@ -25,12 +25,12 @@ db.getCollection("teachers").find({})
 
 Die nachfolgenden Beispiele verwenden - wenn nicht anders angegeben - die Collection *teachers*.
 
-#### Der leere Filter: {}
+### Der leere Filter: {}
 
 Möchten wir alle Dokumente einer Collection bekommen, verwenden wir den leeren Filter `{}`.
 So liefern die folgenden Anweisungen in der Mongo Shell alle Documents der Collection *teachers*:
 
-#### Equals Filter { "field" : "value" }
+### Equals Filter { "field" : "value" }
 
 Entspricht in SQL der Klausel *WHERE Col = Value*. Wenn wir ein Feld mit einem literal (fixen Wert)
 vergleichen möchten, geben wir z. B. folgende Filter an:
@@ -56,7 +56,7 @@ In der Shell werden diese Filter der *find* Funktion übergeben. Beispiel:
 db.getCollection("teachers").find({ "_id" : "RAU" })
 ```
 
-#### Not Equals Filter { "field" : { "$ne" : "value" } }
+### Not Equals Filter { "field" : { "$ne" : "value" } }
 
 Entspricht in SQL der Klausel *WHERE Col <> Value*. Wir können also folgendes herausfiltern:
 
@@ -69,7 +69,7 @@ Entspricht in SQL der Klausel *WHERE Col <> Value*. Wir können also folgendes h
   der Liste der homeOfficeDays haben. Dokumente mit leerer Liste werden zurückgegeben (sie haben
   ja nicht *MO* in der Liste).
 
-#### Greater/Lower Filter { "field" : { "$gt" : "value" } } oder { "field" : { "$lt" : "value" } }
+### Greater/Lower Filter { "field" : { "$gt" : "value" } } oder { "field" : { "$lt" : "value" } }
 
 Entspricht in SQL der Klausel *WHERE Col &lt; Value*, *WHERE Col &lt;= Value*, *WHERE Col &gt; Value*,
 *WHERE Col &gt;= Value*.
@@ -92,7 +92,7 @@ Entspricht in SQL der Klausel *WHERE Col &lt; Value*, *WHERE Col &lt;= Value*, *
   Versuche auch den Suchfilter *{"dateTime":{"$lt": Date("2020-02-24T08:30:00+01:00")}}*
   Er gibt an, welche Prüfungen vor dem 24.2.2020 um 8:30 MEZ (UTC+1h) statt gefunden haben.
 
-#### Mehrere Filter mit AND verknüpfen: { "field1": Filter1, "field2": Filter2 }
+### Mehrere Filter mit AND verknüpfen: { "field1": Filter1, "field2": Filter2 }
 
 Entspricht in SQL der Klausel *WHERE Col1 = Value1 AND Col2 = Value2*.
 
@@ -101,15 +101,48 @@ Entspricht in SQL der Klausel *WHERE Col1 = Value1 AND Col2 = Value2*.
 - **{ "hoursPerWeek": { "&dollar;gt" : 16 }, "salary": { "&dollar;gt" : 3000 } }**   
   Entspricht *hoursPerWeek > 16 AND salary > 3000*.
 
-#### Mehrere Filter mit OR verknüpfen: { "$or" : [{  "field1": Filter1 }, {  "field2": Filter2 }] }
+### Mehrere Filter mit OR verknüpfen: { "$or" : [{  "field1": Filter1 }, {  "field2": Filter2 }] }
 
 Entspricht in SQL der Klausel *WHERE Col1 = Value1 OR Col2 = Value2*.
-
 
 - **{ "$or" : [{ "_id" : "RAU" }, { "name.email" : "rau@spengergasse.at" }] }**   
   Entspricht der Abfrage *_id = "RAU" OR name.email = "rau@spengergasse.at"*.
 - **{ "&dollar;or" : [{ "salary" : { "&dollar;gt" : 4000 } }, { "hoursPerWeek" : { "$lt" : 10 } }] }**   
   Entspricht der Abfrage *salary > 4000 OR hoursPerWeek < 10*.
+
+### Der IN Filter: { "$in": [value1, value2, ...] }
+
+Entspricht in SQL der Klausel *WHERE Col1 IN (Value1, Value2, ...)* und prüft, ob der Wert des
+Feldes in der übergebenen Werteliste vorhanden ist.
+
+- **{ "_id": { "$in": ["RAU", "SAC"] } }**   
+  Findet alle Dokumente, dessen Feld *_id* RAU oder SAC ist. Der $in Operator verknüpft also
+  alle Elemente mit OR.
+- **{ "homeOfficeDays" : {"$in": ["MO", "MI"] } }**   
+  Ermittelt alle Dokumente, die den Wert MO der den Wert MI im Array *homeOfficeDays* haben.
+
+### Spezielle Filter für Arrays
+
+#### Der elemMatch Filter { "array" : { "$elemMatch" : { query1, query2, ... } } }
+
+- **{ "homeOfficeDays": { "&dollar;elemMatch": { "&dollar;ne": "MO" } } }**   
+  Der Filter *{ "homeOfficeDays" : { "$ne" : "MO" } }* wurde schon diskutiert: Er liefert alle
+  Dokumente, die den MO nicht als Wert im Array *homeOfficeDays* haben. Somit werden Dokumente mit
+  {DI, MI}, {}, ... geliefert, jedoch kein Dokument mit {MO}, {MO, MI}, ...
+
+  Nun wollen wir ermitteln, welche Lehrenden einen Tag im Array haben, der nicht der Montag (MO)
+  ist. Das ist ein anderer Sachverhalt. Die Arrays {DI, MI}, {}, {MO, MI} sollen geliefert werden,
+  während {MO} ausgeschlossen werden soll (das Array hat keinen Tag ungleich Montag). Der
+  angezeigte Filter liefert dieses Ergebnis.
+
+  Der *$elemMatch* Operator wird also wie der Name schon sagt *pro Element* und liefert true, wenn
+  irgendein Element dem Kriterium entspricht.
+
+  Beachte: Dokumente mit leerem *homeOfficeDays* Array werden nicht geliefert.
+  > The $elemMatch operator matches documents that contain an array field with at least one
+  > element that matches all the specified query criteria.
+  > <sup>https://www.mongodb.com/docs/manual/reference/operator/query/elemMatch/</sup>
+
 
 #### Der all Filter { "array" : { "$all" : ["value1", "value2"] } }
 
@@ -128,7 +161,7 @@ Prüft, ob alle *übergebenen Werte* im gespeicherten Array vorkommen.
 Oft wollen wir wissen, ob ein Array im Dokument eine gewisse Größe hat oder überhaupt Werte
 besitzt.
 
-- **{ "homeOfficeDays.1": { "$exists": true } }**
+- **{ "homeOfficeDays.1": { "$exists": true } }**  
   Liefert alle Dokumente, wo das Array *homeOfficeDays* 2 oder mehr Werte hat.
   Dieser Filter sieht sehr seltsam aus, denn er funktioniert mit einem Trick. *homeOfficeDays.1*
   gibt den Index 1 des Arrays *homeOfficeDays* zurück, also *homeOfficeDays[1]*. Wie in Java oder C#
@@ -139,7 +172,7 @@ besitzt.
   mindestens einen Wert besitzt. Wird der Wert von *$exists* auf *false* gesetzt, werden alle
   Dokumente geliefert, die keinen Eintrag im Array *homeOfficeDays* haben.
 
-#### Filter mit regulären Ausdrücken { "field" : /RegExp/ }
+### Filter mit regulären Ausdrücken { "field" : /RegExp/ }
 
 Als Beispiel verwenden wir die Collection *classes*, um nach Klassen zu filtern:
 
@@ -148,7 +181,7 @@ Als Beispiel verwenden wir die Collection *classes*, um nach Klassen zu filtern:
 - **{ "_id" : /^2022[WS]_3.AIF$/ }**   
   Findet die IDs 2022W_3AAIF, 2022W_3BAIF
 
-#### Der flexible where Filter: {"$where": "Expression"}
+### Der flexible where Filter: {"$where": "Expression"}
 
 Der *where* Filter kann Javascript Ausdrücke verarbeiten. Dadurch können wir auch mehrere
 Felder eines Documents miteinander vergleichen.
@@ -176,7 +209,7 @@ stehen 2 Varianten zur Verfügung:
 - Mit *AsQueryable()*. Hier kann LINQ zur Filterung verwendet werden. Es kann allerdings nicht
   jeder Filterausdruck so generiert werden. Manchmal muss der Builder verwendet werden.
 
-#### Mit dem Builder
+### Mit dem Builder
 
 Der Builder generiert einen Suchfilter mit dem entsprechenden Operator. Im folgenden Beispiel
 wird nach Räumen mit der Kapazität von 29 Plätzen gesucht:
@@ -198,7 +231,7 @@ Lambda Expression. Der 2. Parameter ist der Wert, der gesucht werden soll. Die n
 Methode bekommt diesen Suchfilter. Es wird allerdings noch nichts abgefragt. Erst mit *ToList()*
 bzw. *FirstOrDefault()* werden die Daten in den Speicher geladen und können verwendet werden.
 
-#### Mit AsQueryable()
+### Mit AsQueryable()
 
 Wer schon mit LINQ gearbeitet hat, findet folgenden Zugang vertrauter:
 
@@ -217,7 +250,7 @@ Die Methode *AsQueryable()* liefert den Typ *IMongoQueryable* zurück, welcher d
 in MongoDB Ausdrücke umwandelt. Dadurch können die gewohnten Funktionen wie *Where()*, *Select()*,
 *GroupBy()*, ... verwendet werden.
 
-#### Demoprogramm
+### Demoprogramm
 
 Kopiere das Generatorprogramm im Ordner *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner
 (z. B. *FilterDemos*). Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt.
