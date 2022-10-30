@@ -115,13 +115,6 @@ db.getCollection("exams").aggregate([
 > Hinweis: Kommt ein Feld, nach dem gruppiert wird, in einem Document nicht vor, wird
 > eine Gruppe mit dem ID Wert *null* erzeugt.
 
-#### Aufbau der Pipeline im MongoDB Compass
-
-Im Programm MongoDB Compass gibt es die Möglichkeit, die Pipeline Schritt für Schritt aufzubauen.
-Es werden dann die Zwischenergebnisse angezeigt:
-
-![](aggregation_compass_1208.png)
-
 ### Gruppierung nach mehreren Feldern
 
 In SQL ist es möglich, auch mehrere Spalten für die Gruppierung zu verwenden. Eine Gruppe wird dann
