@@ -389,7 +389,8 @@ Du kannst die folgende Aufgabe auf 3 Arten lösen:
 3. Verwenden der Methode *AsQueryable()* (wenn möglich).
 
 Die korrekten Ergebnisse sind unter den Beispielen. Aus Platzgründen sind nur die IDs abgebildet,
-bei den Abfragen wird natürlich das ganze Dokument zurückgegeben.
+bei den Abfragen wird natürlich das ganze Dokument zurückgegeben. Ist der Key eine ObjectId, werden
+nur die letzten 4 Bytes abgebildet.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
@@ -440,8 +441,7 @@ gesetzt werden muss. Die erstellten DateTime Werte haben nämlich als Zeitwert 0
 Tag nicht gelistet!
 
 ```
-000000000000000000000024, 00000000000000000000007f, 0000000000000000000000c3, 0000000000000000000000e9,
-000000000000000000000136, 000000000000000000000175
+00000024, 0000007f, 000000c3, 000000e9, 00000136, 00000175
 ```
 
 **(7)** Welche Lehrer dürfen das Fach POS unterrichten (haben also POS in der Liste CanTeachSubjects)?
@@ -470,11 +470,8 @@ Hinweis: Versuche, ob deine Lösung durch den Builder erzeugt werden kann. Wenn 
 kannst du einen where Filter wie im Beispiel als String verwenden.  
 
 ```
-000000000000000000000007, 00000000000000000000001a, 00000000000000000000001f, 00000000000000000000002b, 
-00000000000000000000002e, 00000000000000000000005a, 00000000000000000000007a, 00000000000000000000007e, 
-000000000000000000000083, 000000000000000000000092, 00000000000000000000009c, 00000000000000000000009e, 
-0000000000000000000000a3, 0000000000000000000000c0, 0000000000000000000000c8, 0000000000000000000000d6, 
-0000000000000000000000ff, 000000000000000000000100, 000000000000000000000111, 000000000000000000000156
+00000007, 0000001a, 0000001f, 0000002b, 0000002e, 0000005a, 0000007a, 0000007e, 00000083, 00000092,
+0000009c, 0000009e, 000000a3, 000000c0, 000000c8, 000000d6, 000000ff, 00000100, 00000111, 00000156
 ```
 
 ```c#
