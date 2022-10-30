@@ -35,9 +35,7 @@ import at.spengergasse.examsdb.model.Teacher;
 import at.spengergasse.examsdb.model.Term;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import lombok.Getter;
 
-@Getter
 public class ExamDatabase {
     private final MongoClient client;
     private final MongoDatabase db;
@@ -61,7 +59,6 @@ public class ExamDatabase {
         ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME))
                 .setLevel(enableLogging ? Level.DEBUG : Level.ERROR);
 
-        
         var client = MongoClients.create(
                 MongoClientSettings.builder()
                         .applyToClusterSettings(builder -> builder.serverSelectionTimeout(5, TimeUnit.SECONDS))
@@ -80,6 +77,14 @@ public class ExamDatabase {
     private ExamDatabase(MongoClient client, MongoDatabase db) {
         this.client = client;
         this.db = db;
+    }
+
+    public MongoDatabase getDb() {
+        return db;
+    }
+
+    public MongoClient getClient() {
+        return client;
     }
 
     public MongoCollection<SchoolClass> getClasses() {
