@@ -234,6 +234,7 @@ namespace ExamDbGenerator
                 }
             }
 
+            int examsCount = 1;
             var exams = new Faker<Exam>("de").CustomInstantiator(f =>
             {
                 // Nur Students, die letztes Jahr auch da waren, können Prüfungen haben.
@@ -253,7 +254,9 @@ namespace ExamDbGenerator
                     DateTime: examClass.Term.End.AddDays(f.Random.Int(0, 365)).ToDateTime(new TimeOnly(f.Random.Int(8, 20), 0, 0)),
                     PointsMax: pointsmax,
                     Points: points,
-                    Grade: Math.Min(5, 9 - (int)Math.Ceiling(8M * points / pointsmax)));
+                    Grade: Math.Min(5, 9 - (int)Math.Ceiling(8M * points / pointsmax)),
+                    // Deterministische ObjectId erzeugen (Zahl als 12 Byte Hexstring wird einfach geparst)
+                    Id: new ObjectId(examsCount++.ToString("x24")));
             })
             .Generate((int)(students.Count * 0.5))
             .ToList();

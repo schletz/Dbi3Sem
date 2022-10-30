@@ -440,12 +440,8 @@ gesetzt werden muss. Die erstellten DateTime Werte haben nämlich als Zeitwert 0
 Tag nicht gelistet!
 
 ```
-Exam von Lillian Schirrmeister am 09/01/2022 17:00:00 in D bei ERH mit Note 5
-Exam von Silas Schlicht am 26/01/2022 14:00:00 in D bei SCH mit Note 5
-Exam von Corinna Menne am 21/01/2022 14:00:00 in AM bei KUR mit Note 5
-Exam von Marian Krämer am 03/01/2022 08:00:00 in AM bei MÖR mit Note 5
-Exam von Leonidas Strieder am 16/01/2022 12:00:00 in DBI bei KUR mit Note 5
-Exam von Sönke Sonn am 06/01/2022 09:00:00 in D bei ERH mit Note 5
+000000000000000000000024, 00000000000000000000007f, 0000000000000000000000c3, 0000000000000000000000e9,
+000000000000000000000136, 000000000000000000000175
 ```
 
 **(7)** Welche Lehrer dürfen das Fach POS unterrichten (haben also POS in der Liste CanTeachSubjects)?
@@ -474,28 +470,12 @@ Hinweis: Versuche, ob deine Lösung durch den Builder erzeugt werden kann. Wenn 
 kannst du einen where Filter wie im Beispiel als String verwenden.  
 
 ```
-Die Prüfung von Efe Sander in D hat nur 6 von 27 Punkte.
-Die Prüfung von Melanie Balnuweit in POS hat nur 8 von 33 Punkte.
-Die Prüfung von Ina Sander in POS hat nur 11 von 44 Punkte.
-Die Prüfung von Melek Fassbender in AM hat nur 8 von 35 Punkte.
-Die Prüfung von Eliah Schnürer in DBI hat nur 6 von 24 Punkte.
-Die Prüfung von Justine Tsamonikian in D hat nur 5 von 20 Punkte.
-Die Prüfung von Mariella Marchewski in D hat nur 5 von 22 Punkte.
-Die Prüfung von Corinna Menne in POS hat nur 7 von 31 Punkte.
-Die Prüfung von Viktoria Marschek in DBI hat nur 9 von 39 Punkte.
-Die Prüfung von Lutz Frank in D hat nur 8 von 32 Punkte.
-Die Prüfung von Ramon Pingpank in AM hat nur 5 von 21 Punkte.
-Die Prüfung von Julius Lesch in DBI hat nur 8 von 35 Punkte.
-Die Prüfung von Patrice Vogelgsang in AM hat nur 10 von 40 Punkte.
-Die Prüfung von Amina Effler in D hat nur 4 von 16 Punkte.
-Die Prüfung von Giada Schorr in AM hat nur 4 von 17 Punkte.
-Die Prüfung von Josua Klein in POS hat nur 10 von 41 Punkte.
-Die Prüfung von Lennart Kupprion in DBI hat nur 6 von 26 Punkte.
-Die Prüfung von Liv Maczey in DBI hat nur 5 von 21 Punkte.
-Die Prüfung von Ahmet Krug in D hat nur 10 von 43 Punkte.
-Die Prüfung von Oskar Huth in DBI hat nur 12 von 48 Punkte.
+000000000000000000000007, 00000000000000000000001a, 00000000000000000000001f, 00000000000000000000002b, 
+00000000000000000000002e, 00000000000000000000005a, 00000000000000000000007a, 00000000000000000000007e, 
+000000000000000000000083, 000000000000000000000092, 00000000000000000000009c, 00000000000000000000009e, 
+0000000000000000000000a3, 0000000000000000000000c0, 0000000000000000000000c8, 0000000000000000000000d6, 
+0000000000000000000000ff, 000000000000000000000100, 000000000000000000000111, 000000000000000000000156
 ```
-
 
 ```c#
 using ExamDbGenerator;
@@ -622,7 +602,7 @@ class Program
         {
             PrintHeader("Negative Prüfungen zwischen 1.1.2022 und inkl. 27.1.2022.");
             IEnumerable<Exam> result = Enumerable.Empty<Exam>(); // TODO: Schreibe das Ergebnis deiner Abfrage in result.
-            result.OrderBy(r => r.Id).ToList().ForEach(r => Console.WriteLine($"Exam von {r.Student.Firstname} {r.Student.Lastname} am {r.DateTime} in {r.Subject.Shortname} bei {r.Teacher.Shortname} mit Note {r.Grade}"));
+            result.OrderBy(r => r.Id).ToList().ForEach(r => Console.WriteLine($"{r.Id}: Exam von {r.Student.Firstname} {r.Student.Lastname} am {r.DateTime} in {r.Subject.Shortname} bei {r.Teacher.Shortname} mit Note {r.Grade}"));
         }
 
         // *****************************************************************************************
@@ -657,7 +637,7 @@ class Program
         {
             PrintHeader("Prüfungen <= 25%");
             IEnumerable<Exam> result = Enumerable.Empty<Exam>(); // TODO: Schreibe das Ergebnis deiner Abfrage in result.
-            result.OrderBy(r => r.Id).ToList().ForEach(r => Console.WriteLine($"Die Prüfung von {r.Student.Firstname} {r.Student.Lastname} in {r.Subject.Shortname} hat nur {r.Points} von {r.PointsMax} Punkte."));
+            result.OrderBy(r => r.Id).ToList().ForEach(r => Console.WriteLine($"{r.Id}: Die Prüfung von {r.Student.Firstname} {r.Student.Lastname} in {r.Subject.Shortname} hat nur {r.Points} von {r.PointsMax} Punkte."));
         }
         return 0;
     }
@@ -716,12 +696,12 @@ Klassen ohne Stammraum im Wintersemester 2022/23.
 2022W_7ABIF: 7ABIF mit KV CAM
 
 Negative Prüfungen zwischen 1.1.2022 und inkl. 27.1.2022.
-Exam von Lillian Schirrmeister am 09/01/2022 17:00:00 in D bei ERH mit Note 5
-Exam von Silas Schlicht am 26/01/2022 14:00:00 in D bei SCH mit Note 5
-Exam von Corinna Menne am 21/01/2022 14:00:00 in AM bei KUR mit Note 5
-Exam von Marian Krämer am 03/01/2022 08:00:00 in AM bei MÖR mit Note 5
-Exam von Leonidas Strieder am 16/01/2022 12:00:00 in DBI bei KUR mit Note 5
-Exam von Sönke Sonn am 06/01/2022 09:00:00 in D bei ERH mit Note 5
+000000000000000000000024: Exam von Lillian Schirrmeister am 09/01/2022 17:00:00 in D bei ERH mit Note 5
+00000000000000000000007f: Exam von Silas Schlicht am 26/01/2022 14:00:00 in D bei SCH mit Note 5
+0000000000000000000000c3: Exam von Corinna Menne am 21/01/2022 14:00:00 in AM bei KUR mit Note 5
+0000000000000000000000e9: Exam von Marian Krämer am 03/01/2022 08:00:00 in AM bei MÖR mit Note 5
+000000000000000000000136: Exam von Leonidas Strieder am 16/01/2022 12:00:00 in DBI bei KUR mit Note 5
+000000000000000000000175: Exam von Sönke Sonn am 06/01/2022 09:00:00 in D bei ERH mit Note 5
 
 Lehrer, die POS unterrichten können.
 CAM: Stefanie Camara darf POS unterrichten.
@@ -771,24 +751,24 @@ Studierende, die 2021/22 die 3BKIF, aber nicht 2022/23 die 5BKIF besucht haben.
 100443: Leopold Gabius war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
 
 Prüfungen <= 25%
-Die Prüfung von Efe Sander in D hat nur 6 von 27 Punkte.
-Die Prüfung von Melanie Balnuweit in POS hat nur 8 von 33 Punkte.
-Die Prüfung von Ina Sander in POS hat nur 11 von 44 Punkte.
-Die Prüfung von Melek Fassbender in AM hat nur 8 von 35 Punkte.
-Die Prüfung von Eliah Schnürer in DBI hat nur 6 von 24 Punkte.
-Die Prüfung von Justine Tsamonikian in D hat nur 5 von 20 Punkte.
-Die Prüfung von Mariella Marchewski in D hat nur 5 von 22 Punkte.
-Die Prüfung von Corinna Menne in POS hat nur 7 von 31 Punkte.
-Die Prüfung von Viktoria Marschek in DBI hat nur 9 von 39 Punkte.
-Die Prüfung von Lutz Frank in D hat nur 8 von 32 Punkte.
-Die Prüfung von Ramon Pingpank in AM hat nur 5 von 21 Punkte.
-Die Prüfung von Julius Lesch in DBI hat nur 8 von 35 Punkte.
-Die Prüfung von Patrice Vogelgsang in AM hat nur 10 von 40 Punkte.
-Die Prüfung von Amina Effler in D hat nur 4 von 16 Punkte.
-Die Prüfung von Giada Schorr in AM hat nur 4 von 17 Punkte.
-Die Prüfung von Josua Klein in POS hat nur 10 von 41 Punkte.
-Die Prüfung von Lennart Kupprion in DBI hat nur 6 von 26 Punkte.
-Die Prüfung von Liv Maczey in DBI hat nur 5 von 21 Punkte.
-Die Prüfung von Ahmet Krug in D hat nur 10 von 43 Punkte.
-Die Prüfung von Oskar Huth in DBI hat nur 12 von 48 Punkte.
+000000000000000000000007: Die Prüfung von Efe Sander in D hat nur 6 von 27 Punkte.
+00000000000000000000001a: Die Prüfung von Melanie Balnuweit in POS hat nur 8 von 33 Punkte.
+00000000000000000000001f: Die Prüfung von Ina Sander in POS hat nur 11 von 44 Punkte.
+00000000000000000000002b: Die Prüfung von Melek Fassbender in AM hat nur 8 von 35 Punkte.
+00000000000000000000002e: Die Prüfung von Eliah Schnürer in DBI hat nur 6 von 24 Punkte.
+00000000000000000000005a: Die Prüfung von Justine Tsamonikian in D hat nur 5 von 20 Punkte.
+00000000000000000000007a: Die Prüfung von Mariella Marchewski in D hat nur 5 von 22 Punkte.
+00000000000000000000007e: Die Prüfung von Corinna Menne in POS hat nur 7 von 31 Punkte.
+000000000000000000000083: Die Prüfung von Viktoria Marschek in DBI hat nur 9 von 39 Punkte.
+000000000000000000000092: Die Prüfung von Lutz Frank in D hat nur 8 von 32 Punkte.
+00000000000000000000009c: Die Prüfung von Ramon Pingpank in AM hat nur 5 von 21 Punkte.
+00000000000000000000009e: Die Prüfung von Julius Lesch in DBI hat nur 8 von 35 Punkte.
+0000000000000000000000a3: Die Prüfung von Patrice Vogelgsang in AM hat nur 10 von 40 Punkte.
+0000000000000000000000c0: Die Prüfung von Amina Effler in D hat nur 4 von 16 Punkte.
+0000000000000000000000c8: Die Prüfung von Giada Schorr in AM hat nur 4 von 17 Punkte.
+0000000000000000000000d6: Die Prüfung von Josua Klein in POS hat nur 10 von 41 Punkte.
+0000000000000000000000ff: Die Prüfung von Lennart Kupprion in DBI hat nur 6 von 26 Punkte.
+000000000000000000000100: Die Prüfung von Liv Maczey in DBI hat nur 5 von 21 Punkte.
+000000000000000000000111: Die Prüfung von Ahmet Krug in D hat nur 10 von 43 Punkte.
+000000000000000000000156: Die Prüfung von Oskar Huth in DBI hat nur 12 von 48 Punkte.
 ```
