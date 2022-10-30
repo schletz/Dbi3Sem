@@ -1,0 +1,10 @@
+{"_id":{"$oid":"000000000000000000000001"},"ean":"566572","name":"Refined Steel Cheese","category":"Books","recommendedPrice":{"$numberDecimal":"767.1"},"stock":56,"minStock":9,"availableFrom":{"$date":"2021-08-11T00:00:00Z"}}
+{"_id":{"$oid":"000000000000000000000002"},"ean":"308463","name":"Refined Concrete Table","category":"Books","recommendedPrice":{"$numberDecimal":"816.2"},"stock":4,"minStock":6,"availableFrom":{"$date":"2021-07-06T00:00:00Z"}}
+{"_id":{"$oid":"000000000000000000000003"},"ean":"198430","name":"Unbranded Metal Ball","category":"Electronics","recommendedPrice":{"$numberDecimal":"991.2"},"stock":6,"minStock":6,"availableTo":{"$date":"2020-09-05T00:00:00Z"}}
+{"_id":{"$oid":"000000000000000000000004"},"ean":"656074","name":"Rustic Granite Bike","category":"Books","recommendedPrice":{"$numberDecimal":"988.3"},"stock":1,"minStock":10,"availableFrom":{"$date":"2020-06-02T00:00:00Z"}}
+{"_id":{"$oid":"000000000000000000000005"},"ean":"817795","name":"Refined Metal Chips","category":"Sportswear","recommendedPrice":{"$numberDecimal":"742.2"},"stock":50,"minStock":7}
+{"_id":{"$oid":"000000000000000000000006"},"ean":"627358","name":"Tasty Concrete Ball","category":"Books","recommendedPrice":{"$numberDecimal":"272.1"},"stock":3,"minStock":7,"availableFrom":{"$date":"2021-02-13T00:00:00Z"}}
+{"_id":{"$oid":"000000000000000000000007"},"ean":"372414","name":"Gorgeous Granite Table","category":"Sportswear","recommendedPrice":{"$numberDecimal":"448.6"},"stock":9,"minStock":2}
+{"_id":{"$oid":"000000000000000000000008"},"ean":"317174","name":"Licensed Cotton Chips","category":"Books","recommendedPrice":{"$numberDecimal":"578.5"},"stock":7,"minStock":2,"availableTo":{"$date":"2021-12-30T00:00:00Z"}}
+{"_id":{"$oid":"000000000000000000000009"},"ean":"952025","name":"Intelligent Fresh Soap","category":"Electronics","recommendedPrice":{"$numberDecimal":"536.7"},"stock":5,"minStock":4,"availableFrom":{"$date":"2020-03-27T00:00:00Z"}}
+{"_id":{"$oid":"00000000000000000000000a"},"ean":"538974","name":"Sleek Metal Shirt","category":"Sportswear","recommendedPrice":{"$numberDecimal":"981.5"},"stock":28,"minStock":4}
