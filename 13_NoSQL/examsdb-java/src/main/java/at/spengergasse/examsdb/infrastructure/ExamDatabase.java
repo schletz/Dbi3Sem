@@ -59,7 +59,7 @@ public class ExamDatabase {
      */
     public static ExamDatabase fromConnectionString(String connectionString, Boolean enableLogging) {
         ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME))
-                .setLevel(enableLogging ? Level.INFO : Level.ERROR);
+                .setLevel(enableLogging ? Level.DEBUG : Level.ERROR);
 
         
         var client = MongoClients.create(

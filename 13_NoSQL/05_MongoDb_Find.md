@@ -259,6 +259,7 @@ Kopiere das Generatorprogramm im Ordner *\13_NoSQL\ExamsDb* zuerst in einen eige
 Das Programm gibt die Filter, die es generiert, aus. *AsQueryable()* erzeugt eine *aggregate()*
 Anweisung. Diese kann einmal ignoriert werden, das wird im Kapitel *Aggregate* genauer diskutiert.
 
+**Program.cs**
 ```c#
 using ExamDbGenerator;
 using MongoDB.Driver;
@@ -413,11 +414,11 @@ class Program
         }
         {
             // *************************************************************************************
-            // find({ "$where" : "this.hoursPerWeek != null && this.salary > 500 * this.hoursPerWeek" })
+            // find({ "$where" : "this.salary > NumberDecimal(500 * this.hoursPerWeek)" })
             PrintHeader("Lehrer, die mehr als 500 Euro pro Wochenstunde bekommen (Gehalt > 500 * hoursPerWeek).");
             // Achte auf die Anführungszeichen! @ bedeutet verbatim string (kein Escapen von Sonderzeichen).
             // Im Inneren müssen die Anführungszeichen doppelt geschrieben werden (" --> "")
-            var results = db.GetCollection<Teacher>("teachers").Find(@"{$where: ""this.hoursPerWeek != null && this.salary > 500 * this.hoursPerWeek""}").ToList();
+            var results = db.GetCollection<Teacher>("teachers").Find(@"{$where: ""this.salary > NumberDecimal(500 * this.hoursPerWeek)""}").ToList();
             Console.WriteLine(string.Join(", ", results.Select(r => r.Id)));
         }
         return 0;
@@ -432,13 +433,161 @@ class Program
 }
 ```
 
+## Filtern mit dem Java MongoDB Treiber
+
+Kopiere das Programm im Ordner *13_NoSQL/examsdb-java* in ein neues Verzeichnis. Ersetze danach
+die Datei *Main.java* durch die untenstehende Version. Sie zeigt, wie die oben verwendeten Filter
+in Java geschrieben werden können.
+
+**Main.java**
+```java
+package at.spengergasse.examsdb;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import com.mongodb.MongoSecurityException;
+import com.mongodb.MongoTimeoutException;
+import com.mongodb.client.model.Filters;
+
+import at.spengergasse.examsdb.infrastructure.ExamDatabase;
+
+public class Main {
+    public static void main(String[] args) {
+        var examDatabase = ExamDatabase.fromConnectionString("mongodb://root:1234@localhost:27017", false);
+        try {
+            examDatabase.Seed();
+        } catch (MongoTimeoutException e) {
+            System.err.println("Die Datenbank ist nicht erreichbar. Läuft der Container?");
+            System.exit(1);
+            return;
+        } catch (MongoSecurityException e) {
+            System.err.println("Mit dem Benutzer root (Passwort 1234) konnte keine Verbindung aufgebaut werden.");
+            System.exit(2);
+            return;
+        }
+
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(3);
+            return;
+        }
+
+        // Für den leichteren Zugriff auf die Collections stellt die Klasse ExamDatabase
+        // folgende Methoden bereit:
+        // MongoCollection<SchoolClass> examDatabase.getClasses()
+        // MongoCollection<Exam> examDatabase.getExams()
+        // MongoCollection<Room> examDatabase.getRooms()
+        // MongoCollection<Student> examDatabase.getStudents()
+        // MongoCollection<Subject> examDatabase.getSubjects()
+        // MongoCollection<Teacher> examDatabase.getTeachers()
+        // MongoCollection<Term> examDatabase.getTerms()
+
+        // Hinweis: Setze den Parameter enableLogging in Zeile 22 auf true, um die gesendeten
+        // Befehle anzuzeigen.
+        {
+            System.out.println("Lehrer mit der ID RAU");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.eq("_id", "RAU"))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println("Lehrer, die das Feld hoursPerWeek besitzen.");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.exists("hoursPerWeek", true))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println("Lehrer mit über 16 Stunden im Feld hoursPerWeek und einem Gehalt von über 3000 EUR.");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.and(
+                        Filters.gt("hoursPerWeek", 16),
+                        Filters.gt("salary", 3000)))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }       
+        {
+            System.out.println("Welche Lehrer haben am MO einen Home Office Tag (MO ist im Array homeOfficeDays enthalten)?");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.eq("homeOfficeDays", "MO"))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println("Welche Lehrer haben am MO und am FR einen Home Office Tag (MO UND FR ist im Array homeOfficeDays enthalten)?");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.all("homeOfficeDays", new String[]{"MO", "FR"}))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }         
+        {
+            System.out.println("Welche Lehrer können POS und DBI unterrichten (POS UND DBI ist im Array canTeachSubjects als Id enthalten)?");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.all("canTeachSubjects._id", new String[] { "POS", "DBI" }))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println("Alle 3. Semester AIF Klassen in der Collection classes.");
+            var result = examDatabase.getClasses()
+                    .find(Filters.regex("_id", "3.AIF"))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println("Alle 3. Semester AIF Klassen des Schuljahres 2022 in der Collection classes.");
+            var result = examDatabase.getClasses()
+                    .find(Filters.regex("_id", "^2022[WS]_3.AIF$"))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println("Lehrer, die mehr als 500 Euro pro Wochenstunde bekommen (Gehalt > 500 * hoursPerWeek).");
+            var result = examDatabase.getTeachers()
+                    .find(Filters.where("this.salary > NumberDecimal(500 * this.hoursPerWeek)"))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                    .map(r -> r.id().toString())
+                    .collect(Collectors.joining(", ")));
+        }
+    }
+}
+```
+
 ## Übung
 
 Du kannst die folgende Aufgabe auf 3 Arten lösen:
 
 1. Schreiben der Filter in der Shell von Studio 3T.
-2. Verwenden des FilterBuilders in .NET oder in Java.
-3. Verwenden der Methode *AsQueryable()* (wenn möglich).
+2. Verwenden des .NET Treibers mit *AsQueryable()* (wenn möglich) oder dem Filter Builder.
+3. Verwenden des Java Treibers.
 
 Die korrekten Ergebnisse sind unter den Beispielen. Aus Platzgründen sind nur die IDs abgebildet,
 bei den Abfragen wird natürlich das ganze Dokument zurückgegeben. Ist der Key eine ObjectId, werden
@@ -447,13 +596,12 @@ nur die letzten 4 Bytes abgebildet.
 Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
 Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe das Ergebnis
-deiner Abfrage in die Variable *result*. Die korrekte Ausgabe ist unten angeführt.
+deiner Abfrage in die Variable *result*.
 
-Wenn du die Filter in **Java** generieren möchtest, gibt es im Ordner *13_NoSQL/examsdb-java*
-ein Demoprogramm mit allen Modelklassen für den Zugriff auf die Datenbank. Kopiere das Programm
-zuerst in einen eigenen Ordner (z. B. *filter-excercise*). Überprüfe die Richtigkeit,
-indem du das Ergebnis mit *forEach()* und *println()* ausgibst. Ein Beispiel dafür ist im Javaprogramm
-enthalten.
+Falls du die Aufgabe in **Java** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
+*13_NoSQL/examsdb-java* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
+Ersetze danach die Datei *Main.java* durch den folgenden Inhalt und schreibe das Ergebnis
+deiner Abfrage in die Variable *result*. 
 
 **(1)** Welche Klassen gibt es in der Classes Collection im Schuljahr 2021 (Year ist 2021)
 der Abteilung CIF?
@@ -526,6 +674,7 @@ kannst du einen where Filter wie im Beispiel als String verwenden.
 0000009c, 0000009e, 000000a3, 000000c0, 000000c8, 000000d6, 000000ff, 00000100, 00000111, 00000156
 ```
 
+**Program.cs (.NET)**
 ```c#
 using ExamDbGenerator;
 using MongoDB.Driver;
@@ -700,124 +849,162 @@ class Program
 }
 ```
 
-**Korrekte Ausgabe**
-```
-Klassen im Jahr 2021 der CIF Abteilung.
-2021S_4ACIF: 4ACIF mit KV GIL
-2021S_4BCIF: 4BCIF mit KV BRI
-2021S_6ACIF: 6ACIF mit KV BUS
-2021S_6BCIF: 6BCIF mit KV HER
-2021S_8ACIF: 8ACIF mit KV CAM
-2021S_8BCIF: 8BCIF mit KV MÖR
-2021W_3ACIF: 3ACIF mit KV GIL
-2021W_3BCIF: 3BCIF mit KV BRI
-2021W_5ACIF: 5ACIF mit KV BUS
-2021W_5BCIF: 5BCIF mit KV HER
-2021W_7ACIF: 7ACIF mit KV CAM
-2021W_7BCIF: 7BCIF mit KV MÖR
+**Main.java (Java)**
+```java
+package at.spengergasse.examsdb;
 
-Räume über 30 Sitzplätze.
-AH.14: AH.14 hat 32 Plätze.
-B2.10: B2.10 hat 30 Plätze.
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
-Klassen ab dem 5. Semester der KIF im Jahr 2022.
-2022S_6AKIF: 6AKIF mit KV SAC
-2022S_6BKIF: 6BKIF mit KV HER
-2022W_5AKIF: 5AKIF mit KV SAC
-2022W_5BKIF: 5BKIF mit KV HER
+import com.mongodb.MongoSecurityException;
+import com.mongodb.MongoTimeoutException;
+import com.mongodb.client.model.Filters;
 
-Studierende, die vor dem 1.1.1991 geboren sind.
-100072: Jolie Reiber ist am 04.09.1990 geboren.
-100075: Artur Winkler ist am 19.09.1990 geboren.
-100266: Torben Scheuring ist am 19.11.1990 geboren.
-100271: Konrad Damaske ist am 13.12.1990 geboren.
-100274: Tarja Grundmann ist am 05.11.1990 geboren.
-100281: Clara Plautz ist am 19.11.1990 geboren.
-100459: Steve Möhsner ist am 05.09.1990 geboren.
-100470: Dominic Hansen ist am 21.12.1990 geboren.
-100476: Maxi Blockhaus ist am 02.09.1990 geboren.
+import at.spengergasse.examsdb.infrastructure.ExamDatabase;
+import at.spengergasse.examsdb.model.Exam;
+import at.spengergasse.examsdb.model.Room;
+import at.spengergasse.examsdb.model.SchoolClass;
+import at.spengergasse.examsdb.model.Student;
+import at.spengergasse.examsdb.model.Teacher;
 
-Klassen ohne Stammraum im Wintersemester 2022/23.
-2022W_3AAIF: 3AAIF mit KV KUR
-2022W_3ACIF: 3ACIF mit KV BRI
-2022W_3BKIF: 3BKIF mit KV KNE
-2022W_5ABIF: 5ABIF mit KV MÖR
-2022W_7ABIF: 7ABIF mit KV CAM
+public class Main {
+    public static void main(String[] args) {
+        var examDatabase = ExamDatabase.fromConnectionString("mongodb://root:1234@localhost:27017", false);
+        try {
+            examDatabase.Seed();
+        } catch (MongoTimeoutException e) {
+            System.err.println("Die Datenbank ist nicht erreichbar. Läuft der Container?");
+            System.exit(1);
+            return;
+        } catch (MongoSecurityException e) {
+            System.err.println("Mit dem Benutzer root (Passwort 1234) konnte keine Verbindung aufgebaut werden.");
+            System.exit(2);
+            return;
+        }
 
-Negative Prüfungen zwischen 1.1.2022 und inkl. 27.1.2022.
-000000000000000000000024: Exam von Lillian Schirrmeister am 09/01/2022 17:00:00 in D bei ERH mit Note 5
-00000000000000000000007f: Exam von Silas Schlicht am 26/01/2022 14:00:00 in D bei SCH mit Note 5
-0000000000000000000000c3: Exam von Corinna Menne am 21/01/2022 14:00:00 in AM bei KUR mit Note 5
-0000000000000000000000e9: Exam von Marian Krämer am 03/01/2022 08:00:00 in AM bei MÖR mit Note 5
-000000000000000000000136: Exam von Leonidas Strieder am 16/01/2022 12:00:00 in DBI bei KUR mit Note 5
-000000000000000000000175: Exam von Sönke Sonn am 06/01/2022 09:00:00 in D bei ERH mit Note 5
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(3);
+            return;
+        }
 
-Lehrer, die POS unterrichten können.
-CAM: Stefanie Camara darf POS unterrichten.
-DAU: Jannik Dauer darf POS unterrichten.
-HAR: Vito Harting darf POS unterrichten.
-KNE: Timm Kneifel darf POS unterrichten.
-KUR: Jennifer Kurschilgen darf POS unterrichten.
-NOR: Arda Norris darf POS unterrichten.
-SCH: Caroline Schondelmaier darf POS unterrichten.
-THR: Dion Thriene darf POS unterrichten.
+        // Für den leichteren Zugriff auf die Collections stellt die Klasse ExamDatabase
+        // folgende Methoden bereit:
+        // MongoCollection<SchoolClass> examDatabase.getClasses()
+        // MongoCollection<Exam> examDatabase.getExams()
+        // MongoCollection<Room> examDatabase.getRooms()
+        // MongoCollection<Student> examDatabase.getStudents()
+        // MongoCollection<Subject> examDatabase.getSubjects()
+        // MongoCollection<Teacher> examDatabase.getTeachers()
+        // MongoCollection<Term> examDatabase.getTerms()
 
-Studierende, die 2021/22 die 3BKIF besucht haben.
-100421: Jana Schnieder war 2021/22 in der 3BKIF.
-100422: Maira Grube war 2021/22 in der 3BKIF.
-100423: Fatima Rose war 2021/22 in der 3BKIF.
-100424: Danny Stern war 2021/22 in der 3BKIF.
-100425: Jano Welzel war 2021/22 in der 3BKIF.
-100426: Lewis Grau war 2021/22 in der 3BKIF.
-100427: Hanno Lichtl war 2021/22 in der 3BKIF.
-100428: Loreen Östringer war 2021/22 in der 3BKIF.
-100429: Henrick Renz war 2021/22 in der 3BKIF.
-100430: Jean Hördt war 2021/22 in der 3BKIF.
-100431: Ellen Hort war 2021/22 in der 3BKIF.
-100432: Nevio Gruber war 2021/22 in der 3BKIF.
-100433: Selma Dauer war 2021/22 in der 3BKIF.
-100434: Sean Kolokas war 2021/22 in der 3BKIF.
-100435: Ahmet Sladek war 2021/22 in der 3BKIF.
-100436: Rayan Urban war 2021/22 in der 3BKIF.
-100437: Lucienne Gelling war 2021/22 in der 3BKIF.
-100438: Xaver Osenberg war 2021/22 in der 3BKIF.
-100439: Malte Bartels war 2021/22 in der 3BKIF.
-100440: Annabel Heinke war 2021/22 in der 3BKIF.
-100441: Greta Marahrens war 2021/22 in der 3BKIF.
-100442: Marc Beckmann war 2021/22 in der 3BKIF.
-100443: Leopold Gabius war 2021/22 in der 3BKIF.
-100444: Sammy Kúhn war 2021/22 in der 3BKIF.
-100445: Riana Schmitz war 2021/22 in der 3BKIF.
-100446: Asya Beckmann war 2021/22 in der 3BKIF.
-100447: Julius Lesch war 2021/22 in der 3BKIF.
+        // Hinweis: Setze den Parameter enableLogging in Zeile 22 auf true, um die
+        // gesendeten
+        // Befehle anzuzeigen.
+        {
+            System.out.println("MUSTER: Weibliche Studierende der 6AAIF");
+            var result = examDatabase.getStudents()
+                    .find(Filters.and(
+                            Filters.eq("gender", "Female"),
+                            Filters.eq("currentClass.shortname", "6AAIF")))
+                    .into(new ArrayList<>());
+            System.out.println(
+                    result.stream()
+                            .map(r -> Integer.toString(r.id()))
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(1) Welche Klassen gibt es in der Classes Collection im Schuljahr 2021 (Year ist 2021) der Abteilung CIF?");
+            var result = new ArrayList<SchoolClass>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.id())
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(2) Welche Räume haben eine Kapazität von 30 oder mehr Plätzen (Capacity)?");
+            var result = new ArrayList<Room>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.shortname())
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(3) Gib alle Klassen ab dem 5. Semester der KIF Abteilung im Jahr 2022 aus (EducationLevel >= 5).");
+            var result = new ArrayList<SchoolClass>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.id())
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(4) Welche Studierenden sind vor dem 1.1.1991 geboren?");
+            var result = new ArrayList<Student>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> Integer.toString(r.id()))
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(5) Welche Klassen des Wintersemesters 2022 haben keinen Stammraum (RoomShortname ist null)?");
+            var result = new ArrayList<SchoolClass>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.id())
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(6) Welche negativen Prüfungen gab es zwischen 1.1.2022 und 27.1.2022?");
+            var result = new ArrayList<Exam>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.id().toHexString().substring(16, 4))
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(7) Welche Lehrer dürfen das Fach POS unterrichten (haben also POS in der Liste CanTeachSubjects)?");
+            var result = new ArrayList<Teacher>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.id())
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(8) Welche Studierende haben im Schuljahr 2021/22 (Year ist 2021) die 3BKIF besucht?");
+            var result = new ArrayList<Student>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> Integer.toString(r.id()))
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(9) Welche Studierende haben im Schuljahr 2021/22 (Year ist 2021) die 3BKIF, aber 2022/23 nicht die 5BKIF besucht?");
+            var result = new ArrayList<Student>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> Integer.toString(r.id()))
+                            .collect(Collectors.joining(", ")));
+        }
+        {
+            System.out.println(
+                    "(10) Welche Prüfungen erreichten maximal 25% der Punkte (Points ist also <= PointsMax * 0.25)?");
+            var result = new ArrayList<Exam>(); // TODO: Schreibe hier deine Abfrage.
+            System.out.println(
+                    result.stream()
+                            .map(r -> r.id().toHexString().substring(16, 8))
+                            .collect(Collectors.joining(", ")));
+        }
 
-Studierende, die 2021/22 die 3BKIF, aber nicht 2022/23 die 5BKIF besucht haben.
-100427: Hanno Lichtl war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
-100429: Henrick Renz war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
-100430: Jean Hördt war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
-100431: Ellen Hort war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
-100438: Xaver Osenberg war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
-100443: Leopold Gabius war 2021/22 in der 3BKIF, aber 2022/23 nicht in der 5BKIF.
+    }
+}
 
-Prüfungen <= 25%
-000000000000000000000007: Die Prüfung von Efe Sander in D hat nur 6 von 27 Punkte.
-00000000000000000000001a: Die Prüfung von Melanie Balnuweit in POS hat nur 8 von 33 Punkte.
-00000000000000000000001f: Die Prüfung von Ina Sander in POS hat nur 11 von 44 Punkte.
-00000000000000000000002b: Die Prüfung von Melek Fassbender in AM hat nur 8 von 35 Punkte.
-00000000000000000000002e: Die Prüfung von Eliah Schnürer in DBI hat nur 6 von 24 Punkte.
-00000000000000000000005a: Die Prüfung von Justine Tsamonikian in D hat nur 5 von 20 Punkte.
-00000000000000000000007a: Die Prüfung von Mariella Marchewski in D hat nur 5 von 22 Punkte.
-00000000000000000000007e: Die Prüfung von Corinna Menne in POS hat nur 7 von 31 Punkte.
-000000000000000000000083: Die Prüfung von Viktoria Marschek in DBI hat nur 9 von 39 Punkte.
-000000000000000000000092: Die Prüfung von Lutz Frank in D hat nur 8 von 32 Punkte.
-00000000000000000000009c: Die Prüfung von Ramon Pingpank in AM hat nur 5 von 21 Punkte.
-00000000000000000000009e: Die Prüfung von Julius Lesch in DBI hat nur 8 von 35 Punkte.
-0000000000000000000000a3: Die Prüfung von Patrice Vogelgsang in AM hat nur 10 von 40 Punkte.
-0000000000000000000000c0: Die Prüfung von Amina Effler in D hat nur 4 von 16 Punkte.
-0000000000000000000000c8: Die Prüfung von Giada Schorr in AM hat nur 4 von 17 Punkte.
-0000000000000000000000d6: Die Prüfung von Josua Klein in POS hat nur 10 von 41 Punkte.
-0000000000000000000000ff: Die Prüfung von Lennart Kupprion in DBI hat nur 6 von 26 Punkte.
-000000000000000000000100: Die Prüfung von Liv Maczey in DBI hat nur 5 von 21 Punkte.
-000000000000000000000111: Die Prüfung von Ahmet Krug in D hat nur 10 von 43 Punkte.
-000000000000000000000156: Die Prüfung von Oskar Huth in DBI hat nur 12 von 48 Punkte.
 ```
