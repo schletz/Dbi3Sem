@@ -60,9 +60,13 @@ namespace ExamDbGenerator
                             var collection = aggregateCmd.AsString;
                             Console.WriteLine($"db.getCollection(\"{collection}\").aggregate({e.Command["pipeline"]})");
                         }
-                        // Bei Filter Statements geben wir den Filter aus.
-                        if (e.Command.TryGetValue("filter", out var filterCmd))
-                            Console.WriteLine(filterCmd);
+
+                        // Bei Filter Statements geben wir die find Anweisung aus.
+                        if (e.Command.TryGetValue("find", out var findCmd))
+                        {
+                            var collection = findCmd.AsString;
+                            Console.WriteLine($"db.getCollection(\"{collection}\").find({e.Command["filter"]})");
+                        }
                     });
                 };
             }

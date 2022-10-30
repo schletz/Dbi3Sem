@@ -206,6 +206,8 @@ in MongoDB Ausdrücke umwandelt. Dadurch können die gewohnten Funktionen wie *W
 
 Kopiere das Generatorprogramm im Ordner *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner
 (z. B. *FilterDemos*). Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt.
+Das Programm gibt die Filter, die es generiert, aus. *AsQueryable()* erzeugt eine *aggregate()*
+Anweisung. Diese kann einmal ignoriert werden, das wird im Kapitel *Aggregate* genauer diskutiert.
 
 ```c#
 using ExamDbGenerator;
