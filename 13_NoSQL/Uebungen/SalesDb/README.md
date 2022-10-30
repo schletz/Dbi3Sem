@@ -56,13 +56,11 @@ in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
 
 ## Filterabfragen
 
-Du kannst die folgende Aufgabe auf 2 Arten lösen:
+Unter jedem Beispiel ist die korrekte Liste der zurückgegebenen *_id* Werte angegeben. Es werden
+nur die unteren 4 Bytes der Id angezeigt. Du kannst die folgende Aufgabe auf 2 Arten lösen:
 
 - Eingeben der *find()* Funktion in der Shell von Studio 3T.
 - Generieren der Filter in .NET mit *AsQueryable()* und LINQ oder mit der *Find()* Methode.
-
-Unter dem Beispiel ist die korrekte Liste der zurückgegebenen *_id* Werte angegeben. Es werden
-nur die unteren 4 Bytes der Id angezeigt.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, kopiere das Programm im Ordner
 *13_NoSQL/Uebungen/SalesDb/SalesDbGenerator* in ein anderes Verzeichnis. Du kannst die Aufgaben
