@@ -13,7 +13,7 @@
     <li>
         Übungen zu Abfragen
         <ul>
-            <li><a href="13_NoSQL/Uebungen/SalesDb/README.md">Die Sales Datenbank</a></li>
+            <li><a href="Uebungen/SalesDb/README.md">Die Sales Datenbank</a></li>
         </ul>
     </li>
     <li> <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/nosql/modeling-data">learn.microsoft.com: Data
