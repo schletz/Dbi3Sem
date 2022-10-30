@@ -29,10 +29,10 @@
 - **stock**: Aktueller Lagerstand.
 - **minStock**: Lagerstand, ab dem nachbestellt werden soll (minimal erlaubter Lagerstand).
 - **availableFrom:** Gibt an, ab wann ein Produkt verfügbar ist. Ist das Feld nicht vorhanden, gilt
-  keine Einschränkung. Ist ein DateTime Wert (2022-10-30T08:00:00Z bedeutet, dass das Produkt ab
+  keine Einschränkung. Ist ein DateTime Wert. *2022-10-30T08:00:00Z* bedeutet, dass das Produkt ab
   dem 30.10.2022 um 8h UTC verfügbar ist und daher gelistet werden kann.
 - **availableTo:** Gibt an, bis wann Produkt verfügbar ist. Ist das Feld nicht vorhanden, gilt
-  keine Einschränkung. Ist ein DateTime Wert (2022-11-30T016:00:00Z bedeutet, dass das Produkt bis
+  keine Einschränkung. Ist ein DateTime Wert. *2022-11-30T016:00:00Z* bedeutet, dass das Produkt bis
   30.11.2022 um 16h UTC verfügbar ist und daher gelistet werden kann.
 
 ### Dokument Order (Collection *orders*)
@@ -57,7 +57,7 @@ in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
 ## Filterabfragen
 
 Unter jedem Beispiel ist die korrekte Liste der zurückgegebenen *_id* Werte angegeben. Es werden
-nur die unteren 4 Bytes der Id angezeigt. Du kannst die folgende Aufgabe auf 2 Arten lösen:
+nur die letzten 4 Bytes der Id angezeigt. Du kannst die folgende Aufgabe auf 2 Arten lösen:
 
 - Eingeben der *find()* Funktion in der Shell von Studio 3T.
 - Generieren der Filter in .NET mit *AsQueryable()* und LINQ oder mit der *Find()* Methode.
