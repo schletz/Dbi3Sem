@@ -714,8 +714,8 @@ Du kannst die folgenden Abfragebeispiele auf 3 Arten lösen:
 - Mit dem Java Treiber.
 
 Die korrekte Ausgabe ist unter jedem Beispiel. Die Sortierung muss - wenn es nicht extra
-angegeben ist - nicht der Ausgabe entsprechen. Die großgeschriebenen Properties kommen von
-der Ausgabe des .NET Treibers. Bei der Shell und in Java werden sie natürlich klein geschrieben.
+angegeben ist - nicht der Ausgabe entsprechen. Bei der Shell und in Java werden sie natürlich
+klein geschrieben.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *AggregateExcercise*).
@@ -731,21 +731,21 @@ Daten wie im Punkt *Die Pipeline mit dem Java Treiber erzeugen lassen* gezeigt a
 *students*? Verwende *currentClass.term.year* für die Filterung des Jahres.
 
 ```javascript
-[{"Gender":"Female","Count":249},{"Gender":"Male","Count":228}]
+[{"gender":"Female","count":249},{"gender":"Male","count":228}]
 ```
 
 **(2)** Wie viele Klassen gibt es pro Jahr (Feld *term.year*) und Abteilung (Feld *department*)
 in der Collection *classes*?
 
 ```javascript
-[{"Year":2019,"Department":"AIF","Count":10},{"Year":2019,"Department":"BIF","Count":14},
-{"Year":2019,"Department":"CIF","Count":12},{"Year":2019,"Department":"KIF","Count":8},
-{"Year":2020,"Department":"AIF","Count":10},{"Year":2020,"Department":"BIF","Count":14},
-{"Year":2020,"Department":"CIF","Count":12},{"Year":2020,"Department":"KIF","Count":8},
-{"Year":2021,"Department":"AIF","Count":10},{"Year":2021,"Department":"BIF","Count":14},
-{"Year":2021,"Department":"CIF","Count":12},{"Year":2021,"Department":"KIF","Count":8},
-{"Year":2022,"Department":"AIF","Count":10},{"Year":2022,"Department":"BIF","Count":14},
-{"Year":2022,"Department":"CIF","Count":12},{"Year":2022,"Department":"KIF","Count":8}]
+[{"year":2019,"department":"AIF","count":10},{"year":2019,"department":"BIF","count":14},
+{"year":2019,"department":"CIF","count":12},{"year":2019,"department":"KIF","count":8},
+{"year":2020,"department":"AIF","count":10},{"year":2020,"department":"BIF","count":14},
+{"year":2020,"department":"CIF","count":12},{"year":2020,"department":"KIF","count":8},
+{"year":2021,"department":"AIF","count":10},{"year":2021,"department":"BIF","count":14},
+{"year":2021,"department":"CIF","count":12},{"year":2021,"department":"KIF","count":8},
+{"year":2022,"department":"AIF","count":10},{"year":2022,"department":"BIF","count":14},
+{"year":2022,"department":"CIF","count":12},{"year":2022,"department":"KIF","count":8}]
 ```
 
 **(3)** Was ist das durchschnittliche Gehalt aller Lehrenden in der Collection *tachers*?
@@ -769,9 +769,9 @@ Hinweis: Der *$size* Operator ermittelt die Länge des Arrays, also die Anzahl d
 der zu gruppieren ist.
 
 ```javascript
-[{"SubjectCount":1,"AverageSalary":3951.83},
-{"SubjectCount":0,"AverageSalary":3585.2733333333333333333333333},
-{"SubjectCount":2,"AverageSalary":3801.79}]
+[{"subjectCount":2,"averageSalary":3801.79},
+{"subjectCount":0,"averageSalary":3585.2733333333333333333333333},
+{"subjectCount":1,"averageSalary":3951.83}]
 ```
 
 **(6)** Wie viele Studierende sind pro Postleitzahl (Feld *address.zip*) in der Collection *students*?
@@ -779,9 +779,10 @@ Gib nur die Postleitzahl und die Anzahl aus, wenn für diese Postleitzahl mehr a
 eingetragen sind. Sortiere nach der Anzahl absteigend.
 
 ```javascript
-[{"Zip":1490,"Count":11},{"Zip":1110,"Count":10},{"Zip":2860,"Count":9},{"Zip":1780,"Count":9},
-{"Zip":1830,"Count":8},{"Zip":1440,"Count":8},{"Zip":1820,"Count":8},{"Zip":2630,"Count":8},
-{"Zip":1590,"Count":8},{"Zip":2060,"Count":8}]
+[{"zip":1490,"count":11},{"zip":1110,"count":10},{"zip":1780,"count":9},{"zip":2860,"count":9},
+{"zip":2060,"count":8},{"zip":1440,"count":8},{"zip":1830,"count":8},{"zip":1590,"count":8},
+{"zip":2630,"count":8},{"zip":1820,"count":8}]
+
 ```
 
 **(7)** Erstelle eine Prüfungsstatistik pro Gegenstand aus der Collection *exams*.
@@ -790,10 +791,11 @@ von points der Gruppe (Feld *points*). Verwende NICHT das Feld *pointsMax*, das 
 zu erreichende Punktezahl für die Prüfung an.
 
 ```javascript
-[{"Subject":"AM","MinGrade":1,"MaxGrade":5,"MinPoints":4,"MaxPoints":46},
-{"Subject":"D","MinGrade":1,"MaxGrade":5,"MinPoints":4,"MaxPoints":46},
-{"Subject":"DBI","MinGrade":1,"MaxGrade":5,"MinPoints":5,"MaxPoints":48},
-{"Subject":"POS","MinGrade":1,"MaxGrade":5,"MinPoints":5,"MaxPoints":44}]
+[{"subject":"AM","minGrade":1,"maxGrade":5,"minPoints":4,"maxPoints":46},
+{"subject":"D","minGrade":1,"maxGrade":5,"minPoints":4,"maxPoints":46},
+{"subject":"POS","minGrade":1,"maxGrade":5,"minPoints":5,"maxPoints":44},
+{"subject":"DBI","minGrade":1,"maxGrade":5,"minPoints":5,"maxPoints":48}]
+
 ```
 
 **(8)** Wie viel Prozent werden im Durchschnitt auf die Prüfungen pro Fach in der Collection *exams*
@@ -801,10 +803,9 @@ erreicht? Der Wert berechnet sich mit 100 x *points* / *pointsMax*.
 Hinweis: Berechne zuerst den Prozentwert für jedes Exam Dokument und füge das Feld über die Pipeline hinzu.
 
 ```javascript
-[{"Subject":"AM","Percent":62.71131017824474},
-{"Subject":"D","Percent":59.132196933663955},
-{"Subject":"DBI","Percent":61.694989665028125},
-{"Subject":"POS","Percent":61.50315133350603}]
+[{"subject":"DBI","percent":61.694989665028125},{"subject":"D","percent":59.132196933663955},
+{"subject":"AM","percent":62.71131017824474},{"subject":"POS","percent":61.50315133350603}]
+
 ```
 
 **(9)** Wie viele Prüfungen hatte jeder Lehrende in der Abteilung KIF (*examClass.department*) in der Collection
@@ -813,21 +814,25 @@ Hinweis: Verwende für die Filterung der Prüfungen des Jahres 2021 die Vergleic
 *dateTime >= ISODate("2021-01-01")* und *dateTime < ISODate("2022-01-01")*.
 
 ```javascript
-[{"TeacherShortname":"DAU","Count":1},{"TeacherShortname":"ERH","Count":1},{"TeacherShortname":"GIL","Count":1},
-{"TeacherShortname":"GRE","Count":2},{"TeacherShortname":"HAR","Count":1},{"TeacherShortname":"HER","Count":1},
-{"TeacherShortname":"KAL","Count":1},{"TeacherShortname":"KUR","Count":3},{"TeacherShortname":"LEW","Count":1},
-{"TeacherShortname":"MÖR","Count":1},{"TeacherShortname":"NOR","Count":1},{"TeacherShortname":"PFL","Count":1},
-{"TeacherShortname":"PRE","Count":3},{"TeacherShortname":"ROD","Count":2},{"TeacherShortname":"ROS","Count":4},
-{"TeacherShortname":"SAC","Count":3},{"TeacherShortname":"SCH","Count":1},{"TeacherShortname":"STE","Count":1},
-{"TeacherShortname":"THR","Count":1},{"TeacherShortname":"ZIP","Count":1}]
+[{"teacherShortname":"DAU","count":1},{"teacherShortname":"ERH","count":1},
+{"teacherShortname":"GIL","count":1},{"teacherShortname":"GRE","count":2},
+{"teacherShortname":"HAR","count":1},{"teacherShortname":"HER","count":1},
+{"teacherShortname":"KAL","count":1},{"teacherShortname":"KUR","count":3},
+{"teacherShortname":"LEW","count":1},{"teacherShortname":"MÖR","count":1},
+{"teacherShortname":"NOR","count":1},{"teacherShortname":"PFL","count":1},
+{"teacherShortname":"PRE","count":3},{"teacherShortname":"ROD","count":2},
+{"teacherShortname":"ROS","count":4},{"teacherShortname":"SAC","count":3},
+{"teacherShortname":"SCH","count":1},{"teacherShortname":"STE","count":1},
+{"teacherShortname":"THR","count":1},{"teacherShortname":"ZIP","count":1}]
+
 ```
 
 **(10)** Wie viele Prüfungen gab es pro Kalenderjahr in der Collection *exams*?
 Verwende das Datum in *dateTime*. Sortiere die Ausgabe absteigend nach der Anzahl der Prüfungen.
 
 ```javascript
-[{"Year":2023,"Count":145},{"Year":2022,"Count":111},{"Year":2021,"Count":94},
-{"Year":2020,"Count":39},{"Year":2024,"Count":8}]
+[{"year":2023,"count":145},{"year":2022,"count":111},{"year":2021,"count":94},
+{"year":2020,"count":39},{"year":2024,"count":8}]
 ```
 
 **.NET Musterprogramm für die Übung**
@@ -869,7 +874,7 @@ class Program
         var options = new System.Text.Json.JsonSerializerOptions()
         {
             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All),  // Umlaute als Umlaut ausgeben (nicht als \uxxxx)
-            PropertyNameCaseInsensitive = true
+            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
         };
         options.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
 
@@ -1021,7 +1026,4 @@ class Program
         Console.ForegroundColor = color;
     }
 }
-
-
-
 ```
