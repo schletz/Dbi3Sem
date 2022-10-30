@@ -42,13 +42,16 @@ vergleichen möchten, geben wir z. B. folgende Filter an:
   Wir können auch in Objekten innerhalb des Dokumentes 
   mit dem Punkt suchen. Dieser Filter sucht nach Dokumenten, wo das Feld *name.email* den Wert
   *rau@spengergasse.at* hat.
-- **{ "homeOfficeDays": "MO" }**   
-  *homeOfficeDays* ist ein Stringarray. Geben wir es als Feld an,
-  werden alle Dokumente geliefert, die den angegebenen Wert (unter anderem) im Array haben.
-- **{ "hoursPerWeek" : {"$exists" : true } }**
+- **{ "hoursPerWeek" : {"$exists" : true } }**   
   Findet alle Dokumente, die das Feld *hoursPerWeek* besitzen. In unserer Datenbank werden *null*
   Werte nicht geschrieben, deswegen sind alle Werte, die wir bekommen, auch ungleich *null*. Das
   muss aber nicht so sein, *$exists* liefert grundsätzlich auch Felder, die den Wert *null* haben.
+- **{ "homeOfficeDays": "MO" }**   
+  *homeOfficeDays* ist ein Stringarray. Geben wir es als Feld an,
+  werden alle Dokumente geliefert, die den angegebenen Wert (unter anderem) im Array haben.
+- **{ "canTeachSubjects._id": "POS" }**  
+  *canTeachSubjects* ist ein Array von Objekten. Wir können auf ein Feld im Objekt mit dem Punkt
+  einfach zugreifen.
 
 In der Shell werden diese Filter der *find* Funktion übergeben. Beispiel:
 
@@ -65,9 +68,8 @@ Entspricht in SQL der Klausel *WHERE Col <> Value*. Wir können also folgendes h
   im Dokument nicht vorkommt, wird der Datensatz auch nicht geliefert.
 
 - **{ "homeOfficeDays" : { "$ne" : "MO" } }**   
-  Findet alle Dokumente, die den Wert *MO* nicht in
-  der Liste der homeOfficeDays haben. Dokumente mit leerer Liste werden zurückgegeben (sie haben
-  ja nicht *MO* in der Liste).
+  Findet alle Dokumente, die den Wert *MO* nicht im Array *homeOfficeDays* haben. Dokumente mit
+  leererm Array werden zurückgegeben (sie haben ja nicht *MO* in der Liste).
 
 ### Greater/Lower Filter { "field" : { "$gt" : "value" } } oder { "field" : { "$lt" : "value" } }
 
