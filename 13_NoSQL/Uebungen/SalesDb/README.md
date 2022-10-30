@@ -56,10 +56,10 @@ in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
 
 ## Filterabfragen
 
-Du kannst die folgende Aufgabe auf 3 Arten lösen:
+Du kannst die folgende Aufgabe auf 2 Arten lösen:
 
 - Eingeben der *find()* Funktion in der Shell von Studio 3T.
-- Generieren der Filter in .NET
+- Generieren der Filter in .NET mit *AsQueryable()* und LINQ oder mit der *Find()* Methode.
 
 Unter dem Beispiel ist die korrekte Liste der zurückgegebenen *_id* Werte angegeben. Es werden
 nur die unteren 4 Bytes der Id angezeigt.
