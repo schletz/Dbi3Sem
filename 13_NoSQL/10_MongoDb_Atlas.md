@@ -25,7 +25,7 @@ Registriere dich bei https://account.mongodb.com/ und lege einen User an. Danach
 ein Projekt und einen Cluster wie in diesem Video erstellen, dich mit Studio 3T verbinden und
 die ExamsDb anlegen.
 
-[Video: Erstellen eines Clusters in MongoDB Atlas und Einspielen der ExamsDb](https://youtu.be/dazJXqyEZCM)
+[:tv: Video: Erstellen eines Clusters in MongoDB Atlas und Einspielen der ExamsDb](https://youtu.be/dazJXqyEZCM)
 
 Im Video wird der Cluster wie folgt angelegt:
 
