@@ -201,6 +201,10 @@ Aus Performancegründen sollten jedoch die oben beschriebenen Operatoren verwend
 Falls eine JavaScript Funktion verwendet werden muss, ist der Operator *$function* zu bevorzugen. Er
 ist im Kapitel [Aggregations](06_MongoDb_Aggregate.md) beschrieben.
 
+Ein weiterer Nachteil ist auf den ersten Blick nicht sichtbar: In MongoDB Atlas - der Cloudlösung
+von MongoDB - wird serverseitiges Javascript nur in den teureren Plänen angeboten. Wenn du also
+die Datenbank in die Cloud legen möchtest kann der Einsatz solcher Abfragen daher zum Problem werden.
+
 ## Filtern mit dem .NET MongoDB Treiber
 
 Das nachfolgende Musterprogramm zeigt, wie diese Filterausdrücke in .NET erzeugt werden können. Es

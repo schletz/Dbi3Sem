@@ -496,6 +496,10 @@ Das sieht zwar mühsamer aus, ist aber für die Verarbeitung besser:
 > $function operator if the provided pipeline operators cannot fulfill your application's needs.
 > <sup>https://www.mongodb.com/docs/manual/reference/operator/aggregation/function/</sup>
 
+Ein weiterer Nachteil ist auf den ersten Blick nicht sichtbar: In MongoDB Atlas - der Cloudlösung
+von MongoDB - wird serverseitiges Javascript nur in den teureren Plänen angeboten. Wenn du also
+die Datenbank in die Cloud legen möchtest kann der Einsatz solcher Abfragen daher zum Problem werden.
+
 Die vorigen Beispiele zeigen einen Ausschnitt der zur Verfügung stehenden Stages. Alle
 Möglichkeiten sind in der MongoDB Dokumentation auf
 https://www.mongodb.com/docs/manual/meta/aggregation-quick-reference/
