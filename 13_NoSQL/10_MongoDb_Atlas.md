@@ -21,60 +21,14 @@ der Google Cloud. Es gibt auch einen free plan (M0). Dieser Plan hat natürlich 
 
 ## Registrieren bei account.mongodb.com und Anlegen eines Clusters
 
-Registriere dich bei https://account.mongodb.com/ und lege einen User an. Lade danach von
-[der Atlas CLI Downloadseite](https://www.mongodb.com/docs/atlas/cli/stable/install-atlas-cli/)
-das Programm *atlas* für dein Betriebssystem. Unter Windows verwende die ZIP Datei, öffne das
-Archiv und ziehe die Datei *atlas.exe* im Verzeichnis *bin* in einen Ordner auf der Festplatte.
+Registriere dich bei https://account.mongodb.com/ und lege einen User an. Danach kannst du
+ein Projekt und einen Cluster wie in diesem Video erstellen, dich mit Studio 3T verbinden und
+die ExamsDb anlegen:
 
-### Anlegen mit atlas quickstart
+[Video: Erstellen eines Clusters in MongoDB Atlas](https://youtu.be/dazJXqyEZCM)
 
-Gehe danach in die Konsole und in das Verzeichnis, wo sich die Datei *atlas.exe* befindet. Zuerst
-wird mit *atlas project* ein neues Projekt angelegt. In unserem Beispiel heißt es *examsProject*
-Führe den nachfolgenden Befehl aus, um das Projekt anzulegen.
 
-```
-atlas projects create examsProject
-```
-
-Nach dem Ausführen des Befehles wird die ID des Projektes mit der Meldung `Project 'xxxxx' created.`
-angezeigt. Kopiere nun den nachfolgenden Befehl und füge ihn in der Konsole ein. Bevor du ihn
-ausführst, muss *(ProjectID)* durch die angezeigte ID des vorigen Befehls ersetzt werden.
-
-```
-atlas quickstart --accessListIp 0.0.0.0/0 --clusterName examsCluster --provider AZURE --region EUROPE_NORTH --username root --skipSampleData --projectId (ProjectID)
-```
-
-<sup>[Zur Befehlsreferenz auf mongodb.com](https://www.mongodb.com/docs/atlas/cli/stable/command/atlas-quickstart/)</sup>
-
-Am Ende wird eine Information ausgegeben, wie du dich zur Datenbank verbinden kannst:
-
-```
-Once you install the MongoDB Shell, connect to your database with:
-$ mongosh -u root -p xxxx mongodb+srv://examscluster.xxx.mongodb.net
-```
-
-### Erstellen des Connection Strings
-
-Erstelle einen Connection String in einem Editor:
-
-1. Kopiere die im mongosh Befehl angezeigte URI (*mongodb+srv://...*).
-2. Füge nach // einen String mit dem Aufbau (username):(passwort)@ ein.
-3. Füge am Ende einen Schrägstrich (/) hinzu.
-4. Am Ende muss die URI den Aufbau *mongodb+srv://(username):(password)@(server)/* haben.
- 
-Für unser Beispiel hat also der Connection String folgenden Aufbau:
-
-```
-mongodb+srv://root:xxxx@examscluster.xxx.mongodb.net/
-```
-
-Mit diesem Connection String kannst du dich in Studio 3T mit *Connect* &rarr; *New Connection*
-verbinden, indem du diese URI einfach einfügst.
-
-Auf der [Konfigurationsseite](https://account.mongodb.com/account/login) kann im Menüpunkt
-*Database* der Connection String ebenfalls nachgesehen werden.
-
-### Konfigurieren des Clusters
+### Nachträgliche Konfigurieren des Clusters
 
 Logge dich auf https://account.mongodb.com/account/login mit dem User, den du bei der Registrierung
 angegeben hat, ein. Du kannst hier das Kennwort für den User neu setzen oder die IP Adressen,
@@ -96,7 +50,6 @@ Falls etwas schief gegangen ist, kannst du auf der
 den Menüpunkt *Projects* auswählen und das ganze Projekt löschen. Vorher muss der Cluster mit
 *Terminate* beendet und gelöscht werden.
 
-
 ## Anlegen der Musterdatenbank in MongoDB Atlas
 
 Nun wollen wir unsere *examsDb* in der Cloud anlegen. Das ist sehr einfach. Kopiere das
@@ -106,10 +59,14 @@ in der Datei *Program.cs* oder *Main.java* auf die gerade erstellten URI. Wenn d
 ausführst, wird die Datenbank im erstellten Cluster angelegt. Natürlich dauert das etwas länger als 
 die lokale Lösung mit dem Container.
 
-
 ## Anhang
 
-### Alternative: mehr Kontrolle durch manuelles Anlegen
+### Alternative: mehr Kontrolle durch manuelles Anlegen mit der Atlas CLI
+
+Lade danach von
+[der Atlas CLI Downloadseite](https://www.mongodb.com/docs/atlas/cli/stable/install-atlas-cli/)
+das Programm *atlas* für dein Betriebssystem. Unter Windows verwende die ZIP Datei, öffne das
+Archiv und ziehe die Datei *atlas.exe* im Verzeichnis *bin* in einen Ordner auf der Festplatte.
 
 Zuerst wird mit *atlas project* ein neues Projekt angelegt. In unserem Beispiel heißt es *examsProject*
 
