@@ -23,9 +23,24 @@ der Google Cloud. Es gibt auch einen free plan (M0). Dieser Plan hat natürlich 
 
 Registriere dich bei https://account.mongodb.com/ und lege einen User an. Danach kannst du
 ein Projekt und einen Cluster wie in diesem Video erstellen, dich mit Studio 3T verbinden und
-die ExamsDb anlegen:
+die ExamsDb anlegen.
 
-[Video: Erstellen eines Clusters in MongoDB Atlas](https://youtu.be/dazJXqyEZCM)
+[Video: Erstellen eines Clusters in MongoDB Atlas und Einspielen der ExamsDb](https://youtu.be/dazJXqyEZCM)
+
+Im Video wird der Cluster wie folgt angelegt:
+
+- **New Projekt:** Ein Projekt mit dem Namen *examsProjekt* anlegen.
+- **Menü Database:** Mit *Build a Database* einen neuen Cluster anlegen.
+  - **Typ der Instanz:** *Shared*, Plan *M0* (free tier).
+  - **Provider:** Azure, Region Ireland (northeurope). Es kann auch ein anderer Anbieter gewählt werden.
+  - **Cluster Name:** *examsCluster*
+  - **Username:** Es wird noch kein User angelegt, das wird später erledigt wo eine Rollenzuweisung
+    auch möglich ist.
+  - **IP Address List:** Der IP Range *0.0.0.0/0* in der IP Address List den Zugriff erlauben.
+- **Menü Database Access (Security):** Einen User mit dem Namen *root* und einem generiertem Passwort
+  anlegen. Das Passwort für den Connection String kopieren. Die Rolle *Atlas admin* zuweisen.
+- **Menü Database (Deployment):** Mit *Connect* den Connection String kopieren und das root Passwort
+  einsetzen.
 
 
 ### Nachträgliche Konfigurieren des Clusters
