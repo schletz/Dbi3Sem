@@ -38,6 +38,7 @@
           <li> <a href="13_NoSQL/07_MongoDb_Aggregate.md">Aggregation und Pipelines</a></li>
           <li> <a href="13_NoSQL/08_MongoDb_InsertDelete.md">Insert und Delete</a></li>
           <li> <a href="13_NoSQL/09_MongoDb_Index.md">Index</a></li>
+          <li> <a href="13_NoSQL/10_MongoDb_Atlas.md">MongoDB Atlas: MongoDB in der Cloud</a></li>          
           <li>
             Übungen zu Abfragen
             <ul>
