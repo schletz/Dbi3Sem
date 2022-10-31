@@ -17,7 +17,7 @@ können ggf. Mails, die dorthin gesendet werden, abgerufen werden. Als Passwort 
 beliebiges Passwort mit Sonderzeichen ein. Es wird keine Bestätigungsmail verlangt, das Programm
 lässt sich sofort nach der Registrierung starten. 
 
-![](studio3t_register_2108.png)
+![](studio3t_register_2128.png)
 
 Nach der Installation können wir uns mit der Datenbank verbinden:
 
