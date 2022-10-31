@@ -26,13 +26,25 @@ Registriere dich bei https://account.mongodb.com/ und lege einen User an. Lade d
 das Programm *atlas* für dein Betriebssystem. Unter Windows verwende die ZIP Datei, öffne das
 Archiv und ziehe die Datei *atlas.exe* im Verzeichnis *bin* in einen Ordner auf der Festplatte.
 
-Gehe danach in die Konsole und in das Verzeichnis, wo sich die Datei *atlas.exe* befindet. Kopiere
-nun den nachfolgenden Befehl und führe ihn aus.
+### Anlegen mit atlas quickstart
+
+Gehe danach in die Konsole und in das Verzeichnis, wo sich die Datei *atlas.exe* befindet. Zuerst
+wird mit *atlas project* ein neues Projekt angelegt. In unserem Beispiel heißt es *examsProject*
+Führe den nachfolgenden Befehl aus, um das Projekt anzulegen.
 
 ```
-atlas quickstart --currentIp --clusterName examsCluster --provider AZURE --region EUROPE_NORTH --username root --skipSampleData
+atlas projects create examsProject
 ```
-<small>[Zur Befehlsreferenz auf mongodb.com](https://www.mongodb.com/docs/atlas/cli/stable/command/atlas-quickstart/)</small>
+
+Nach dem Ausführen des Befehles wird die ID des Projektes mit der Meldung `Project 'xxxxx' created.`
+angezeigt. Kopiere nun den nachfolgenden Befehl und füge ihn in der Konsole ein. Bevor du ihn
+ausführst, muss *(ProjectID)* durch die angezeigte ID des vorigen Befehls ersetzt werden.
+
+```
+atlas quickstart --accessListIp 0.0.0.0/0 --clusterName examsCluster --provider AZURE --region EUROPE_NORTH --username root --skipSampleData --projectId (ProjectID)
+```
+
+<sup>[Zur Befehlsreferenz auf mongodb.com](https://www.mongodb.com/docs/atlas/cli/stable/command/atlas-quickstart/)</sup>
 
 Am Ende wird eine Information ausgegeben, wie du dich zur Datenbank verbinden kannst:
 
@@ -40,6 +52,8 @@ Am Ende wird eine Information ausgegeben, wie du dich zur Datenbank verbinden ka
 Once you install the MongoDB Shell, connect to your database with:
 $ mongosh -u root -p xxxx mongodb+srv://examscluster.xxx.mongodb.net
 ```
+
+### Erstellen des Connection Strings
 
 Erstelle einen Connection String in einem Editor:
 
@@ -57,16 +71,8 @@ mongodb+srv://root:xxxx@examscluster.xxx.mongodb.net/
 Mit diesem Connection String kannst du dich in Studio 3T mit *Connect* &rarr; *New Connection*
 verbinden, indem du diese URI einfach einfügst.
 
-### Löschen des Clusters
-
-Falls etwas schief gegangen ist, kann der User und der Cluster leicht gelöscht werden. In unserem
-Beispiel haben wir den User *root* und den Cluster *examsCluster* angelegt.
-
-```
-atlas clusters delete examsCluster
-
-atlas dbusers delete root
-```
+Auf der [Konfigurationsseite](https://account.mongodb.com/account/login) kann im Menüpunkt
+*Database* der Connection String ebenfalls nachgesehen werden.
 
 ### Konfigurieren des Clusters
 
@@ -78,6 +84,19 @@ zugreifen soll.
 
 ![](atlas_config_0902.png)
 
+Der Cluster kann im Menü *Databases* konfiguriert werden. Ein Klick auf den Namen öffnet
+weitere Konfigurationsmöglichkeiten:
+
+![](atlas_cluster_config_0941.png)
+
+### Löschen des Clusters
+
+Falls etwas schief gegangen ist, kannst du auf der
+[Konfigurationsseite](https://account.mongodb.com/account/login)
+den Menüpunkt *Projects* auswählen und das ganze Projekt löschen. Vorher muss der Cluster mit
+*Terminate* beendet und gelöscht werden.
+
+
 ## Anlegen der Musterdatenbank in MongoDB Atlas
 
 Nun wollen wir unsere *examsDb* in der Cloud anlegen. Das ist sehr einfach. Kopiere das
@@ -86,3 +105,40 @@ Verzeichnis. Ändere den Verbindungsstring der Methode *ExamDatabase.FromConnect
 in der Datei *Program.cs* oder *Main.java* auf die gerade erstellten URI. Wenn du das Programm 
 ausführst, wird die Datenbank im erstellten Cluster angelegt. Natürlich dauert das etwas länger als 
 die lokale Lösung mit dem Container.
+
+
+## Anhang
+
+### Alternative: mehr Kontrolle durch manuelles Anlegen
+
+Zuerst wird mit *atlas project* ein neues Projekt angelegt. In unserem Beispiel heißt es *examsProject*
+
+```
+atlas projects create examsProject
+```
+
+Generiere nun mit einem Passwort Generator wie z. B. https://www.random.org/passwords/ ein starkes
+Passwort für den root User (ca. 20 Stellen). Kopiere danach die folgenden Befehle in einen
+Editor und ändere 2 Sachen:
+
+- Statt *(Passwort)* füge das erzeugte Passwort ein.
+- Statt *(Project ID)* füge die ID des Projektes ein. Sie wird nach dem Ausführen des Befehls
+  *atlas projects* angezeigt.
+
+```
+atlas dbusers create atlasAdmin --username root --password (Passwort) --projectId (Project ID)
+
+atlas accessLists create 0.0.0.0/0 --projectId (Project ID)
+
+atlas clusters create examsCluster --type REPLICASET --members 3 --tier M0 --provider AZURE --region EUROPE_NORTH --projectId (angezeigte projectid einfügen)
+```
+
+<sup>[Zur Befehlsreferenz](https://www.mongodb.com/docs/atlas/cli/stable/command/atlas/)</sup>
+
+Ein *sharded Cluster* kann mit dem folgenden Befehl angelegt werden. Er wird aber erst ab dem
+Plan M30 unterstützt:
+
+```
+atlas clusters create examsCluster --type SHARDED --shards 5 --tier M0 --provider AZURE --region EUROPE_NORTH --projectId (angezeigte projectid einfügen)
+```
+
