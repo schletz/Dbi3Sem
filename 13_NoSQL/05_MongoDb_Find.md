@@ -640,9 +640,9 @@ AH.14, B2.10
 ```
 
 **(6)** Welche negativen Prüfungen gab es zwischen 1.1.2022 und 27.1.2022?
-Erstelle mit new DateTime(Year, Month, Day) einen Datums/Zeitwert. Beachte, dass das Endedatum als "kleiner" Filter und mit 28.1.2022
-gesetzt werden muss. Die erstellten DateTime Werte haben nämlich als Zeitwert 0:00, sonst werden die Prüfungen am letzten
-Tag nicht gelistet!
+Erstelle mit *$toDate* bzw. *ISODate(string)* einen Datums/Zeitwert für den Vergleich. Beachte, dass das
+Endedatum als "kleiner" Filter und mit 28.1.2022 gesetzt werden muss. Die erstellten DateTime Werte
+haben nämlich als Zeitwert 0:00, sonst werden die Prüfungen am letzten Tag nicht gelistet!
 
 ```
 00000024, 0000007f, 000000c3, 000000e9, 00000136, 00000175
