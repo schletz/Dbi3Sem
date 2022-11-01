@@ -303,7 +303,9 @@ orders) jedes Produktes.
 {"orderId":"0000005d","ean":"817795","productName":"Refined Metal Chips","recommendedPrice":742.2,"itemPrice":670.4}]
 ```
 
-**(2.12)** Umsatz pro Bundesland
+**(2.12)** Ermittle den gesamten Umsatz pro Bundesland in *billingAddress.state*. Hinweis: es ist
+ein *$lookup* nötig. Gehe zuerst in die *customers* Collection, und führe einen Join über das Feld
+*customers.id = orders.customerId* aus.
 
 ```javascript
 [{"state":"B","revenue":47719.2},{"state":"W","revenue":44621.3},{"state":"N","revenue":70185.6}]
