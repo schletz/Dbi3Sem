@@ -78,7 +78,7 @@ exit
 
 ## Das Klassendiagramm
 
-![](ExamsDb/klassendiagramm_2122.svg)
+![](ExamsDb/klassendiagramm_1617.svg)
 
 Das Klassendiagramm zeigt die Modelklassen, die für die Serialisierung der einzelnen Dokumente
 verwendet werden. Es wurde in PlantUML erstellt und hat folgende Konventionen:
@@ -295,8 +295,8 @@ left to right direction
 class Address <value object> {
     *street : String
     *streetNr : String
-    *City : String
-    *Zip : Integer
+    *city : String
+    *zip : Integer
 } 
 
 entity Class <<(E,#FF7700) Document>> {
