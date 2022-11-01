@@ -258,6 +258,9 @@ in MongoDB Ausdrücke umwandelt. Dadurch können die gewohnten Funktionen wie *W
 
 ### Demoprogramm
 
+<details>
+<summary>Code anzeigen</summary>
+
 Kopiere das Generatorprogramm im Ordner *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner
 (z. B. *FilterDemos*). Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt.
 Das Programm gibt die Filter, die es generiert, aus. *AsQueryable()* erzeugt eine *aggregate()*
@@ -436,8 +439,12 @@ class Program
     }
 }
 ```
+</details>
 
 ## Filtern mit dem Java MongoDB Treiber
+
+<details>
+<summary>Code anzeigen</summary>
 
 Kopiere das Programm im Ordner *13_NoSQL/examsdb-java* in ein neues Verzeichnis. Ersetze danach
 die Datei *Main.java* durch die untenstehende Version. Sie zeigt, wie die oben verwendeten Filter
@@ -584,6 +591,7 @@ public class Main {
     }
 }
 ```
+</details>
 
 ## Übung
 
@@ -678,7 +686,10 @@ kannst du einen where Filter wie im Beispiel als String verwenden.
 0000009c, 0000009e, 000000a3, 000000c0, 000000c8, 000000d6, 000000ff, 00000100, 00000111, 00000156
 ```
 
-**Program.cs (.NET)**
+**Program.cs (.NET) für die Bearbeitung in .NET**
+<details>
+<summary>Code anzeigen</summary>
+
 ```c#
 using ExamDbGenerator;
 using MongoDB.Driver;
@@ -852,8 +863,12 @@ class Program
     }
 }
 ```
+</details>
 
-**Main.java (Java)**
+**Main.java (Java) für die Bearbeitung in Java**
+<details>
+<summary>Code anzeigen</summary>
+
 ```java
 package at.spengergasse.examsdb;
 
@@ -1012,3 +1027,4 @@ public class Main {
 }
 
 ```
+</details>
