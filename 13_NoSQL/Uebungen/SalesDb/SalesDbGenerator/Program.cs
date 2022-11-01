@@ -50,32 +50,25 @@ namespace SalesDbGenerator
             // logging in Zeile 17 auf true.
 
             // *****************************************************************************************
+            // FILTERABFRAGEN
+            // *****************************************************************************************
             // Muster: Anzahl der negativen Prüfungen pro Fach
             {
                 PrintHeader("Muster: Produkt mit der EAN 317174.");
                 var result = salesDb.Products.AsQueryable().Where(p => p.Ean == "317174");
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
-                //Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
             }
 
             // *****************************************************************************************
             {
-                PrintHeader("(1) Produkte der Kategorie Electronics.");
+                PrintHeader("(1.1) Produkte der Kategorie Electronics.");
                 var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
-                PrintHeader("(2) Produkte, die unter 400 Euro kosten.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
-                Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
-            }
-
-            // *****************************************************************************************
-            // 
-            {
-                PrintHeader("(3) Produkte, die ab 1.1.2022 nicht mehr verfügbar sind.");
+                PrintHeader("(1.2) Produkte, die unter 400 Euro kosten.");
                 var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
@@ -83,14 +76,7 @@ namespace SalesDbGenerator
             // *****************************************************************************************
             // 
             {
-                PrintHeader("(4) Produkte, die keinen Wert in AvailableTo haben.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
-                Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
-            }
-
-            // *****************************************************************************************
-            {
-                PrintHeader("(5) Produkte, wo der Lagerstand unter dem minimalen Lagerstand liegt.");
+                PrintHeader("(1.3) Produkte, die ab 1.1.2022 nicht mehr verfügbar sind.");
                 var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
@@ -98,7 +84,22 @@ namespace SalesDbGenerator
             // *****************************************************************************************
             // 
             {
-                PrintHeader("(6) Kunden, die eine Adresse im Burgenland in shippingAddresses haben.");
+                PrintHeader("(1.4) Produkte, die keinen Wert in AvailableTo haben.");
+                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(1.5) Produkte, wo der Lagerstand unter dem minimalen Lagerstand liegt.");
+                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
+            }
+
+            // *****************************************************************************************
+            // 
+            {
+                PrintHeader("(1.6) Kunden, die eine Adresse im Burgenland in shippingAddresses haben.");
                 var result = Enumerable.Empty<Customer>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
@@ -106,14 +107,14 @@ namespace SalesDbGenerator
 
             // *****************************************************************************************
             {
-                PrintHeader("(7) Kunden, mehr als 2 Adressen in shippingAddresses haben.");
+                PrintHeader("(1.7) Kunden, mehr als 2 Adressen in shippingAddresses haben.");
                 var result = Enumerable.Empty<Customer>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
-                PrintHeader("(8) Orders des Produktes 566572.");
+                PrintHeader("(1.8) Orders des Produktes 566572.");
                 var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
@@ -121,24 +122,116 @@ namespace SalesDbGenerator
 
             // *****************************************************************************************
             {
-                PrintHeader("(9) Orders, in denen ein Produkt vorkommt, dessen ItemPrice mehr als 990 Euro gekostet hat.");
+                PrintHeader("(1.9) Orders, in denen ein Produkt vorkommt, dessen ItemPrice mehr als 990 Euro gekostet hat.");
                 var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
-                PrintHeader("(10) Orders ohne ein Produkt der Kategorie Sportswear.");
+                PrintHeader("(1.10) Orders ohne ein Produkt der Kategorie Sportswear.");
                 var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
-                PrintHeader("(11) Orders, die nur Produkte der Kategorie Sportswear haben.");
+                PrintHeader("(1.11) Orders, die nur Produkte der Kategorie Sportswear haben.");
                 var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
+
+            // *****************************************************************************************
+            // AGGREGATE
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.1) Anzahl der Produkte pro Kategorie.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.2) Anzahl der Produkte pro Kategorie, sortiert nach der Kategorie.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.3) Anzahl der Produkte pro Kategorie, absteigend sortiert nach der Anzahl.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            // Hinweis: Gib die Id mit .ToString().Substring(16,8) aus.
+            {
+                PrintHeader("(2.4) Kunden und die Anzahl der Adressen in shippingAddresses.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            // "addresses": {"$setUnion": [ "$shippingAddresses.state"]},
+            {
+                PrintHeader("(2.5) Bundesländer der Kunden in shippingAddresses.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            // $unwind
+            {
+                PrintHeader("(2.6) Bundesländer und Anzahl der Einträge, die sie in shippingAddresses haben.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            // 2x $group
+            {
+                PrintHeader("(2.7) Bundesländer und Anzahl der Kunden, wo dieses Bundesland in shippingAddresses vorkommt.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.8) Umsatz pro Kunde.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.9) Durchschnittlicher Verkaufspreis eines Produktes.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.10) Umsatz pro Jahr und Monat, sortiert nach Jahr und Monat");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.11) ItemPrice < 92% von Recommended Price.");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
+            // *****************************************************************************************
+            {
+                PrintHeader("(2.12) Umsatz pro Bundesland");
+                var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(result, options));
+            }
+
             return 0;
         }
         static void PrintHeader(string text)
