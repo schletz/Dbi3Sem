@@ -723,8 +723,10 @@ klein geschrieben.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *AggregateExcercise*).
-Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe deine Abfrage
-an die Stelle von *TODO: Schreibe deine Abfrage und speichere sie in result.*.
+Ersetze danach die Datei *Program.cs* durch den Inhalt, der unten bei
+*Code für Program.cs (.NET) anzeigen*
+eingeblendet wird und schreibe deine Abfrage an die Stelle von
+*TODO: Schreibe deine Abfrage und speichere sie in result.*.
 
 Wenn du die Aggregate Abfragen in **Java** lösen möchtest, gibt es im
 Ordner *13_NoSQL/examsDbClient_Java* ein Demoprogramm mit allen Modelklassen für den Zugriff
