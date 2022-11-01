@@ -49,10 +49,27 @@
 
 ## Generieren der Datenbank
 
+### Mit dem .NET Generatorprogramm
+
 Die Datenbank wird mit einem .NET Programm erzeugt. Starte das Programm im Ordner
 *13_NoSQL/Uebungen/SalesDb/SalesDbGenerator*, indem du die Datei *SalesDbGenerator.csproj* in
 Visual Studio (oder einer anderen IDE) öffnest und das Programm ausführst. Alternativ kann
 in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
+
+### Mit der Shell des Docker Containers
+
+Öffne in Docker Desktop eine Shell des Containers *mongodb* und füge die folgenden Befehle ein.
+Bestätige mit Enter.
+
+```bash
+apt-get update && apt-get install wget && cd /home &&
+for collection in customers orders products
+do
+    wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/Uebungen/SalesDb/Dump/$collection.json &&
+    mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/salesDb" --file=$collection.json --drop &&
+    rm $collection.json
+done
+```
 
 ## 1 Filterabfragen
 
