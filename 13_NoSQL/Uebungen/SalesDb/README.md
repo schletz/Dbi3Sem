@@ -69,6 +69,7 @@ do
     mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/salesDb" --file=$collection.json --drop &&
     rm $collection.json
 done
+
 ```
 
 ## 1 Filterabfragen
