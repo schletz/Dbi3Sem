@@ -2,6 +2,7 @@
 using DnsClient;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
@@ -18,6 +19,29 @@ namespace SalesDbGenerator
     /// </summary>
     class SalesDatabase
     {
+        // Value Objects
+        public record CustomerName(string Firstname, string Lastname, string Email);
+        public record Address(string Street, string StreetNr, int Zip, string City, string State);
+        public record OrderItem(
+            Product Product, int Quantity,
+            [property:BsonRepresentation(BsonType.Decimal128, AllowTruncation = true)]
+        decimal ItemPrice
+        );
+        // Collections
+        public record Product(string Ean, string Name, string Category,
+            [property:BsonRepresentation(BsonType.Decimal128, AllowTruncation = true)]
+        decimal RecommendedPrice,
+            int Stock, int MinStock, DateTime? AvailableFrom, DateTime? AvailableTo, ObjectId Id = default
+        );
+        public record Customer(CustomerName Name, Address BillingAddress, ObjectId Id = default)
+        {
+            public List<Address> ShippingAddresses { get; private set; } = new();
+        }
+        public record Order(ObjectId CustomerId, CustomerName CustomerName, DateTime DateTime, Address ShippingAddress, ObjectId Id = default)
+        {
+            public List<OrderItem> OrderItems { get; private set; } = new();
+        }
+
         public MongoClient Client { get; }
         public IMongoDatabase Db { get; }
         public IMongoCollection<Product> Products => Db.GetCollection<Product>("products");

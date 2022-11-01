@@ -62,14 +62,14 @@ namespace SalesDbGenerator
             // *****************************************************************************************
             {
                 PrintHeader("(1.1) Produkte der Kategorie Electronics.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
                 PrintHeader("(1.2) Produkte, die unter 400 Euro kosten.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
@@ -77,7 +77,7 @@ namespace SalesDbGenerator
             // 
             {
                 PrintHeader("(1.3) Produkte, die ab 1.1.2022 nicht mehr verfügbar sind.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
@@ -85,14 +85,14 @@ namespace SalesDbGenerator
             // 
             {
                 PrintHeader("(1.4) Produkte, die keinen Wert in AvailableTo haben.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
                 PrintHeader("(1.5) Produkte, wo der Lagerstand unter dem minimalen Lagerstand liegt.");
-                var result = Enumerable.Empty<Product>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Product>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
@@ -100,7 +100,7 @@ namespace SalesDbGenerator
             // 
             {
                 PrintHeader("(1.6) Kunden, die eine Adresse im Burgenland in shippingAddresses haben.");
-                var result = Enumerable.Empty<Customer>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Customer>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
@@ -108,14 +108,14 @@ namespace SalesDbGenerator
             // *****************************************************************************************
             {
                 PrintHeader("(1.7) Kunden, mehr als 2 Adressen in shippingAddresses haben.");
-                var result = Enumerable.Empty<Customer>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Customer>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
                 PrintHeader("(1.8) Orders des Produktes 566572.");
-                var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
@@ -123,21 +123,21 @@ namespace SalesDbGenerator
             // *****************************************************************************************
             {
                 PrintHeader("(1.9) Orders, in denen ein Produkt vorkommt, dessen ItemPrice mehr als 990 Euro gekostet hat.");
-                var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
                 PrintHeader("(1.10) Orders ohne ein Produkt der Kategorie Sportswear.");
-                var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
             // *****************************************************************************************
             {
                 PrintHeader("(1.11) Orders, die nur Produkte der Kategorie Sportswear haben.");
-                var result = Enumerable.Empty<Order>();  // TODO: Schreibe hier deine Abfrage.
+                var result = Enumerable.Empty<SalesDatabase.Order>();  // TODO: Schreibe hier deine Abfrage.
                 Console.WriteLine(string.Join(", ", result.ToList().OrderBy(r => r.Id).Select(r => r.Id.ToString().Substring(16, 8))));
             }
 
