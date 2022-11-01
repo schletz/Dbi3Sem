@@ -334,6 +334,9 @@ aktuell gespeicherten? Wenn nein kann dieser Fall im Programm mit eigener Logik 
 Kopiere das Programm im Ordner *13_NoSQL\ExamsDb* in einen eigenen Ordner und ersetze die Datei
 *Program.cs* durch den folgenden Inhalt. In der Konsole werden die Update Statements ausgegeben:
 
+<details>
+<summary>Code anzeigen</summary>
+
 ```c#
 using ExamDbGenerator;
 using MongoDB.Driver;
@@ -570,6 +573,7 @@ class Program
     }
 }
 ```
+</details>
 
 ## Übung
 
@@ -590,6 +594,9 @@ nicht, erfolgt eine entsprechende rote Ausgabe in der Konsole.
 Wenn du die Update Anweisungen in **Java** generieren möchtest, gibt es im
 Ordner *13_NoSQL/examsDbClient_Java* ein Demoprogramm mit allen Modelklassen für den Zugriff
 auf die Datenbank.
+
+<details>
+<summary>Code für Program.cs (.NET) anzeigen</summary>
 
 ```c#
 using ExamDbGenerator;
@@ -810,3 +817,4 @@ class Program
 }
 
 ```
+</details>
