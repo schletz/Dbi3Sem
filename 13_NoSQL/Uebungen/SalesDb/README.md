@@ -305,7 +305,8 @@ orders) jedes Produktes.
 
 **(2.12)** Ermittle den gesamten Umsatz pro Bundesland in *billingAddress.state*. Hinweis: es ist
 ein *$lookup* nötig. Gehe zuerst in die *customers* Collection, und führe einen Join über das Feld
-*customers.id = orders.customerId* aus.
+*customers.id = orders.customerId* aus. Summiere dann alle Werte von *orderItems.itemPrice* auf, wo der
+Kunde den entsprechenden State in *billingAddress.state* hat.
 
 ```javascript
 [{"state":"B","revenue":47719.2},{"state":"W","revenue":44621.3},{"state":"N","revenue":70185.6}]
