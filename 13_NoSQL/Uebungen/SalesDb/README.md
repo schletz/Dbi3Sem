@@ -59,11 +59,12 @@ in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
 ### Mit der Shell des Docker Containers
 
 Öffne in Docker Desktop eine Shell des Containers *mongodb* und füge die folgenden Befehle ein.
-Bestätige mit Enter.
+Bestätige mit Enter. Mit *exit* kannst du die Shell verlassen, wenn alle Befehle erfolgreich
+ausgeführt wurden.
 
 ```bash
-apt-get update && apt-get install wget && cd /home
-
+apt-get update && apt-get install wget < /dev/null
+cd /home
 for collection in customers orders products
 do
     wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/Uebungen/SalesDb/Dump/$collection.json &&
