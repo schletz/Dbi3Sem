@@ -839,7 +839,8 @@ Verwende das Datum in *dateTime*. Sortiere die Ausgabe absteigend nach der Anzah
 {"year":2020,"count":39},{"year":2024,"count":8}]
 ```
 
-**.NET Musterprogramm für die Übung**
+<details>
+<summary>Code für Program.cs (.NET) anzeigen</summary>
 
 ```c#
 using ExamDbGenerator;
@@ -1031,3 +1032,4 @@ class Program
     }
 }
 ```
+</details>
