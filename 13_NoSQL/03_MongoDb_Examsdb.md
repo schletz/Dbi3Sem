@@ -54,11 +54,9 @@ ausgeführt.
 Du kannst in Docker Desktop mit *Open Terminal* beim Container *mongodb* eine Shell öffnen. Mit
 den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespielt.
 
-Installiere zuerst das Dienstprogramm *wget* im Container, indem du den folgenden Befehl
-in das Terminal kopierst (mit Enter danach bestätigen):
-
 ```
-apt-get update && apt-get install wget && cd /home &&
+apt-get update && apt-get install wget && cd /home
+
 for collection in terms subjects rooms classes students teachers exams
 do
     wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/ExamsDb/Dump/$collection.json
@@ -66,18 +64,8 @@ do
     rm $collection.json
 done
 
-```
-
-Nach dem Importieren verbinde dich im Terminal des Containers mit folgendem Befehl zur
-Datenbank (mit Enter bestätigen):
-
-```
 /usr/bin/mongosh mongodb://root:1234@localhost:27017
-```
 
-Nun kannst du die Indizes anlegen (mit Enter bestätigen):
-
-```
 use examsDb
 db.getCollection("classes").createIndex({"term.year":1})
 db.getCollection("students").createIndex({"currentClass.shortname":1})
@@ -85,7 +73,9 @@ db.getCollection("exams").createIndex({"currentClass._id":1})
 db.getCollection("exams").createIndex({"student.nr":1})
 db.getCollection("exams").createIndex({"teacher.shortname":1})
 exit
+
 ```
+
 
 ## Das Klassendiagramm
 

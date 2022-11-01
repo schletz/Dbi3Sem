@@ -62,7 +62,8 @@ in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
 Bestätige mit Enter.
 
 ```bash
-apt-get update && apt-get install wget && cd /home &&
+apt-get update && apt-get install wget && cd /home
+
 for collection in customers orders products
 do
     wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/Uebungen/SalesDb/Dump/$collection.json &&
