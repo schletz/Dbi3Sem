@@ -398,7 +398,7 @@ class Program
                 .UpdateMany(
                     Builders<Teacher>.Filter.Lt(t => t.HoursPerWeek, 10),
                     Builders<Teacher>.Update.Set(t => t.HoursPerWeek, 10));
-            Console.WriteLine($"{result.MatchedCount} Datensätze in teachers gefunden.");
+            Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
         }
 
         // *****************************************************************************************
@@ -412,7 +412,7 @@ class Program
                     Builders<Term>.Update.Combine(
                         Builders<Term>.Update.Set(t => t.Start, new DateOnly(2023, 9, 4)),
                         Builders<Term>.Update.Set(t => t.End, new DateOnly(2024, 2, 5))));
-            Console.WriteLine($"{result.MatchedCount} Datensätze in teachers gefunden.");
+            Console.WriteLine($"{result.MatchedCount} Datensätze gefunden.");
         }
 
         // *****************************************************************************************
@@ -559,7 +559,7 @@ class Program
                 .UpdateMany(
                     Builders<Teacher>.Filter.Gt(t => t.Salary, 4000),
                     new EmptyPipelineDefinition<Teacher>()
-                        .AppendStage<Teacher, Teacher, Teacher>(@"{ '$set': { 'salary' : { '$multiply': [ '$hoursPerWeek', NumberDecimal(200) ] } } }"));
+                        .AppendStage<Teacher, Teacher, Teacher>(@"{ '$addFields': { 'salary' : { '$multiply': [ '$hoursPerWeek', NumberDecimal(200) ] } } }"));
         }
 
         return 0;
@@ -575,25 +575,300 @@ class Program
 ```
 </details>
 
+## Updates mit dem Java Treiber von MongoDB
+
+Kopiere das Programm im Ordner *13_NoSQL/examsdb-java* in einen eigenen Ordner und ersetze die Datei
+*Main.java* durch den folgenden Inhalt.
+
+<details>
+<summary>Code anzeigen</summary>
+
+```java
+package at.spengergasse.examsdb;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.bson.conversions.Bson;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoSecurityException;
+import com.mongodb.MongoTimeoutException;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Field;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+
+import at.spengergasse.examsdb.infrastructure.ExamDatabase;
+import at.spengergasse.examsdb.model.SchoolClass;
+import at.spengergasse.examsdb.model.Teacher;
+import at.spengergasse.examsdb.model.Term;
+
+public class Main {
+    public static void main(String[] args) {
+        var examDatabase = ExamDatabase.fromConnectionString("mongodb://root:1234@localhost:27017", false);
+        try {
+            examDatabase.Seed();
+        } catch (MongoTimeoutException e) {
+            System.err.println("Die Datenbank ist nicht erreichbar. Läuft der Container?");
+            System.exit(1);
+            return;
+        } catch (MongoSecurityException e) {
+            System.err.println("Mit dem Benutzer root (Passwort 1234) konnte keine Verbindung aufgebaut werden.");
+            System.exit(2);
+            return;
+        }
+
+        catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.exit(3);
+            return;
+        }
+
+        var db = examDatabase.getDb();
+        {
+            // *****************************************************************************************
+            // Lehrer HAR möchte 18 Stunden unterrichten (statt der eingetragenen 14). Es
+            // muss das Feld
+            // hoursPerWeek also auf 18 gesetzt werden.
+            // Da wir nach der ID filtern, bekommen wir nur 1 Datensatz. Daher können wir
+            // udpateOne verwenden.
+            System.out.println("Das Feld hoursPerWeek von Lehrer HAR wird auf 18 Stunden gesetzt.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateOne(
+                            Filters.eq("_id", "HAR"),
+                            Updates.set("hoursPerWeek", 18));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *****************************************************************************************
+            // Alle Lehrenden, die unter 10 Stunden unterrichten wollen (hoursPerWeek < 10),
+            // sollen jetzt 10 Stunden unterrichten.
+            // Wir brauchen UpdateMany, da wir mehrere Datensätze bekommen (können).
+            System.out.println("Alle Lehrenden, die hoursPerWeek < 10 haben, werden auf hoursPerWeek = 10 gesetzt.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateMany(
+                            Filters.lt("hoursPerWeek", 10),
+                            Updates.set("hoursPerWeek", 10));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *****************************************************************************************
+            // Im Semester 2023W ist das Anfangsdatum (start) auf den 4.09.2023 und das
+            // Endedatum (end)
+            // auf den 5.02.2024 zu setzen. Setze beide Felder mit einer Anweisung.
+            System.out.println("Das Feld hoursPerWeek von Lehrer HAR wird auf 18 Stunden gesetzt.");
+            var result = db.getCollection("terms", Term.class)
+                    .updateOne(
+                            Filters.eq("_id", "2023W"),
+                            Updates.combine(
+                                    Updates.set("start", LocalDate.parse("2023-09-04")),
+                                    Updates.set("end", LocalDate.parse("2024-02-05"))));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *****************************************************************************************
+            // Die Klasse 2022W_3AAIF bekommt einen neuen Klassenvorstand: CAM.
+            // Wir müssen das name Objekt des entsprechenden Teachers Document zuweisen.
+            System.out.println("Die Klasse mit der ID 2022W_3AAIF bekommt CAM als neuen Klassenvorstand.");
+            var teacherName = db.getCollection("teachers", Teacher.class).find(Filters.eq("_id", "CAM"))
+                    .first().name();
+
+            var result = db.getCollection("classes", SchoolClass.class)
+                    .updateOne(
+                            Filters.eq("_id", "2022W_3AAIF"),
+                            Updates.set("classTeacher", teacherName));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Lehrer ROS bekommt den DI als HomeOfficeTag.
+            // Wir verwenden push. Dies hängt einfach einen Wert im Array an.
+            System.out.println("Lehrer ROS bekommt den DI als Home Office Tag (mit push)");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateOne(
+                            Filters.eq("_id", "ROS"),
+                            Updates.push("homeOfficeDays", "DI"));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Lehrerin SAC bekommt auch den DI als HomeOfficeTag. Sie hat aber schon den DI
+            // eingetragen. Mit Push würden wir 2x den Dienstag haben. Wir verwenden
+            // addToSet,
+            // um keine Duplikate zu erzeugen.
+            System.out.println("Lehrerin SAC bekommt den DI als Home Office Tag (mit addToSet)");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateOne(
+                            Filters.eq("_id", "SAC"),
+                            Updates.addToSet("homeOfficeDays", "DI"));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Lehrerin ZIP bekommt MI und FR HomeOfficeTag.
+            // Wir verwenden addEachToSet, um keine Duplikate zu erzeugen.
+            System.out.println("Lehrerin ZIP bekommt MI und FR als Home Office Tag (mit addEachToSet)");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateOne(
+                            Filters.eq("_id", "ZIP"),
+                            Updates.addEachToSet("homeOfficeDays", List.of("MI", "FR")));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Überstunden wegen Lehrermangels: Alle Lehrer, die in DBI unterrichten können
+            // (canTeachSubjects) 20 Wochenstunden unterrichten, bekommen 5 Stunden dazu.
+            System.out.println(
+                    "Alle Lehrenden, die DBI unterrichten können und unter 20 Wochenstunden unterrichten, bekommen 5 Stunden dazu.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateMany(
+                            Filters.and(
+                                    Filters.eq("canTeachSubjects._id", "DBI"),
+                                    Filters.lt("hoursPerWeek", 20)),
+                            Updates.inc("hoursPerWeek", 5));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Einsparung: Alle Lehrer, die mehr als 4000 Euro verdienen, bekommen nur mehr
+            // 90% ihres Gehalts.
+            // salary ist ein Feld vom Typ Decimal128, daher müssen wir aus 0.9 ein
+            // BigDecimal
+            // erstellen da sonst 0.9 ein double Wert ist und daher nicht exakt dargestellt
+            // werden kann.
+            System.out
+                    .println("Alle Lehrenden, die mehr als 4000 Euro verdienen, bekommen nur mehr 90% ihres Gehalts.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateMany(
+                            Filters.gt("salary", 4000),
+                            Updates.mul("salary", new BigDecimal("0.9")));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Der FR als Home Office Tag wird gestrichen. Er ist bei allen Lehrenden zu
+            // löschen.
+            System.out.println("Der FR wird im Array homeOfficeDays aller Lehrenden gelöscht.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateMany(
+                            Filters.empty(),
+                            Updates.pull("homeOfficeDays", "FR"));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *************************************************************************************************
+            // Der MO als Home Office Tag wird für alle Lehrenden auf FR verschoben.
+            // Wir verwenden den positional $ operator (siehe
+            // https://www.mongodb.com/docs/manual/reference/operator/update/positional/#up._S_)
+            // Da nach dem Montag gefiltert wird, wird auch nur der MO auf FR geändert.
+            System.out.println("Der MO wird im Array homeOfficeDays aller Lehrenden auf FR geändert.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateMany(
+                            Filters.eq("homeOfficeDays", "MO"),
+                            Updates.set("homeOfficeDays.$", "FR"));
+            System.out.println(String.format("%d Datensätze gefunden.", result.getMatchedCount()));
+        }
+        {
+            // *****************************************************************************************
+            // Lehrerin BRI ändert die Mailadresse auf bri@spengergasse.at (wegen zu viel
+            // Spam). Wir aktualisieren daher einmal das Document in der teachers
+            // Collection.
+            // updateOne genügt, da wir nach der ID filtern.
+            System.out.println("Lehrerin BRI bekommt die Mailadresse bri@spengergasse.at.");
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateOne(
+                            Filters.eq("_id", "BRI"),
+                            Updates.set("name.email", "bri@spengergasse.at"));
+            System.out.println(String.format("%d Datensätze in teachers gefunden.", result.getMatchedCount()));
+
+            // Lehrerin BRI ist auch classTeacher in den Documents der classes Collection.
+            // Was soll also getan werden ("Update Anomalie")? Wir aktualisieren alle
+            // Klassen des heurigen Schuljahres.
+            // Dafür brauchen wir updateMany, da BRI von mehreren Klassen Klassenvorständin
+            // sein kann.
+            var result2 = db.getCollection("classes", SchoolClass.class)
+                    .updateMany(
+                            Filters.and(
+                                    Filters.eq("term.year", 2022),
+                                    Filters.eq("classTeacher.shortname", "BRI")),
+                            Updates.set("classTeacher.email", "bri@spengergasse.at"));
+            System.out.println(String.format("%d Datensätze in classes gefunden.", result.getMatchedCount()));
+            // Was ist mit ihrem Eintrag in den Documents der exams Collection? Soll dieser
+            // auch aktualisiert werden? Das hängt vom Sachverhalt ab.
+        }
+        {
+            // *****************************************************************************************
+            // Ausblick auf Pipelines: Lehrende mit über 4000 EUR Gehalt bekommen das Gehalt
+            // nach der Formel 200 * hoursPerWeek.
+            System.out.println(
+                    "Lehrende mit über 4000 EUR Gehalt bekommen das Gehalt nach der Formel 200 * hoursPerWeek.");
+            var pipeline = List.of(Aggregates.addFields(
+                    new Field<Bson>("salary",
+                            new BasicDBObject("$multiply", new Object[] { "$hoursPerWeek", new BigDecimal(200) }))));
+            var result = db.getCollection("teachers", Teacher.class)
+                    .updateOne(Filters.gt("salary", 4000), pipeline);
+            System.out.println(String.format("%d Datensätze in classes gefunden.", result.getMatchedCount()));
+        }
+    }
+}
+```
+
+</details>
+
 ## Übung
 
-Du kannst die folgende Aufgabe auf 2 Arten lösen:
+Du kannst die folgende Aufgabe auf 3 Arten lösen:
 
 1. Schreiben der Update Anweisungen in der Shell von Studio 3T.
-2. Verwenden der Update Methode in .NET oder in Java
+2. Verwenden der Update Methode in .NET
+3. Verwenden der Update Methode in Java
 
-Die Aufgaben sind im untenstehenden Programmcode als Kommentar. Falls du die Aufgabe in
-**.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
-*\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *UpdateExcercise*).
-Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe deine Update
-Anweisung an die Stelle von *TODO: Schreibe hier deine update Anweisung*.
-
-Die Codeanweisungen danach (und manchmal auch davor) prüfen dein Update. Stimmen die Daten
+Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im 
+Ordner *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *UpdateExcercise*).
+Ersetze danach die Datei *Program.cs* durch den Inhalt, der bei
+*Code für Program.cs (.NET) anzeigen* sichtbar ist und schreibe deine Update
+Anweisung an die Stelle von *TODO: Schreibe hier deine update Anweisung*. Die Codeanweisungen 
+danach (und manchmal auch davor) prüfen dein Update. Stimmen die Daten
 nicht, erfolgt eine entsprechende rote Ausgabe in der Konsole.
 
 Wenn du die Update Anweisungen in **Java** generieren möchtest, gibt es im
 Ordner *13_NoSQL/examsDbClient_Java* ein Demoprogramm mit allen Modelklassen für den Zugriff
 auf die Datenbank.
+
+**(1)** Die Studentin mit der ID *100003* hat geheiratet und heißt nun Bayer statt Neubert.
+Aktualisiere das Feld *name.lastname* in der students collection. Die *exams* Collection
+ist NICHT zu aktualisieren, da sie bei der Prüfung ja noch Neubert geheißen hat.
+
+**(2)** Das Semester mit der ID *2023S* (Sommersemester 2023/24) endet nicht wie eingetragen am
+1.7.2024 sondern am 28.06.2024. Aktualisiere das Dokument in der *terms* Collection. Da
+das Document noch nirgends eingebettet wurde, muss es nur in der *terms* Collection
+geändert werden.
+
+**(3)** Die Räume werden mit Sesseln aufgestockt. Jeder Raum, dessen Kapazität nicht null
+(also das Feld *capacity* vorhanden) ist, soll 2 Plätze mehr im Feld *capacity* erhalten.
+
+**(4)** Die Studentin mit der ID *100019* ist ins Studentenheim gegenüber der Schule gezogen.
+Die neue Adresse ist *{street: Spengergasse, streetNr: 18, city: Wien, zip: 1050}*
+
+**(5)** Der Lehrer mit der ID *TAN* hat nun eine Lehrbefähigung in DBI. Trage das neue Objekt vom
+Typ Subject mit dem richten Feld *longname* ein.
+
+**(6)** Lehrplanwechsel: POS heißt nun *Programmieren und Software Development*
+(statt Engineering). Aktualisiere das Document in *subjects* und alle Einträge in
+*canTeachSubject* der Lehrenden.
+
+**(7)** Die 4AAIF des Schuljahres *2022S_4AAIF* hat nun den Stammraum AH.06. Aktualisiere
+das Document in der *classes* Collection. Vergiss nicht, dass die Klasse auch als
+*currentClass* in der *students* und *exams* Collection vorkommt. Diese Klassen sollen ebenfalls
+aktualisiert werden.
+
+**(8)** Die Studentin mit der ID *100162* wechselt von der 8BBIF (*2022S_8BBIF*) in die Klasse
+*2022S_8ABIF*. Aktualisiere das Feld *currentClass*, indem du die Infos der Klasse
+*2022S_8ABIF* aus der *classes* Collection liest und zuweist. Füge dann einen neuen
+Eintrag im Array *classHistory* mit dieser Klasse hinzu.
+
 
 <details>
 <summary>Code für Program.cs (.NET) anzeigen</summary>

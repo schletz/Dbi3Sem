@@ -685,7 +685,7 @@ import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
 // ...
 var results = db.getCollection("exams", Document.class).aggregate(
-    Arrays.asList(
+    List.of(
         Aggregates.match(Filters.eq("grade", 5)),
         Aggregates.group(
             Projections.fields(
