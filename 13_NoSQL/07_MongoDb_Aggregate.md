@@ -519,7 +519,7 @@ Wer mit LINQ schon gearbeitet hat, kennt schon die Entsprechungen der hier gezei
 Im nachfolgenden Beispiel werden alle Studierenden zurückgegeben, die mehr als 1 Nicht genügend
 in einem Fach bekommen haben.
 
-<detail>
+<details>
 <summary>Code anzeigen</summary>
 
 ```c#
@@ -562,7 +562,7 @@ db.getCollection("exams").aggregate([
   { StudentNr: 100673, Subject: 'POS', Count: 2 }
 ]
 ```
-</detail>
+</details>
 
 ### Aufbau ohne *AsQueryable()*
 
@@ -571,7 +571,7 @@ Abfrage berechnet das Alter am 1.9.2022 und gibt alle männlichen Studierenden a
 Datum noch nicht 18 Jahre alt sind.
 
 
-<detail>
+<details>
 <summary>Code anzeigen</summary>
 
 ```c#
@@ -663,7 +663,7 @@ Das Ergebnis ist wie folgt:
 {"Id":100531,"Firstname":"David","Lastname":"Strunz","Age":17.57},
 {"Id":100109,"Firstname":"Juan","Lastname":"Vogt","Age":17.11}]
 ```
-</detail>
+</details>
 
 ## Die Pipeline mit dem Java Treiber erzeugen lassen
 
@@ -672,7 +672,7 @@ In Java können wir natürlich auch eine Aggregation Pipeline aufbauen. Der Trei
 vom Typ *Document* zurück, da das Ergebnis kein Objekt vom Typ *Exam* ist. Deswegen verwenden
 wir in der Funktion *getCollection()* auch *Document.class* als Typ.
 
-<detail>
+<details>
 <summary>Code anzeigen</summary>
 
 ```java
@@ -716,11 +716,11 @@ Document{{studentNr=100424, subject=POS, count=2}}
 Document{{studentNr=100484, subject=DBI, count=2}}
 Document{{studentNr=100673, subject=POS, count=2}}
 ```
-</detail>
 
 Es gibt auch einen Java Treiber für MongoDB, der Streams unterstützt. Auf 
 https://www.mongodb.com/docs/drivers/reactive-streams/
 befindet sich die Dokumentation.
+</details>
 
 ## Übung
 
@@ -854,7 +854,7 @@ Verwende das Datum in *dateTime*. Sortiere die Ausgabe absteigend nach der Anzah
 {"year":2020,"count":39},{"year":2024,"count":8}]
 ```
 
-<detail>
+<details>
 <summary>Code für Program.cs (.NET) anzeigen</summary>
 
 ```c#
@@ -1047,4 +1047,4 @@ class Program
     }
 }
 ```
-</detail>
+</details>
