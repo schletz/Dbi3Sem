@@ -82,7 +82,10 @@ done
 
 ## Bearbeitung der Aufgaben
 
-Du kannst die Aufgaben auf 3 Arten lösen:
+Synchronisiere zuerst das Repository auf deinen Rechner oder rufe 
+- wenn das Repo schon vorhanden ist - die Datei *resetGit.cmd* auf,
+damit du die neusten Dateien auf den Rechner bekommst. Danach kannst du die Aufgaben auf
+3 Arten lösen:
 
 - Eingeben der *find()* bzw. *aggregate()* Funktion in der Shell von Studio 3T.
 - Generieren der Filter in .NET mit *AsQueryable()* und LINQ oder mit der *Find()* bzw. *Aggregate()* Methode.
@@ -94,7 +97,7 @@ mit *AsQueryable()* oder der *Find()* bzw. *Aggregate()* Methode der Collection 
 Beachte, dass die Lösung mit *AsQueryable()* nicht immer möglich ist. Dann muss auf die *Find()*
 bzw. *Aggregate()* Funktion zurückgegriffen werden.
 
-Falls du die Aufgabe in **.Java** lösen möchtest, kopiere das Programm im Ordner
+Falls du die Aufgabe in **Java** lösen möchtest, kopiere das Programm im Ordner
 *13_NoSQL/Uebungen/SalesDb/salesdb-java* in ein anderes Verzeichnis. Öffne danach die Datei
 *pom.xml* mit IntelliJ oder einer anderen IDE.
 
