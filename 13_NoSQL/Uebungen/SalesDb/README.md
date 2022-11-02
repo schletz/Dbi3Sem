@@ -51,10 +51,16 @@
 
 ### Mit dem .NET Generatorprogramm
 
-Die Datenbank wird mit einem .NET Programm erzeugt. Starte das Programm im Ordner
+Starte das Programm im Ordner
 *13_NoSQL/Uebungen/SalesDb/SalesDbGenerator*, indem du die Datei *SalesDbGenerator.csproj* in
 Visual Studio (oder einer anderen IDE) öffnest und das Programm ausführst. Alternativ kann
 in diesem Ordner auch der Befehl *dotnet run* ausgeführt werden.
+
+### Mit dem Java Generatorprogramm
+
+Starte das Programm im Ordner
+*13_NoSQL/Uebungen/SalesDb/salesdb-java*, indem du die Datei *pom.xml* in
+IntelliJ (oder einer anderen IDE) öffnest und das Programm ausführst.
 
 ### Mit der Shell des Docker Containers
 
@@ -74,19 +80,28 @@ done
 
 ```
 
-## 1 Filterabfragen
+## Bearbeitung der Aufgaben
 
-Unter jedem Beispiel ist die korrekte Liste der zurückgegebenen *_id* Werte angegeben. Es werden
-nur die letzten 4 Bytes der Id angezeigt. Du kannst die folgende Aufgabe auf 2 Arten lösen:
+Du kannst die Aufgaben auf 3 Arten lösen:
 
-- Eingeben der *find()* Funktion in der Shell von Studio 3T.
-- Generieren der Filter in .NET mit *AsQueryable()* und LINQ oder mit der *Find()* Methode.
+- Eingeben der *find()* bzw. *aggregate()* Funktion in der Shell von Studio 3T.
+- Generieren der Filter in .NET mit *AsQueryable()* und LINQ oder mit der *Find()* bzw. *Aggregate()* Methode.
+- Generieren der Filter in Java mit der *find()* bzw. *aggregate()* Methode.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, kopiere das Programm im Ordner
 *13_NoSQL/Uebungen/SalesDb/SalesDbGenerator* in ein anderes Verzeichnis. Du kannst die Aufgaben
-mit *AsQueryable()* oder der *Find()* Funktion der Collection lösen. Beachte, dass die Lösung mit
-*AsQueryable()* nicht immer möglich ist. Dann muss auf die *Find()* Funktion
-zurückgegriffen werden.
+mit *AsQueryable()* oder der *Find()* bzw. *Aggregate()* Methode der Collection lösen.
+Beachte, dass die Lösung mit *AsQueryable()* nicht immer möglich ist. Dann muss auf die *Find()*
+bzw. *Aggregate()* Funktion zurückgegriffen werden.
+
+Falls du die Aufgabe in **.Java** lösen möchtest, kopiere das Programm im Ordner
+*13_NoSQL/Uebungen/SalesDb/salesdb-java* in ein anderes Verzeichnis. Öffne danach die Datei
+*pom.xml* mit IntelliJ oder einer anderen IDE.
+
+## 1 Filterabfragen
+
+Unter jedem Beispiel ist die korrekte Liste der zurückgegebenen *_id* Werte angegeben. Es werden
+nur die letzten 4 Bytes der Id angezeigt.
 
 **(1.1)** Gib alle Produkte (Collection *products*) aus, die die Kategorie "Electronics"
 (Feld *category*) besitzen.
@@ -176,20 +191,7 @@ vorkommt, dessen *itemPrice* größer als 990 Euro ist.
 Unter jedem Beispiel ist die korrekte Ausgabe. Bei ObjectIds werden nur die letzten 4 Bytes der Id
 angezeigt. Die Felder deines Ergebnisses müssen durch die Projektion mit der Lösung ident sein.
 Dezimalzahlen werden in der Lösung aus Platzgründen auf 2 Stellen gerundet, in deiner Abfrage soll 
-nicht gerundet werden. Die Sortierung ist - außer sie ist angegeben - nicht wichtig. Du kannst die 
-folgende Aufgabe auf
-2 Arten lösen:
-
-- Eingeben der *aggregate()* Funktion in der Shell von Studio 3T.
-- Generieren der Aggregation in .NET mit *AsQueryable()* und LINQ oder mit der *Aggregate()* 
-  Methode.
-
-Falls du die Aufgabe in **.NET** lösen möchtest, kopiere das Programm im Ordner
-*13_NoSQL/Uebungen/SalesDb/SalesDbGenerator* in ein anderes Verzeichnis. In der Datei *Program.cs* 
-sind die Ausgaben der Lösungen schon vorgegeben. Du kannst die Aufgaben
-mit *AsQueryable()* oder der *Aggregate()* Funktion der Collection lösen. Beachte, dass die Lösung 
-mit *AsQueryable()* nicht immer möglich ist. Dann muss auf die *Aggregate()* Funktion 
-zurückgegriffen werden.
+nicht gerundet werden. Die Sortierung ist - außer sie ist angegeben - nicht wichtig.
 
 ### Collection *products*
 

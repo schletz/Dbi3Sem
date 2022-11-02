@@ -52,7 +52,6 @@ namespace SalesDbGenerator
             // *****************************************************************************************
             // FILTERABFRAGEN
             // *****************************************************************************************
-            // Muster: Anzahl der negativen Prüfungen pro Fach
             {
                 PrintHeader("Muster: Produkt mit der EAN 317174.");
                 var result = salesDb.Products.AsQueryable().Where(p => p.Ean == "317174");
@@ -173,7 +172,6 @@ namespace SalesDbGenerator
             }
 
             // *****************************************************************************************
-            // "addresses": {"$setUnion": [ "$shippingAddresses.state"]},
             {
                 PrintHeader("(2.5) Bundesländer der Kunden in shippingAddresses.");
                 var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
@@ -181,7 +179,6 @@ namespace SalesDbGenerator
             }
 
             // *****************************************************************************************
-            // $unwind
             {
                 PrintHeader("(2.6) Bundesländer und Anzahl der Einträge, die sie in shippingAddresses haben.");
                 var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
@@ -189,7 +186,6 @@ namespace SalesDbGenerator
             }
 
             // *****************************************************************************************
-            // 2x $group
             {
                 PrintHeader("(2.7) Bundesländer und Anzahl der Kunden, wo dieses Bundesland in shippingAddresses vorkommt.");
                 var result = Enumerable.Empty<object>();  // TODO: Schreibe hier deine Abfrage.
