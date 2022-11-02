@@ -505,6 +505,9 @@ Möglichkeiten sind in der MongoDB Dokumentation auf
 https://www.mongodb.com/docs/manual/meta/aggregation-quick-reference/
 beschrieben.
 
+Weitere allgemeine Infos zum großen Thema Aggregation stehen in der MongoDB Dokumentation bereit:
+https://docs.mongodb.com/manual/aggregation/
+
 ## *aggregate()* samt Pipeline mit dem .NET Treiber erzeugen lassen
 
 ### Aufbau mit *AsQueryable()*
@@ -514,7 +517,10 @@ Wer mit LINQ schon gearbeitet hat, kennt schon die Entsprechungen der hier gezei
 *OrderBy()* bzw. *ThenBy()* für die Sortierung.
 
 Im nachfolgenden Beispiel werden alle Studierenden zurückgegeben, die mehr als 1 Nicht genügend
-in einem Fach bekommen haben:
+in einem Fach bekommen haben.
+
+<detail>
+<summary>Code anzeigen</summary>
 
 ```c#
 var negativeGrades = db.GetCollection<Exam>("exams")
@@ -556,12 +562,17 @@ db.getCollection("exams").aggregate([
   { StudentNr: 100673, Subject: 'POS', Count: 2 }
 ]
 ```
+</detail>
 
 ### Aufbau ohne *AsQueryable()*
 
 In .NET kann die Pipeline für komplexere Abfragen auch händisch aufgebaut werden. Die folgende
 Abfrage berechnet das Alter am 1.9.2022 und gibt alle männlichen Studierenden aus, die zu diesem
 Datum noch nicht 18 Jahre alt sind.
+
+
+<detail>
+<summary>Code anzeigen</summary>
 
 ```c#
 var result = db.GetCollection<Student>("students").Aggregate()
@@ -652,6 +663,7 @@ Das Ergebnis ist wie folgt:
 {"Id":100531,"Firstname":"David","Lastname":"Strunz","Age":17.57},
 {"Id":100109,"Firstname":"Juan","Lastname":"Vogt","Age":17.11}]
 ```
+</detail>
 
 ## Die Pipeline mit dem Java Treiber erzeugen lassen
 
@@ -659,6 +671,9 @@ In Java können wir natürlich auch eine Aggregation Pipeline aufbauen. Der Trei
 *mongodb-driver-sync* arbeitet sehr nahe an der erzeugten Pipeline. Wir geben hier eine Liste
 vom Typ *Document* zurück, da das Ergebnis kein Objekt vom Typ *Exam* ist. Deswegen verwenden
 wir in der Funktion *getCollection()* auch *Document.class* als Typ.
+
+<detail>
+<summary>Code anzeigen</summary>
 
 ```java
 import org.bson.Document;
@@ -701,13 +716,11 @@ Document{{studentNr=100424, subject=POS, count=2}}
 Document{{studentNr=100484, subject=DBI, count=2}}
 Document{{studentNr=100673, subject=POS, count=2}}
 ```
+</detail>
 
 Es gibt auch einen Java Treiber für MongoDB, der Streams unterstützt. Auf 
 https://www.mongodb.com/docs/drivers/reactive-streams/
 befindet sich die Dokumentation.
-
-Weitere allgemeine Infos zum großen Thema Aggregation stehen in der MongoDB Dokumentation bereit:
-https://docs.mongodb.com/manual/aggregation/
 
 ## Übung
 
