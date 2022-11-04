@@ -79,7 +79,7 @@ Wir erkennen folgende Dinge:
   Daten für die nächsten Schritte ausgewählt werden.
 - **(2) Gruppierung und Aggregierung:** Im Gegensatz zu SQL definieren wir hier 2 Schritte auf
   einmal. Mit dem *"$group"* Operator definieren wir diesen Schritt.
-  1. Mit einem *_id* Feld definieren wir das Felder, nach denen gruppiert werden soll. Es
+  1. Mit einem *_id* Feld definieren wir die Felder, nach denen gruppiert werden soll. Es
      ist mit einem Dollar ($) gekennzeichnet.
   2. Danach geben wir die Aggregierungen an. Der Aufbau ist *{"name": "operation"}*. Der hier
      definierte Name ist frei wählbar, wir können in den nachfolgenden Schritten darauf zugreifen.
@@ -183,8 +183,8 @@ HAVING COUNT(*) > 1
 ```
 
 Mit *aggregate()* funktioniert dies durch die *Pipeline* sehr einfach. Wir schreiben einfach *nach*
-der Gruppierung eine Filteropation ("Stage" in der Pipeline) mit *$match*. Beachte, dass bei
-*$match* kein Dollar ($) bei *count* verwendet wird, da der Key sowieso immer ein Feld ist.
+der Gruppierung eine Filteroperation ("Stage" in der Pipeline) mit *$match*. Beachte, dass bei
+*$match* kein Dollar ($) bei *examCount* verwendet wird, da der Key sowieso immer ein Feld ist.
 
 ```javascript
 db.getCollection("exams").aggregate([
@@ -286,7 +286,7 @@ db.getCollection("rooms").aggregate([
 
 Wir möchten nun die Anzahl der Lehrenden zählen, die an einem Wochentag ihren Home Office Tag haben.
 Das ist allerdings nicht direkt mit *$group* möglich, denn das Feld *homeOfficeDays* ist ein Array.
-Daher gibt es eine spezielle Stage: *$unwuind*. Sie reduziert Arrays, indem für jedes Arrayelement
+Daher gibt es eine spezielle Stage: *$unwind*. Sie reduziert Arrays, indem für jedes Arrayelement
 der Datensatz einfach wiederholt geschrieben wird. Grafisch sieht das so aus:
 
 ![](unwind_1240.png)
