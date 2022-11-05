@@ -4,7 +4,7 @@
 > können also auch in SQLite oder SQL Server ausgeführt werden.
 
 Erstelle in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Öffne dafür die Shell
-des Oracle Containers in Docker Desktop und gibt die folgenden Befehle ein:
+des Oracle Containers in Docker Desktop und kopiere den folgenden Befehl in die Shell:
 
 ```bash
 sqlplus system/oracle@//localhost/XEPDB1 <<< "
@@ -13,6 +13,7 @@ sqlplus system/oracle@//localhost/XEPDB1 <<< "
     GRANT CONNECT, RESOURCE, CREATE VIEW TO Sportfest;
     GRANT UNLIMITED TABLESPACE TO Sportfest;
 "
+
 ```
 
 Nun befülle die Datenbank des Users *Sportfest* mit den folgenden Kommandos. Kopiere diese
@@ -21,7 +22,7 @@ Befehle einfach in die Shell des Oracle Containers:
 ```bash
 cd /home
 curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql > sportfest.sql
-sqlplus system/oracle@//localhost/XEPDB1 @sportfest.sql
+echo exit | sqlplus Sportfest/oracle@//localhost/XEPDB1 @sportfest.sql
 
 ```
 
