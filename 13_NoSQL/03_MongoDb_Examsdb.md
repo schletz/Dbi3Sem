@@ -55,12 +55,12 @@ Du kannst in Docker Desktop mit *Open Terminal* beim Container *mongodb* eine Sh
 den nachfolgenden Befehlen werden die JSON Dumps von Github geladen und eingespielt. Mit
 *exit* kannst du die Shell verlassen, wenn alle Befehle erfolgreich ausgeführt wurden.
 
-```
-apt-get update && apt-get install wget < /dev/null
+```bash
+apt-get update && apt-get install --yes curl < /dev/null
 cd /home
 for collection in terms subjects rooms classes students teachers exams
 do
-    wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/ExamsDb/Dump/$collection.json
+    curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/ExamsDb/Dump/$collection.json > $collection.json
     mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/examsDb" --file=$collection.json --drop
     rm $collection.json
 done

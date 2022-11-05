@@ -72,12 +72,12 @@ Bestätige mit Enter. Mit *exit* kannst du die Shell verlassen, wenn alle Befehl
 ausgeführt wurden.
 
 ```bash
-apt-get update && apt-get install wget < /dev/null
+apt-get update && apt-get install --yes curl < /dev/null
 cd /home
 for collection in customers orders products
 do
-    wget https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/Uebungen/SalesDb/Dump/$collection.json &&
-    mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/salesDb" --file=$collection.json --drop &&
+    curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/13_NoSQL/Uebungen/SalesDb/Dump/$collection.json > $collection.json
+    mongoimport --authenticationDatabase=admin --uri="mongodb://root:1234@localhost:27017/salesDb" --file=$collection.json --drop
     rm $collection.json
 done
 
