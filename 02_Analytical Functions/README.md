@@ -3,7 +3,14 @@
 > **Hinweis:** Analytische Funktionen gibt es auch in anderen Datenbanksystemen. Die Anweisungen
 > können also auch in SQLite oder SQL Server ausgeführt werden.
 
-Erstelle in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Öffne dafür die Shell
+Dieses Kapitel benötigt einen Docker Container mit Oracle 21 XE. Du kannst das Image mit
+dem folgenden Befehl laden und den Container stellen:
+
+```
+docker run -d -p 1521:1521 -e ORACLE_PASSWORD=oracle -v C:/Temp/oracle-home:/home --name oracle21c gvenzl/oracle-xe:21-full
+```
+
+Erstelle nun in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Öffne dafür die Shell
 des Oracle Containers in Docker Desktop und kopiere den folgenden Befehl in die Shell:
 
 ```bash
