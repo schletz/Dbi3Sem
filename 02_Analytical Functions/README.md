@@ -3,19 +3,29 @@
 > **Hinweis:** Analytische Funktionen gibt es auch in anderen Datenbanksystemen. Die Anweisungen
 > können also auch in SQLite oder SQL Server ausgeführt werden.
 
-Erstellen Sie in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Danach weisen Sie ihm
-die folgenden Rechte zu:
+Erstelle in Oracle einen User *Sportfest* mit dem Passwort *oracle*. Öffne dafür die Shell
+des Oracle Containers in Docker Desktop und gibt die folgenden Befehle ein:
 
-```sql
-DROP USER Sportfest CASCADE;
-CREATE USER Sportfest IDENTIFIED BY oracle;
-GRANT CONNECT, RESOURCE, CREATE VIEW TO Sportfest;
-GRANT UNLIMITED TABLESPACE TO Sportfest;
+```bash
+sqlplus system/oracle@//localhost/XEPDB1 <<< "
+    DROP USER Sportfest CASCADE;
+    CREATE USER Sportfest IDENTIFIED BY oracle;
+    GRANT CONNECT, RESOURCE, CREATE VIEW TO Sportfest;
+    GRANT UNLIMITED TABLESPACE TO Sportfest;
+"
 ```
 
-Kopieren Sie danach Inhalt der Datei [sportfest.sql](https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql) 
-in SQL Developer und führen Sie alle Anweisungen aus. Achten Sie darauf, dass Sie im richten Schema
-(Sportfest) arbeiten.
+Nun befülle die Datenbank des Users *Sportfest* mit den folgenden Kommandos. Kopiere diese
+Befehle einfach in die Shell des Oracle Containers:
+
+```bash
+cd /home
+curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql > sportfest.sql
+sqlplus system/oracle@//localhost/XEPDB1 @sportfest.sql
+
+```
+
+Verbinde dich nun mit DBeaver oder SQL Developer mit dem User *Sportfest* (Passwort *oracle*).
 
 Unsere Datenbank speichert die einzelnen Bewerbe nach Abteilung, Klasse, Geschlecht und Bewerb. Die
 Anzahl der Datensätze gibt folgende Tabelle an:
