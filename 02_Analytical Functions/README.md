@@ -16,6 +16,11 @@ sqlplus system/oracle@//localhost/XEPDB1 <<< "
 
 ```
 
+> Hinweis: Nach dem Starten des Containers kann es einige Sekunden dauern, bis sich sqlplus
+> zur Datenbank verbinden kann. Falls die Meldung 
+> *ORA-12514: TNS:listener does not currently know of service requested in connect descriptor*
+> erscheint, setze den Befehl etwas später wieder ab.
+
 Nun befülle die Datenbank des Users *Sportfest* mit den folgenden Kommandos. Kopiere diese
 Befehle einfach in die Shell des Oracle Containers:
 
@@ -27,6 +32,8 @@ echo exit | sqlplus Sportfest/oracle@//localhost/XEPDB1 @sportfest.sql
 ```
 
 Verbinde dich nun mit DBeaver oder SQL Developer mit dem User *Sportfest* (Passwort *oracle*).
+
+![](sportfest_connect_1112.png)
 
 Unsere Datenbank speichert die einzelnen Bewerbe nach Abteilung, Klasse, Geschlecht und Bewerb. Die
 Anzahl der Datensätze gibt folgende Tabelle an:
