@@ -607,12 +607,14 @@ nur die letzten 4 Bytes abgebildet.
 
 Falls du die Aufgabe in **.NET** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *\13_NoSQL\ExamsDb* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
-Ersetze danach die Datei *Program.cs* durch den folgenden Inhalt und schreibe das Ergebnis
+Ersetze danach die Datei *Program.cs* durch den Inhalt unter
+*Program.cs (.NET) für die Bearbeitung in .NET* und schreibe das Ergebnis
 deiner Abfrage in die Variable *result*.
 
 Falls du die Aufgabe in **Java** lösen möchtest, gehe so vor: Kopiere das Generatorprogramm im Ordner
 *13_NoSQL/examsdb-java* zuerst in einen eigenen Ordner (z. B. *FilterExcercise*).
-Ersetze danach die Datei *Main.java* durch den folgenden Inhalt und schreibe das Ergebnis
+Ersetze danach die Datei *Main.java* durch den Inhalt unter
+*Main.java (Java) für die Bearbeitung in Java* und schreibe das Ergebnis
 deiner Abfrage in die Variable *result*. 
 
 **(1)** Welche Klassen gibt es in der Classes Collection im Schuljahr 2021 (Year ist 2021)
@@ -647,7 +649,7 @@ AH.14, B2.10
 2022W_3AAIF, 2022W_3ACIF, 2022W_3BKIF, 2022W_5ABIF, 2022W_7ABIF
 ```
 
-**(6)** Welche negativen Prüfungen gab es zwischen 1.1.2022 und 27.1.2022?
+**(6)** Welche negativen Prüfungen (*grade* ist 5) gab es zwischen 1.1.2022 und 27.1.2022?
 Erstelle mit *$toDate* bzw. *ISODate(string)* einen Datums/Zeitwert für den Vergleich. Beachte, dass das
 Endedatum als "kleiner" Filter und mit 28.1.2022 gesetzt werden muss. Die erstellten DateTime Werte
 haben nämlich als Zeitwert 0:00, sonst werden die Prüfungen am letzten Tag nicht gelistet!
