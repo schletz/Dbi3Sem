@@ -224,14 +224,33 @@ md IndexDemo
 cd IndexDemo
 dotnet new console
 start IndexDemo.csproj
-
 ```
 
-Kopiere danach die Datei [measurements.txt.bz2](Weatherdb/measurements.txt.bz2) in den Ordner,
-wo die Projektdatei ist. Ersetze danach die Datei *Program.cs* durch den folgenden Code:
+Kopiere nun die Datei [measurements.txt.bz2](Weatherdb/measurements.txt.bz2) in den Ordner,
+wo die Projektdatei ist. Ersetze danach den Inhalt der Dateien *IndexDemo.csproj* und
+*Program.cs* durch den folgenden Code:
 
 <details>
-<summary>Code für die Datei Program.cs anzeigen</summary>
+<summary>Code für die Datei *IndexDemo.csproj* anzeigen</summary>
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="SharpZipLib" Version="1.*" />
+		<PackageReference Include="CsvHelper" Version="30.*" />
+		<PackageReference Include="MongoDB.Driver" Version="2.*" />
+	</ItemGroup>
+</Project>
+```
+</details>
+
+<details>
+<summary>Code für die Datei *Program.cs* anzeigen</summary>
 
 ```c#
 using System;
@@ -343,9 +362,8 @@ internal class Program
 </details>
 
 Das Programm liest die Datei *measurements.txt.bz2* aus und importiert alle Datensätze (rd. 466_000)
-in die Datenbank *weatherdata* (Collection *measurements*).
-
-Führe das Programm mit dotnet run im Release Mode (z. B. mit Optimierungen) aus:
+in die Datenbank *weatherdata* (Collection *measurements*). Führe das Programm mit
+*dotnet run* im Release Mode (z. B. mit Optimierungen) aus:
 
 ```text
 dotnet run -c Release
