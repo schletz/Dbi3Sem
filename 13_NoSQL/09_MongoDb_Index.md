@@ -214,3 +214,172 @@ db.getCollection("classes", SchoolClass.class).createIndex(
     Indexes.compoundIndex(Indexes.ascending("term.year"), Indexes.ascending("shortname")),
     new IndexOptions().unique(true));
 ```
+
+## Übung
+
+Lege ein neues .NET Projekt mit den folgenden Befehlen an und starte die Projektdatei:
+
+```text
+md IndexDemo
+cd IndexDemo
+dotnet new console
+start IndexDemo.csproj
+
+```
+
+Kopiere danach die Datei [measurements.txt.bz2](Weatherdb/measurements.txt.bz2) in den Ordner,
+wo die Projektdatei ist. Ersetze danach die Datei *Program.cs* durch den folgenden Code:
+
+<details>
+<summary>Code für die Datei Program.cs anzeigen</summary>
+
+```c#
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text;
+using CsvHelper;
+using CsvHelper.Configuration;
+using ICSharpCode.SharpZipLib.BZip2;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
+
+public record Measurement(
+    long Id, int Station, DateTime Date, DateTime Datetime, int Year, int Month, int Day, int Hour, int Minute,
+    double? Temp, double? Dewp, double? Pressure, double? Prec_amount, double? Prec_duration, double? Cloud_octas,
+    double? Wind_dir, double? Wind_speed, double? Max_temp, double? Min_temp, double? Sunshine);
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var measurements = ReadMeasurements("measurements.txt.bz2");
+        var db = GetDatabase();
+        Console.WriteLine("Some tests WITHOUT index...");
+        db.DropCollection("measurements");
+        ImportData(db, measurements);
+        GetStationData(db, 11082);
+        GetTempBelow(db, -10);
+
+        Console.WriteLine("Some tests WITH index...");
+        db.DropCollection("measurements");
+
+        // TODO: Anlegen eines Index über das Feld Station
+        // db.GetCollection<Measurement>("measurements").Indexes....
+
+        // TODO: Anlegen eines Index über das Feld Temp
+        // db.GetCollection<Measurement>("measurements").Indexes....
+
+        ImportData(db, measurements);
+        GetStationData(db, 11082);
+        GetTempBelow(db, -10);
+    }
+
+    private static IMongoDatabase GetDatabase()
+    {
+        var conventions = new ConventionPack
+        {
+            new CamelCaseElementNameConvention(),
+            new IgnoreIfNullConvention(ignoreIfNull: true)
+        };
+        ConventionRegistry.Register(nameof(CamelCaseElementNameConvention), conventions, _ => true);
+        var settings = MongoClientSettings.FromConnectionString("mongodb://root:1234@localhost:27017");
+        var client = new MongoClient(settings);
+        return client.GetDatabase("weatherdata");
+    }
+    /// <summary>
+    /// Liest die Messwerte aus einer .txt.bz2 Datei und liefert sie als Liste zurück.
+    /// </summary>
+    private static List<Measurement> ReadMeasurements(string filename)
+    {
+        using var bzStream = new BZip2InputStream(File.OpenRead("measurements.txt.bz2"));
+        using var decompressed = new MemoryStream();
+        bzStream.CopyTo(decompressed);
+        decompressed.Position = 0;
+        using var reader = new StreamReader(decompressed, new UTF8Encoding(false));
+
+        var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            PrepareHeaderForMatch = args => args.Header.ToLower()
+        };
+        using var csv = new CsvReader(reader, csvConfig);
+        return csv.GetRecords<Measurement>().ToList();
+    }
+
+    public static void ImportData(IMongoDatabase db, List<Measurement> measurements)
+    {
+        var sw = new Stopwatch();
+        GC.Collect();
+        sw.Start();
+        db.GetCollection<Measurement>("measurements").InsertMany(measurements);
+        sw.Stop();
+        Console.WriteLine($"Inserted {measurements.Count} Records in {sw.ElapsedMilliseconds} ms");
+    }
+    public static List<Measurement> GetStationData(IMongoDatabase db, int stationId)
+    {
+        var sw = new Stopwatch();
+        GC.Collect();
+        sw.Start();
+        var result = db.GetCollection<Measurement>("measurements").Find(Builders<Measurement>.Filter.Eq(m => m.Station, stationId)).ToList();
+        sw.Stop();
+        Console.WriteLine($"GetStationData: {result.Count} records read in {sw.ElapsedMilliseconds} ms");
+        return result;
+    }
+    public static List<Measurement> GetTempBelow(IMongoDatabase db, double temp)
+    {
+        var sw = new Stopwatch();
+        GC.Collect();
+        sw.Start();
+        var result = db.GetCollection<Measurement>("measurements").Find(Builders<Measurement>.Filter.Lt(m => m.Temp, temp)).ToList();
+        sw.Stop();
+        Console.WriteLine($"GetTempBelow {temp}°: {result.Count} records read in {sw.ElapsedMilliseconds} ms");
+        return result;
+    }
+}
+```
+</details>
+
+Das Programm liest die Datei *measurements.txt.bz2* aus und importiert alle Datensätze (rd. 466_000)
+in die Datenbank *weatherdata* (Collection *measurements*).
+
+Führe das Programm mit dotnet run im Release Mode (z. B. mit Optimierungen) aus:
+
+```text
+dotnet run -c Release
+```
+
+Es misst die Zeiten, die das Einfügen und Abfragen der Datensätze benötigt. Im Musterprogramm ist
+noch kein Index enthalten, die Zeiten sollten daher (ungefähr) ident sein.
+
+```text
+Some tests WITHOUT index...
+Inserted 465962 Records in 7037 ms
+GetStationData: 122105 records read in 1603 ms
+GetTempBelow -10°: 4215 records read in 332 ms
+
+Some tests WITH index...
+Inserted 465962 Records in 6809 ms
+GetStationData: 122105 records read in 1486 ms
+GetTempBelow -10°: 4215 records read in 325 ms
+```
+
+### Die Aufgabe
+
+Lege an der Stelle im Sourcecode, wo *TODO: Anlegen eines Index* steht, einen Index über das
+entsprechende Feld an. Führe das Programm danach nochmals aus und beobachte die Laufzeit.
+
+- Hat sich die Zeit zum Einfügen der Datensätze verändert?
+- Hat sich die Zeit von *GetStationData* verändert? Hinweis: Es gibt nur 4 unterschiedliche
+  Stationen in der Datenbank. Überlege dir, was dies auf die Selektivität des Index für Auswirkungen
+  hat.
+- Hat sich die Zeit von *GetTempBelow* verbessert?
+- Lege einen geeigneten Index an, der die Abfrage der Messwerte einer Station und Jahr (Feld *year*)
+  unterstützt. Es kommen häufig auch Abfragen vor, die nur das Jahr ausfiltern. Wie muss daher
+  der zusammengesetzte Index angelegt werden?
+- Schreibe eine Methode *GetStationDataPerYear(IMongoDatabase db, int stationId, int year)* und
+  teste sie, indem du mit und ohne dem angelegten Index die Station 11082 im Jahr 2018 abfragst.
+- Schreibe eine Methode *GetDataPerYear(IMongoDatabase db, int year)* und
+  teste sie, indem du mit und ohne Index die Werte des Jahres 2018 abfragst.
