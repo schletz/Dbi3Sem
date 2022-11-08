@@ -56,16 +56,12 @@ internal class Program
     /// </summary>
     private static List<Measurement> ReadMeasurements(string filename)
     {
-        using var bzStream = new BZip2InputStream(File.OpenRead("measurements.txt.bz2"));
-        using var decompressed = new MemoryStream();
-        bzStream.CopyTo(decompressed);
-        decompressed.Position = 0;
-        using var reader = new StreamReader(decompressed, new UTF8Encoding(false));
-
         var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             PrepareHeaderForMatch = args => args.Header.ToLower()
         };
+        using var bzStream = new BZip2InputStream(File.OpenRead("measurements.txt.bz2"));
+        using var reader = new StreamReader(bzStream, new UTF8Encoding(false));
         using var csv = new CsvReader(reader, csvConfig);
         return csv.GetRecords<Measurement>().ToList();
     }
@@ -73,7 +69,7 @@ internal class Program
     public static void ImportData(IMongoDatabase db, List<Measurement> measurements)
     {
         var sw = new Stopwatch();
-        GC.Collect();
+        GC.Collect(int.MaxValue, GCCollectionMode.Forced, blocking: true);
         sw.Start();
         db.GetCollection<Measurement>("measurements").InsertMany(measurements);
         sw.Stop();
@@ -82,7 +78,7 @@ internal class Program
     public static List<Measurement> GetStationData(IMongoDatabase db, int stationId)
     {
         var sw = new Stopwatch();
-        GC.Collect();
+        GC.Collect(int.MaxValue, GCCollectionMode.Forced, blocking: true);
         sw.Start();
         var result = db.GetCollection<Measurement>("measurements").Find(Builders<Measurement>.Filter.Eq(m => m.Station, stationId)).ToList();
         sw.Stop();
@@ -92,7 +88,7 @@ internal class Program
     public static List<Measurement> GetTempBelow(IMongoDatabase db, double temp)
     {
         var sw = new Stopwatch();
-        GC.Collect();
+        GC.Collect(int.MaxValue, GCCollectionMode.Forced, blocking: true);
         sw.Start();
         var result = db.GetCollection<Measurement>("measurements").Find(Builders<Measurement>.Filter.Lt(m => m.Temp, temp)).ToList();
         sw.Stop();
