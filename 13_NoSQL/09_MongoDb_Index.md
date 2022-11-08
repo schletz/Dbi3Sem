@@ -231,7 +231,7 @@ wo die Projektdatei ist. Ersetze danach den Inhalt der Dateien *IndexDemo.csproj
 *Program.cs* durch den folgenden Code:
 
 <details>
-<summary>Code für die Datei *IndexDemo.csproj* anzeigen</summary>
+<summary>Code für die Datei <em>IndexDemo.csproj</em> anzeigen</summary>
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -250,7 +250,7 @@ wo die Projektdatei ist. Ersetze danach den Inhalt der Dateien *IndexDemo.csproj
 </details>
 
 <details>
-<summary>Code für die Datei *Program.cs* anzeigen</summary>
+<summary>Code für die Datei <em>Program.cs</em> anzeigen</summary>
 
 ```c#
 using System;
