@@ -5,21 +5,17 @@
 <table>
   <thead>
     <tr>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
+      <th>PL/SQL (5. Semester / IV. Jahrgang)</th>
+      <th>NoSQL (5. Semester / IV. Jahrgang)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
     </tr>
     <tr>
-      <td colspan="2">
-        PL/SQL
+      <td>
       </td>
-      <td colspan="3">
+      <td>
         <em>XML</em>
         <ul>
           <li> <a href="11_XML/README.md">XML</a></li>
