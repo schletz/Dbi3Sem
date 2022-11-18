@@ -1,4 +1,4 @@
-# DBI im 5. Semester bzw. im IV. und V. Jahrgang
+# DBI im 5. Semester bzw. im IV. Jahrgang
 
 ## Lehrinhalte
 
