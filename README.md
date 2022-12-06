@@ -84,3 +84,5 @@ git clone https://github.com/schletz/Dbi3Sem.git
 
 Um Änderungen zu laden, führe die Datei *resetGit.cmd* aus. Achtung: alle lokalen Änderungen werden
 gelöscht.
+
+Demo: [Dockerfile für Apache & PHP](Dockerfile)
