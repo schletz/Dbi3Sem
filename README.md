@@ -1,4 +1,4 @@
-# DBI im 5. Semester bzw. im IV. und V. Jahrgang
+# DBI im 5. Semester bzw. im IV. Jahrgang
 
 ## Lehrinhalte
 
@@ -32,8 +32,8 @@
           <li> <a href="13_NoSQL/03_MongoDb_Examsdb.md">Unsere Musterdatenbank: Die ExamsDb</a></li>
           <li> <a href="13_NoSQL/04_Studio3T.md">Studio 3T als GUI</a></li>
           <li> <a href="13_NoSQL/05_MongoDb_Find.md">Filtern in MongoDB</a></li>
-          <li> <a href="13_NoSQL/06_MongoDb_Update.md">Updates in MongoDB</a></li>
           <li> <a href="13_NoSQL/07_MongoDb_Aggregate.md">Aggregation und Pipelines</a></li>
+          <li> <a href="13_NoSQL/06_MongoDb_Update.md">Updates in MongoDB</a></li>
           <li> <a href="13_NoSQL/08_MongoDb_InsertDelete.md">Insert und Delete</a></li>
           <li> <a href="13_NoSQL/09_MongoDb_Index.md">Index</a></li>
           <li> <a href="13_NoSQL/10_MongoDb_Atlas.md">MongoDB Atlas: MongoDB in der Cloud</a></li>          
