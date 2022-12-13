@@ -10,12 +10,15 @@
     </tr>
   </thead>
   <tbody>
+    <tr></tr>
     <tr>
-    </tr>
-    <tr>
-      <td>
+      <td valign="top">
+        <ul>
+          <li> <a href="01_PL_SQL/01_Vorbereitung.md">Vorbereitung</a></li>
+          <li> <a href="01_PL_SQL/02_Uebungen.md">Übungen zu Trigger, Functions und Procedures</a></li>
+        </ul>
       </td>
-      <td>
+      <td valign="top">
         <em>XML</em>
         <ul>
           <li> <a href="11_XML/README.md">XML</a></li>
@@ -36,7 +39,7 @@
           <li> <a href="13_NoSQL/06_MongoDb_Update.md">Updates in MongoDB</a></li>
           <li> <a href="13_NoSQL/08_MongoDb_InsertDelete.md">Insert und Delete</a></li>
           <li> <a href="13_NoSQL/09_MongoDb_Index.md">Index</a></li>
-          <li> <a href="13_NoSQL/10_MongoDb_Atlas.md">MongoDB Atlas: MongoDB in der Cloud</a></li>          
+          <li> <a href="13_NoSQL/10_MongoDb_Atlas.md">MongoDB Atlas: MongoDB in der Cloud</a></li>
           <li>
             Übungen zu Abfragen
             <ul>
