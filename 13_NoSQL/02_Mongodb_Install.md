@@ -1,9 +1,18 @@
 # Installation von MongoDb als Docker Image
 
 ## Vorbereitung: Docker Desktop
+
 Lade von [docker.com](https://docs.docker.com/get-docker/) Docker Desktop für dein Betriebssystem.
 In [diesem Video](https://www.youtube.com/watch?v=EfZTHVe0Z_c) wird die Installation gezeigt.
 Die SQL Server Installation, die auch im Video gezeigt wird, muss natürlich nicht durchgeführt werden.
+
+## Prüfen auf eine lokale Installation
+
+Stelle sicher, dass nicht schon eine lokale Installation von MongoDB auf deinem Rechner läuft. Das
+erkennst du daran, dass bei *Dienste* im Taskmanager der Dienst *MongoDB* aktiv ist. Deinstalliere
+vorher die lokale Serverinstallation, denn sonst ist der Port 27017 belegt. Das würde nicht zu
+einem Fehler beim Starten des Containers führen, allerdings kannst du dich dann nicht anmelden,
+da der Zugriff dann auf den lokalen Server geleitet wird.
 
 ## Download des Docker Images
 
@@ -27,6 +36,25 @@ ausgetauscht werden, die z. B. bei *mongoexport* entstehen.
 ```
 docker run -d -p 27017:27017 -v C:/Temp:/home -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=1234 --name mongodb mongo
 ```
+
+## Importieren von Dumps in den Container
+
+Wenn du z. B. bei einer Prüfung eine zip Datei mit einer exportierten Datenbank einspielen musst,
+kannst du so vorgehen:
+
+- Lade die Datei mit dem Dump (meist ein ZIP) z. B. in den Downloads Ordner.
+- Entpacke das ZIP, sodass die *bson* Datei in diesem Ordner liegt.
+- Öffne die Konsole (Eingabeaufforderung) in diesem Verzeichnis. Die Datei muss mit dem
+  Befehl `dir *.bson` (Windows) oder `ls *.bson` (macOS) erscheinen.
+- Führe die folgenden Befehle aus. Du musst *(filename_der_bson_datei)* natürlich an den Dateinamen der bson Datei
+  und *(dbname)* an den gewünschten Datenbanknamen anpassen.
+
+```
+docker cp (filename_der_bson_datei) mongodb:/tmp/dump.bson
+docker exec -it mongodb /usr/bin/mongorestore --username root --password 1234 --authenticationDatabase admin --db (dbname) /tmp/dump.bson
+```
+
+Dank an Herrn Pompe aus der 5AAIF für diese Anleitung.
 
 ### Absetzen von Befehlen in der Shell
 
