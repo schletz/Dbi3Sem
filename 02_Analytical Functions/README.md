@@ -32,7 +32,7 @@ Nun befülle die Datenbank des Users *Sportfest* mit den folgenden Kommandos. Ko
 Befehle einfach in die Shell des Oracle Containers:
 
 ```bash
-cd /home
+cd /tmp
 curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql > sportfest.sql
 echo exit | sqlplus Sportfest/oracle@//localhost/XEPDB1 @sportfest.sql
 
