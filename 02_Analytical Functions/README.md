@@ -32,10 +32,7 @@ Nun befülle die Datenbank des Users *Sportfest* mit den folgenden Kommandos. Ko
 Befehle einfach in die Shell des Oracle Containers:
 
 ```bash
-cd /tmp
-curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql > sportfest.sql
-echo exit | sqlplus Sportfest/oracle@//localhost/XEPDB1 @sportfest.sql
-
+curl https://raw.githubusercontent.com/schletz/Dbi3Sem/master/02_Analytical%20Functions/sportfest.sql | sqlplus Sportfest/oracle@//localhost/XEPDB1
 ```
 
 Verbinde dich nun mit DBeaver oder SQL Developer mit dem User *Sportfest* (Passwort *oracle*).
