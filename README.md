@@ -13,6 +13,14 @@
     <tr></tr>
     <tr>
       <td valign="top">
+        <em>Analytische Funktionen</em>
+        <ul>
+          <li><a href="02_Analytical%20Functions/README.md">Intro</a></li>
+          <li><a href="02_Analytical%20Functions/01_Partitioning.md">Partition by</a></li>
+          <li><a href="02_Analytical%20Functions/02_Rank.md">Rank</a></li>
+          <li><a href="02_Analytical%20Functions/03_Window.md">Window</a></li>
+        </ul>      
+      <em>PL/SQL</em>
         <ul>
           <li> <a href="01_PL_SQL/01_Vorbereitung.md">Vorbereitung</a></li>
           <li> <a href="01_PL_SQL/02_Uebungen.md">Übungen zu Trigger, Functions und Procedures</a></li>
@@ -59,13 +67,6 @@
               <li><a href="13_NoSQL/Uebungen%20Modelling/Kalender.md">Kalender</a></li>
             </ul>
           </li>
-        </ul>
-        <em>Analytische Funktionen</em>
-        <ul>
-          <li><a href="02_Analytical%20Functions/README.md">Intro</a></li>
-          <li><a href="02_Analytical%20Functions/01_Partitioning.md">Partition by</a></li>
-          <li><a href="02_Analytical%20Functions/02_Rank.md">Rank</a></li>
-          <li><a href="02_Analytical%20Functions/03_Window.md">Window</a></li>
         </ul>
       </td>
     </tr>
